@@ -60,7 +60,7 @@ springdoc:
 app:
   info:
     api-version: v1
-    repository-url: ${APP_REPOSITORY_URL:https://github.com/developer-geosun/tms-geosun-v3.git}
+    repository-url: ${APP_REPOSITORY_URL:https://github.com/developer-geosun/tms-geosun-v4.git}
   # Режим публічного доступу (інформаційно; тунель керує Docker Compose-профіль ngrok).
   public-access:
     mode: ${PUBLIC_ACCESS_MODE:static-ip}

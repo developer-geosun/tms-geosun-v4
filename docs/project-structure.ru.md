@@ -1,13 +1,13 @@
-# Структура репозитория TMS GeoSun v3
+# Структура репозитория TMS GeoSun v4
 
 **Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
-**Дата изменения:** 17 сентября 2026, 14:32 (UTC+3)  
+**Дата изменения:** 30 сентября 2026, 16:16 (UTC+3)  
 **Дата фиксации:** 15 сентября 2026 (структура); процесс/baseline/archive/DDD — 17 сентября 2026.  
 **Файл:** снимок структуры. Назначение и API — [`docs/system.ru.md`](system.ru.md); канон — [`docs/specs/BASELINE.ru.md`](specs/BASELINE.ru.md); реестр — [`docs/specs/README.ru.md`](specs/README.ru.md); процесс — [`docs/dev-workflow.ru.md`](dev-workflow.ru.md).
 
 ## 1. Что это за проект
 
-`tms-geosun-v3` — Transport Management System компании GeoSun: маршруты, заявки на фрахт, котировки, справочники (ТС, водители, валюты, страны), рейсы и отчёты по затратам.
+`tms-geosun-v4` — Transport Management System компании GeoSun: маршруты, заявки на фрахт, котировки, справочники (ТС, водители, валюты, страны), рейсы и отчёты по затратам.
 
 **Активная разработка (на дату документа):** только `frontend-angular/` и `backend-java/`.  
 `frontend-flutter/` в репозитории есть, но **заморожен** до прямого распоряжения.
@@ -25,7 +25,7 @@
 ## 2. Корень репозитория
 
 ```
-tms-geosun-v3/
+tms-geosun-v4/
 ├── frontend-angular/     # основной UI (Angular 21 + Material)
 ├── backend-java/         # API (Java 21 + Spring Boot 3.3)
 ├── frontend-flutter/     # Flutter Web — заморожен

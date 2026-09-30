@@ -1,5 +1,8 @@
 # Maven commands / Команды Maven
 
+**Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
+**Дата изменения:** 30 сентября 2026, 16:16 (UTC+3)
+
 Параллельные описания: в таблицах первая колонка — исходный текст, вторая — параллельный перевод. Блоки команд между таблицами — на всю ширину.
 
 | Общие сведения | General |
@@ -7,7 +10,7 @@
 | Рабочий каталог — `backend-java` (рядом лежит `pom.xml`). | Use the `backend-java` directory (where `pom.xml` lives). |
 
 ```powershell
-cd E:\MyProjects\GeoSun\tms-geosun-v3\backend-java
+cd E:\MyProjects\GeoSun\tms-geosun-v4\backend-java
 ```
 
 | Общие сведения | General |

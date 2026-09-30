@@ -1,6 +1,9 @@
 # Запуск проекта
 
-Этот файл описывает основные варианты запуска `tms-geosun-v3`.
+**Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
+**Дата изменения:** 30 сентября 2026, 16:16 (UTC+3)
+
+Этот файл описывает основные варианты запуска `tms-geosun-v4`.
 
 ## Требования
 
@@ -112,7 +115,7 @@ Workflow `.github/workflows/deploy.yml` собирает **Angular** (корен
 | Angular | `https://developer-geosun.github.io/<repo-name>/` |
 | Flutter | `https://developer-geosun.github.io/<repo-name>/flutter/` |
 
-`<repo-name>` — имя репозитория на GitHub (например `tms-geosun-v3`).
+`<repo-name>` — имя репозитория на GitHub (например `tms-geosun-v4`).
 
 ### 3a) Backend + статический IP (Vodafone и т.п.)
 
@@ -123,8 +126,8 @@ PUBLIC_ACCESS_MODE=static-ip
 PUBLIC_API_URL=http://178.136.237.7:8080
 # COMPOSE_PROFILES не задавать (или оставить пустым) — сервис ngrok не стартует
 CORS_ALLOWED_ORIGIN_PATTERNS=https://developer-geosun.github.io
-ANGULAR_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v3
-FLUTTER_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v3/flutter
+ANGULAR_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v4
+FLUTTER_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v4/flutter
 APP_STORAGE_TYPE=local
 ```
 
@@ -151,8 +154,8 @@ NGROK_AUTHTOKEN=<ваш_ngrok_authtoken>
 NGROK_DOMAIN=<ваш_домен_из_ngrok>
 PUBLIC_API_URL=https://<NGROK_DOMAIN>
 CORS_ALLOWED_ORIGIN_PATTERNS=https://developer-geosun.github.io
-ANGULAR_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v3
-FLUTTER_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v3/flutter
+ANGULAR_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v4
+FLUTTER_APP_BASE_URL=https://developer-geosun.github.io/tms-geosun-v4/flutter
 APP_STORAGE_TYPE=local
 ```
 
@@ -388,7 +391,7 @@ docker compose up --build mysql backend frontend gateway
 ## Полезные URL после запуска
 
 - Frontend (локально): `http://localhost:4200`
-- Frontend (GitHub Pages): `https://developer-geosun.github.io/tms-geosun-v3/`
+- Frontend (GitHub Pages): `https://developer-geosun.github.io/tms-geosun-v4/`
 - Backend health: `http://localhost:8080/actuator/health`
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 - Gateway (единый локальный вход): `http://localhost:8081`

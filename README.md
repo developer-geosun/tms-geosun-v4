@@ -1,7 +1,7 @@
-# TMS GeoSun v3
+# TMS GeoSun v4
 
 **Created:** 17 September 2026, 14:21 (UTC+3)  
-**Last updated:** 17 September 2026, 14:45 (UTC+3)
+**Last updated:** 30 September 2026, 16:16 (UTC+3)
 
 [Українська](#українська) · [Русский](#русский) · [English](#english)
 

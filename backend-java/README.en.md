@@ -1,5 +1,8 @@
 # tms-geosun-backend-java
 
+**Created:** 15 September 2026, 00:00 (UTC+3)  
+**Last updated:** 30 September 2026, 16:16 (UTC+3)
+
 MVP backend for authentication and authorization based on Java 21 + Spring Boot 3.
 
 ## Local run (without Docker)
@@ -20,7 +23,7 @@ docker compose up --build
 
 ## Full stack run (frontend + backend + mysql)
 
-From project root (`tms-geosun-v3`) run:
+From project root (`tms-geosun-v4`) run:
 
 1. Copy root env template and adjust values if needed:
 ```bash

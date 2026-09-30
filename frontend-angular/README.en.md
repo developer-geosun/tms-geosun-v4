@@ -1,5 +1,8 @@
 # tms-geosun
 
+**Created:** 15 September 2026, 00:00 (UTC+3)  
+**Last updated:** 30 September 2026, 16:16 (UTC+3)
+
 Angular 21 application for GeoSun transport management scenarios.
 
 ## Tech stack
@@ -33,7 +36,7 @@ Application is available at `http://localhost:4200/`.
 
 ### Dev server in Docker (hot reload)
 
-From the project root (`tms-geosun-v3`), use the dev profile:
+From the project root (`tms-geosun-v4`), use the dev profile:
 
 ```bash
 docker compose stop frontend

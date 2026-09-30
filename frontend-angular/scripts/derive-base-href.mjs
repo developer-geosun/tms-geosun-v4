@@ -2,7 +2,7 @@ const FRONTEND_ROUTE_SUFFIXES = ['verify-email', 'reset-password'];
 
 /**
  * Визначає Angular base-href з ANGULAR_APP_BASE_URL.
- * Приклад: https://developer-geosun.github.io/tms-geosun-v3 → /tms-geosun-v3/
+ * Приклад: https://developer-geosun.github.io/tms-geosun-v4 → /tms-geosun-v4/
  */
 export function deriveBaseHrefFromAppBase(appBase) {
   const trimmed = (appBase ?? '').trim();

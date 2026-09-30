@@ -1,5 +1,8 @@
 # npm commands / Команды npm
 
+**Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
+**Дата изменения:** 30 сентября 2026, 16:16 (UTC+3)
+
 Параллельные описания: в таблицах первая колонка — исходный текст, вторая — параллельный перевод. Блоки команд между таблицами — на всю ширину.
 
 | Общие сведения | General |
@@ -7,7 +10,7 @@
 | Команды выполняйте из каталога `frontend-angular` (рядом лежит `package.json`). | Run commands from the `frontend-angular` directory (where `package.json` lives). |
 
 ```powershell
-cd E:\MyProjects\GeoSun\tms-geosun-v3\frontend-angular
+cd E:\MyProjects\GeoSun\tms-geosun-v4\frontend-angular
 ```
 
 | Общие сведения | General |
@@ -84,7 +87,7 @@ npm run lint:fix
 
 | Публикация | Deploy (GitHub Pages) |
 | :-- | :-- |
-| Сборка с `--base-href=/tms-geosun-v3/` и push в ветку `gh-pages` через npm-пакет **gh-pages** (локально; production — через GitHub Actions). | Production build with `--base-href=/tms-geosun-v3/` and push to branch `gh-pages` via **gh-pages** npm package (local only; production via GitHub Actions). |
+| Сборка с `--base-href=/tms-geosun-v4/` и push в ветку `gh-pages` через npm-пакет **gh-pages** (локально; production — через GitHub Actions). | Production build with `--base-href=/tms-geosun-v4/` and push to branch `gh-pages` via **gh-pages** npm package (local only; production via GitHub Actions). |
 
 ```powershell
 npm run deploy

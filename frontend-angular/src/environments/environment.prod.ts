@@ -5,6 +5,6 @@ export const environment = {
   cartoApiKey: '',
   appName: 'Transport Management System by GeoSun',
   version: '1.0.0',
-  repositoryUrl: 'https://github.com/developer-geosun/tms-geosun-v3.git'
+  repositoryUrl: 'https://github.com/developer-geosun/tms-geosun-v4.git'
 };
 

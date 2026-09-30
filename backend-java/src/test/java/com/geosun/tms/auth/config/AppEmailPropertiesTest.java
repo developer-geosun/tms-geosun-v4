@@ -9,18 +9,18 @@ class AppEmailPropertiesTest {
   @Test
   void buildsVerificationAndResetLinksFromAppBase() {
     AppEmailProperties properties = new AppEmailProperties();
-    properties.setAngularAppBaseUrl("https://example.com/tms-geosun-v3/");
-    properties.setFlutterAppBaseUrl("https://example.com/tms-geosun-v3/flutter/");
+    properties.setAngularAppBaseUrl("https://example.com/tms-geosun-v4/");
+    properties.setFlutterAppBaseUrl("https://example.com/tms-geosun-v4/flutter/");
 
     assertThat(properties.buildVerificationLink(AppClient.ANGULAR, "tok en"))
-        .isEqualTo("https://example.com/tms-geosun-v3/verify-email?token=tok+en");
+        .isEqualTo("https://example.com/tms-geosun-v4/verify-email?token=tok+en");
     assertThat(properties.buildAdminUserCardLink("550e8400-e29b-41d4-a716-446655440000"))
         .isEqualTo(
-            "https://example.com/tms-geosun-v3/admin/users/550e8400-e29b-41d4-a716-446655440000");
+            "https://example.com/tms-geosun-v4/admin/users/550e8400-e29b-41d4-a716-446655440000");
     assertThat(properties.buildPasswordResetLink(AppClient.FLUTTER, "abc"))
-        .isEqualTo("https://example.com/tms-geosun-v3/flutter/reset-password?token=abc");
+        .isEqualTo("https://example.com/tms-geosun-v4/flutter/reset-password?token=abc");
     assertThat(properties.resolveAppBaseUrl(AppClient.FLUTTER))
-        .isEqualTo("https://example.com/tms-geosun-v3/flutter");
+        .isEqualTo("https://example.com/tms-geosun-v4/flutter");
     assertThat(properties.resolveClientDisplayName(AppClient.FLUTTER)).isEqualTo("Flutter");
     assertThat(properties.resolveSiteUrl()).isEqualTo("https://www.geosun.net.ua");
     assertThat(properties.resolvePhone()).isEqualTo("+380(98)4894118");
