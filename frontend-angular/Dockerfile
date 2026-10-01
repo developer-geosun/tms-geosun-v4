@@ -2,7 +2,9 @@ FROM node:22.14-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+# postinstall пише build-meta до COPY . ., тому скрипти копіюємо окремо.
+COPY scripts ./scripts
+RUN mkdir -p src/environments && npm ci
 
 COPY . .
 ARG FRONTEND_BUILD_CONFIGURATION=production
