@@ -67,8 +67,8 @@ class DefaultAdminBootstrapServiceTest {
     service.ensureDefaultAdmin();
 
     ArgumentCaptor<User> captor = userCaptor();
-    verify(userRepository).save(captor.capture());
-    User saved = Objects.requireNonNull(captor.getValue());
+    verify(userRepository).save(captureUser(captor));
+    User saved = capturedUser(captor);
     assertThat(saved.getEmail()).isEqualTo("admin@example.com");
     assertThat(saved.getRole()).isEqualTo(Role.ADMIN);
     assertThat(saved.hasAvailableRole(Role.ADMIN)).isTrue();
@@ -89,5 +89,17 @@ class DefaultAdminBootstrapServiceTest {
   @NonNull
   private static ArgumentCaptor<User> userCaptor() {
     return ArgumentCaptor.forClass(User.class);
+  }
+
+  /** Mockito capture() не анотований @NonNull — обгортаємо для null-analysis. */
+  @SuppressWarnings("null")
+  @NonNull
+  private static User captureUser(@NonNull ArgumentCaptor<User> captor) {
+    return captor.capture();
+  }
+
+  @NonNull
+  private static User capturedUser(@NonNull ArgumentCaptor<User> captor) {
+    return Objects.requireNonNull(captor.getValue(), "Expected captured User");
   }
 }
