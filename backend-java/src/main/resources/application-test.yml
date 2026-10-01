@@ -20,6 +20,10 @@ app:
       refresh-reuse-grace-seconds: 0
     super-admin:
       password: test-super-admin-password
+  bootstrap:
+    admin:
+      email:
+      password:
   storage:
     type: local
     local:

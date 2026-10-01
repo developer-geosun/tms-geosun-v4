@@ -1,7 +1,7 @@
 # Реестр спецификаций
 
 **Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
-**Дата изменения:** 1 октября 2026, 12:05 (UTC+3)
+**Дата изменения:** 1 октября 2026, 21:25 (UTC+3)
 
 Единая точка входа перед работой по ТЗ. Сами требования — в файлах ниже; этот файл отвечает только на вопросы «сделано ли», «это источник истины или дополнение», «что ещё открыто».
 
@@ -38,6 +38,7 @@
 | [user-profile.ru.en.md](user-profile.ru.en.md) | реализовано | источник истины (B03) | нет |
 | [admin-notify-new-user-registration.ru.en.md](admin-notify-new-user-registration.ru.en.md) | реализовано | источник истины (B04) | в каноне: SKIP SMS/WhatsApp template; расширение — бэклог |
 | [user-multi-role-switching.ru.en.md](user-multi-role-switching.ru.en.md) | реализовано | источник истины (B18) | нет; синхронизация B01/B02 |
+| [default-admin-bootstrap.ru.en.md](default-admin-bootstrap.ru.en.md) | реализовано | источник истины (B19) | первичный ADMIN из `ADMIN_EMAIL` / `ADMIN_PASSWORD`; дополняет B01 |
 
 ### Маршруты и фрахт
 

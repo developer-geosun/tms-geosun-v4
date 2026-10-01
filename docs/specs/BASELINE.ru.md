@@ -1,7 +1,7 @@
 # Baseline канона (зафиксированное)
 
 **Дата создания:** 17 сентября 2026, 13:58 (UTC+3)  
-**Дата изменения:** 1 октября 2026, 12:10 (UTC+3)  
+**Дата изменения:** 1 октября 2026, 21:25 (UTC+3)  
 **Дата фиксации:** 17 сентября 2026  
 **Назначение:** согласованный список того, что уже в продукте (Angular + Java) и где единственный источник истины.  
 **Процесс после freeze:** [`docs/dev-workflow.ru.md`](../dev-workflow.ru.md) — новое через алгоритм **A**, изменение канона через **B**.  
@@ -29,6 +29,7 @@
 | B03 | User profile | [user-profile.ru.en.md](user-profile.ru.en.md) | источник истины | self/admin профиль, телефоны, каналы |
 | B04 | Notify: new registration | [admin-notify-new-user-registration.ru.en.md](admin-notify-new-user-registration.ru.en.md) | источник истины | after register → ADMIN (EMAIL/PHONE/MESSENGERS); SMS=SKIP как есть |
 | B18 | Multi-role & switching | [user-multi-role-switching.ru.en.md](user-multi-role-switching.ru.en.md) | источник истины | available roles + active role; admin assign; self switch; регистрация → USER |
+| B19 | Default ADMIN bootstrap | [default-admin-bootstrap.ru.en.md](default-admin-bootstrap.ru.en.md) | источник истины | первичный ADMIN из env при пустой БД; не заменяет `SUPER_ADMIN_PASSWORD` |
 | B05 | Route planning (CRUD + lock) | [routes-server-workflow-and-freight-quoting.ru.en.md](routes-server-workflow-and-freight-quoting.ru.en.md) + [route-immutability-list-filters-deferred-country-breakdown.ru.md](route-immutability-list-filters-deferred-country-breakdown.ru.md) | источник истины | маршруты, soft-delete, duplicate/restore; lock = вариант A; несколько заявок на route **разрешены**; детали lock/`view`/breakdown — во втором файле |
 | B06 | Route point operations | [route-point-operations-rules.ru.md](route-point-operations-rules.ru.md) | источник истины (`в силе`) | whitelist/FSM операций точек |
 | B07 | Freight request & quoting | [routes-server-workflow-and-freight-quoting.ru.en.md](routes-server-workflow-and-freight-quoting.ru.en.md) | источник истины | заявка, очередь admin, draft/send quote, idempotency |

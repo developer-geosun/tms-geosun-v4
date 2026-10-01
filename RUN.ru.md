@@ -1,7 +1,7 @@
 # Запуск проекта
 
 **Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
-**Дата изменения:** 30 сентября 2026, 16:16 (UTC+3)
+**Дата изменения:** 1 октября 2026, 21:30 (UTC+3)
 
 Этот файл описывает основные варианты запуска `tms-geosun-v4`.
 
@@ -194,6 +194,7 @@ mvn spring-boot:run
 
 - MySQL доступен (из Docker порт хоста обычно `3307` → см. `MYSQL_HOST_PORT` и `DB_URL` в `backend-java/.env.example` / `application.yml`);
 - переменные из `backend-java/.env.example` и при необходимости корневого `.env` настроены;
+- для **первого** ADMIN на пустой БД (опционально): `ADMIN_EMAIL` и `ADMIN_PASSWORD` в `.env` — при старте backend создаст учётку, если ещё нет пользователя с ролью ADMIN в available roles (см. [`docs/specs/default-admin-bootstrap.ru.en.md`](docs/specs/default-admin-bootstrap.ru.en.md)); не путать с `SUPER_ADMIN_PASSWORD` (step-up);
 - для файлов: `APP_STORAGE_TYPE=local`, каталог `./data/uploads` (относительно cwd backend-java).
 
 ### 2) Frontend

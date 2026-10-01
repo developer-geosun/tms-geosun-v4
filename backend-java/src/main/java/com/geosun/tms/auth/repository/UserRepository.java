@@ -41,6 +41,14 @@ public interface UserRepository
       """)
   long countActiveWithAvailableRole(@Param("role") Role role);
 
+  /** Будь-який не видалений користувач з роллю в available (для bootstrap ADMIN). */
+  @Query(
+      """
+      select count(distinct u) from User u join u.availableRoles r
+      where r = :role and u.deleted = false
+      """)
+  long countNonDeletedWithAvailableRole(@Param("role") Role role);
+
   /** @deprecated використовуйте {@link #countActiveWithAvailableRole(Role)} */
   @Deprecated
   default long countActiveByRole(Role role) {

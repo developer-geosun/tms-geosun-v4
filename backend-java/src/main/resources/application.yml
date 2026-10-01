@@ -78,6 +78,10 @@ app:
     # Пароль суперадміна для чутливих admin-операцій (не обліковий запис користувача).
     super-admin:
       password: ${SUPER_ADMIN_PASSWORD:}
+  bootstrap:
+    admin:
+      email: ${ADMIN_EMAIL:}
+      password: ${ADMIN_PASSWORD:}
   email:
     from: ${MAIL_FROM:no-reply@example.com}
     verification-expires-seconds: ${EMAIL_VERIFICATION_EXPIRES_SECONDS:86400}
