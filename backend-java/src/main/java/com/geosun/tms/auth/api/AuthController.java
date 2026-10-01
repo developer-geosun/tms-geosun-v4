@@ -9,6 +9,7 @@ import com.geosun.tms.auth.dto.request.RefreshRequest;
 import com.geosun.tms.auth.dto.request.RegisterRequest;
 import com.geosun.tms.auth.dto.request.ResendVerificationRequest;
 import com.geosun.tms.auth.dto.request.ResetPasswordRequest;
+import com.geosun.tms.auth.dto.request.SwitchRoleRequest;
 import com.geosun.tms.auth.dto.request.VerifyEmailRequest;
 import com.geosun.tms.auth.dto.response.AuthTokensResponse;
 import com.geosun.tms.auth.dto.response.LogoutResponse;
@@ -150,5 +151,16 @@ public class AuthController {
   @GetMapping("/me")
   public UserPublicDto me(@AuthenticationPrincipal @NonNull UserPrincipal principal) {
     return authService.me(principal);
+  }
+
+  @Operation(
+      summary = "Switch active role",
+      description = "Changes active role within assigned availableRoles; does not revoke sessions.")
+  @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
+  @PostMapping("/switch-role")
+  public UserPublicDto switchRole(
+      @AuthenticationPrincipal @NonNull UserPrincipal principal,
+      @Valid @RequestBody @NonNull SwitchRoleRequest body) {
+    return authService.switchRole(principal, body.role());
   }
 }

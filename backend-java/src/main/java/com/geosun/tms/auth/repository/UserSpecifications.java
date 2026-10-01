@@ -3,6 +3,7 @@ package com.geosun.tms.auth.repository;
 import com.geosun.tms.auth.domain.profile.UserProfile;
 import com.geosun.tms.auth.domain.user.Role;
 import com.geosun.tms.auth.domain.user.User;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,7 +18,7 @@ public final class UserSpecifications {
       String email, String name, Role role, Boolean active, Boolean deleted) {
     return Specification.where(emailContains(email))
         .and(nameContains(name))
-        .and(hasRole(role))
+        .and(hasAvailableRole(role))
         .and(hasActive(active))
         .and(hasDeleted(deleted));
   }
@@ -51,8 +52,18 @@ public final class UserSpecifications {
     };
   }
 
-  private static Specification<User> hasRole(Role role) {
-    return (root, query, cb) -> role == null ? cb.conjunction() : cb.equal(root.get("role"), role);
+  /** Фільтр за наявністю ролі в available (не лише active). */
+  private static Specification<User> hasAvailableRole(Role role) {
+    return (root, query, cb) -> {
+      if (role == null) {
+        return cb.conjunction();
+      }
+      if (query != null) {
+        query.distinct(true);
+      }
+      Join<User, Role> roles = root.join("availableRoles");
+      return cb.equal(roles, role);
+    };
   }
 
   private static Specification<User> hasActive(Boolean active) {

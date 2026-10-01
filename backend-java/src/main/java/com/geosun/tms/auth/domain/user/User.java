@@ -1,16 +1,27 @@
 package com.geosun.tms.auth.domain.user;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "users")
@@ -26,9 +37,18 @@ public class User {
   @Column(name = "password_hash", nullable = false)
   private String passwordHash;
 
+  /** Активна роль для RBAC (має бути в {@link #availableRoles}). */
   @Enumerated(EnumType.STRING)
   @Column(name = "role", nullable = false, length = 32)
   private Role role = Role.USER;
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(
+      name = "user_roles",
+      joinColumns = @JoinColumn(name = "user_id", nullable = false))
+  @Column(name = "role", nullable = false, length = 32)
+  @Enumerated(EnumType.STRING)
+  private Set<Role> availableRoles = new LinkedHashSet<>();
 
   @Column(name = "is_active", nullable = false)
   private boolean active = true;
@@ -57,6 +77,22 @@ public class User {
   void assignId() {
     if (id == null) {
       id = UUID.randomUUID().toString();
+    }
+    ensureAvailableRolesInitialized();
+  }
+
+  @PostLoad
+  void afterLoad() {
+    ensureAvailableRolesInitialized();
+  }
+
+  /** Якщо available порожній — підставляємо active (реєстрація / старі тести). */
+  private void ensureAvailableRolesInitialized() {
+    if (availableRoles == null) {
+      availableRoles = new LinkedHashSet<>();
+    }
+    if (availableRoles.isEmpty() && role != null) {
+      availableRoles.add(role);
     }
   }
 
@@ -90,6 +126,45 @@ public class User {
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  public @NonNull Set<Role> getAvailableRoles() {
+    if (availableRoles == null) {
+      availableRoles = new LinkedHashSet<>();
+    }
+    return Objects.requireNonNull(availableRoles);
+  }
+
+  public boolean hasAvailableRole(@NonNull Role candidate) {
+    return getAvailableRoles().contains(candidate);
+  }
+
+  /** Повністю замінює набір доступних ролей (непорожній). */
+  public void replaceAvailableRoles(@NonNull Collection<Role> roles) {
+    Set<Role> normalized = UserRoleRules.normalize(roles);
+    if (normalized.isEmpty()) {
+      throw new IllegalArgumentException("available roles must not be empty");
+    }
+    getAvailableRoles().clear();
+    getAvailableRoles().addAll(normalized);
+    if (role == null || !normalized.contains(role)) {
+      role = UserRoleRules.pickPreferredActive(normalized);
+    }
+  }
+
+  /** Додає роль до available без зняття інших. */
+  public void ensureRoleAssigned(@NonNull Role candidate) {
+    getAvailableRoles().add(Objects.requireNonNull(candidate));
+  }
+
+  /** Знімок available як EnumSet. */
+  public @NonNull Set<Role> snapshotAvailableRoles() {
+    Set<Role> snapshot = EnumSet.noneOf(Role.class);
+    snapshot.addAll(getAvailableRoles());
+    if (snapshot.isEmpty() && role != null) {
+      snapshot.add(role);
+    }
+    return Objects.requireNonNull(snapshot);
   }
 
   public boolean isActive() {

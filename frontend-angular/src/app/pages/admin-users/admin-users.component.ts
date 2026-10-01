@@ -307,13 +307,33 @@ export class AdminUsersComponent implements AfterViewInit {
     void this.reload();
   }
 
-  async onRoleChange(row: UserAdminContractDto, role: AdminUserRole): Promise<void> {
-    if (this.isCurrentUser(row) || row.deleted || row.role === role) {
+  assignedRoles(row: UserAdminContractDto): AdminUserRole[] {
+    if (row.availableRoles?.length) {
+      return [...row.availableRoles];
+    }
+    return row.role ? [row.role] : [];
+  }
+
+  async onRolesChange(row: UserAdminContractDto, roles: AdminUserRole[]): Promise<void> {
+    if (this.isCurrentUser(row) || row.deleted) {
+      return;
+    }
+    const next = [...(roles ?? [])];
+    if (!next.length) {
+      this.notify('pages.adminUsers.rolesRequired', 'error');
+      await this.revertRoleSelectUi();
+      return;
+    }
+
+    const previous = this.assignedRoles(row);
+    const same =
+      previous.length === next.length && previous.every((role) => next.includes(role));
+    if (same) {
       return;
     }
 
     let superAdminPassword: string | undefined;
-    const demotingAdmin = row.role === 'ADMIN' && role !== 'ADMIN';
+    const demotingAdmin = previous.includes('ADMIN') && !next.includes('ADMIN');
     if (demotingAdmin) {
       superAdminPassword = await this.openSuperAdminPasswordDialog(
         'pages.adminUsers.roleDemoteAdminConfirm'
@@ -323,7 +343,7 @@ export class AdminUsersComponent implements AfterViewInit {
         return;
       }
     } else {
-      const confirmed = await this.openConfirmDialog('pages.adminUsers.roleChangeConfirm');
+      const confirmed = await this.openConfirmDialog('pages.adminUsers.rolesChangeConfirm');
       if (!confirmed) {
         await this.revertRoleSelectUi();
         return;
@@ -333,8 +353,8 @@ export class AdminUsersComponent implements AfterViewInit {
     await this.runAction(
       row.id,
       async () => {
-        await this.usersApi.updateRole(row.id, {
-          role,
+        await this.usersApi.updateRoles(row.id, {
+          roles: next,
           ...(superAdminPassword ? { superAdminPassword } : {})
         });
         this.notify('pages.adminUsers.roleUpdated');

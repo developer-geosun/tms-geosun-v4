@@ -6,6 +6,7 @@ import com.geosun.tms.auth.dto.request.AdminUserListQuery;
 import com.geosun.tms.auth.dto.request.UpdateUserActiveRequest;
 import com.geosun.tms.auth.dto.request.UpdateUserProfileRequest;
 import com.geosun.tms.auth.dto.request.UpdateUserRoleRequest;
+import com.geosun.tms.auth.dto.request.UpdateUserRolesRequest;
 import com.geosun.tms.auth.dto.response.PageResponse;
 import com.geosun.tms.auth.dto.response.UserAdminDto;
 import com.geosun.tms.auth.dto.response.UserProfileDto;
@@ -85,9 +86,10 @@ public class AdminUserController {
   }
 
   @Operation(
-      summary = "Update user role",
+      summary = "Update user role (singleton)",
       description =
-          "Demoting ADMIN to another role requires superAdminPassword (SUPER_ADMIN_PASSWORD).")
+          "Compatibility wrapper: sets available roles to a single role. Demoting ADMIN requires"
+              + " superAdminPassword (SUPER_ADMIN_PASSWORD). Prefer PUT /roles for multi-role.")
   @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
   @PreAuthorize("hasRole('ADMIN')")
   @PatchMapping("/{id}/role")
@@ -97,6 +99,21 @@ public class AdminUserController {
       @Valid @RequestBody @NonNull UpdateUserRoleRequest body) {
     return adminUserService.updateRole(
         principal.getUserId(), id, body.role(), body.superAdminPassword());
+  }
+
+  @Operation(
+      summary = "Replace available roles",
+      description =
+          "Assigns the full set of available roles. Removing ADMIN requires superAdminPassword.")
+  @SecurityRequirement(name = OpenApiConfig.BEARER_SCHEME)
+  @PreAuthorize("hasRole('ADMIN')")
+  @PutMapping("/{id}/roles")
+  public UserAdminDto updateRoles(
+      @AuthenticationPrincipal @NonNull UserPrincipal principal,
+      @PathVariable("id") @NonNull String id,
+      @Valid @RequestBody @NonNull UpdateUserRolesRequest body) {
+    return adminUserService.updateRoles(
+        principal.getUserId(), id, body.roles(), body.superAdminPassword());
   }
 
   @Operation(summary = "Activate or deactivate user")

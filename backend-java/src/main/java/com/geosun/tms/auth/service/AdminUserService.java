@@ -12,6 +12,7 @@ import com.geosun.tms.auth.repository.RefreshTokenRepository;
 import com.geosun.tms.auth.repository.UserRepository;
 import com.geosun.tms.auth.repository.UserSpecifications;
 import java.time.Instant;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -86,26 +87,50 @@ public class AdminUserService {
         user, userProfileService.getByUserId(Objects.requireNonNull(user.getId())));
   }
 
+  /**
+   * Призначає повний набір available roles. Active лишається, якщо входить у набір; інакше —
+   * preferred (USER → …).
+   */
+  @Transactional
+  public UserAdminDto updateRoles(
+      @NonNull String actorUserId,
+      @NonNull String rawId,
+      @NonNull Set<Role> roles,
+      String superAdminPassword) {
+    if (roles.isEmpty()) {
+      throw ApiException.badRequest("ROLES_REQUIRED", "At least one role is required");
+    }
+    User user = requireUser(rawId);
+    assertNotSelf(actorUserId, Objects.requireNonNull(user.getId()));
+    assertNotDeleted(user);
+
+    Set<Role> previous = user.snapshotAvailableRoles();
+    Set<Role> next = EnumSet.copyOf(roles);
+    if (previous.equals(next) && next.contains(user.getRole())) {
+      return toDto(user);
+    }
+
+    boolean removingAdmin = previous.contains(Role.ADMIN) && !next.contains(Role.ADMIN);
+    if (removingAdmin) {
+      assertNotLastActiveAdmin(user);
+      // Зняття ролі ADMIN — лише після коректного пароля суперадміна
+      superAdminPasswordService.requireValid(superAdminPassword);
+    }
+
+    user.replaceAvailableRoles(Objects.requireNonNull(next));
+    refreshTokenRepository.revokeAllActiveByUserId(user.getId(), Instant.now());
+    return toDto(userRepository.save(Objects.requireNonNull(user)));
+  }
+
+  /** Сумісність: singleton-набір через {@link #updateRoles}. */
   @Transactional
   public UserAdminDto updateRole(
       @NonNull String actorUserId,
       @NonNull String rawId,
       @NonNull Role newRole,
       String superAdminPassword) {
-    User user = requireUser(rawId);
-    assertNotSelf(actorUserId, user.getId());
-    assertNotDeleted(user);
-    if (user.getRole() == newRole) {
-      return toDto(user);
-    }
-    if (user.getRole() == Role.ADMIN && newRole != Role.ADMIN) {
-      assertNotLastActiveAdmin(user);
-      // Зняття ролі ADMIN — лише після коректного пароля суперадміна
-      superAdminPasswordService.requireValid(superAdminPassword);
-    }
-    user.setRole(newRole);
-    refreshTokenRepository.revokeAllActiveByUserId(user.getId(), Instant.now());
-    return toDto(userRepository.save(Objects.requireNonNull(user)));
+    return updateRoles(
+        actorUserId, rawId, Objects.requireNonNull(EnumSet.of(newRole)), superAdminPassword);
   }
 
   @Transactional
@@ -117,7 +142,7 @@ public class AdminUserService {
     if (user.isActive() == active) {
       return toDto(user);
     }
-    if (!active && user.getRole() == Role.ADMIN) {
+    if (!active && user.hasAvailableRole(Role.ADMIN)) {
       assertNotLastActiveAdmin(user);
     }
     user.setActive(active);
@@ -134,7 +159,7 @@ public class AdminUserService {
       return;
     }
     assertNotSelf(actorUserId, user.getId());
-    if (user.getRole() == Role.ADMIN && user.isActive()) {
+    if (user.hasAvailableRole(Role.ADMIN) && user.isActive()) {
       assertNotLastActiveAdmin(user);
     }
     user.setDeleted(true);
@@ -190,9 +215,9 @@ public class AdminUserService {
   }
 
   private void assertNotLastActiveAdmin(User target) {
-    long activeAdmins = userRepository.countActiveByRole(Role.ADMIN);
+    long activeAdmins = userRepository.countActiveWithAvailableRole(Role.ADMIN);
     if (activeAdmins <= 1
-        && target.getRole() == Role.ADMIN
+        && target.hasAvailableRole(Role.ADMIN)
         && target.isActive()
         && !target.isDeleted()) {
       throw ApiException.conflict(

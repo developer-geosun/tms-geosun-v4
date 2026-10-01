@@ -5,7 +5,7 @@
 - **Роль:** источник истины по `/admin/users` (мутации учётки)
 - **Клиент:** Angular + Java
 - **Baseline:** [BASELINE.ru.md](BASELINE.ru.md) **B02**
-- **Остаток:** нет. **Канон RBAC:** MANAGER **читает** список и карточку; PUT профиля и role/active/delete/restore — только ADMIN (`user-profile.ru.en.md`). Пункт Out of Scope «Доступ MANAGER к user-admin» устарел — не восстанавливать
+- **Остаток:** нет. **Канон RBAC:** MANAGER **читает** список и карточку; PUT профиля и roles/active/delete/restore — только ADMIN (`user-profile.ru.en.md`). Multi-role: [`user-multi-role-switching.ru.en.md`](user-multi-role-switching.ru.en.md). Пункт Out of Scope «Доступ MANAGER к user-admin» устарел — не восстанавливать
 - **Реестр:** [README.ru.md](README.ru.md)
 
 ## Language Rules / Правила языка
@@ -34,10 +34,12 @@
 - Обратная совместимость: `DELETE /api/v1/users/{id}` остаётся.
 
 ## 4) Out of Scope / Out of Scope (не входит)
-- Multi-role / permission matrix.
+- Permission matrix / fine-grained permissions (матрица отдельных разрешений).
 - Invite / создание пользователя админом.
 - Смена email / пароля админом.
 - Доступ `MANAGER` к user-admin (устарело: GET списка/карточки разрешён; см. блок Статус).
+
+> Multi-role и переключение активной роли — канон: [`user-multi-role-switching.ru.en.md`](user-multi-role-switching.ru.en.md).
 
 ## 5) User Stories / Пользовательские сценарии
 1. **Как** ADMIN, **я хочу** видеть список пользователей с фильтрами, **чтобы** быстро найти нужный аккаунт.

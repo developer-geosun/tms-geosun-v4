@@ -69,6 +69,18 @@
             <mat-icon fontIcon="login" aria-hidden="true"></mat-icon>
           </button>
         } @else {
+          @if (canSwitchRole()) {
+            <button
+              mat-mini-fab
+              type="button"
+              class="auth-button"
+              [matMenuTriggerFor]="roleMenu"
+              [disabled]="isSwitchingRole()"
+              [attr.aria-label]="'auth.switchRole.label' | translate"
+              [attr.title]="('auth.switchRole.label' | translate) + ': ' + (roleLabelKey(currentRole()) | translate)">
+              <mat-icon fontIcon="swap_horiz" aria-hidden="true"></mat-icon>
+            </button>
+          }
           <button
             mat-mini-fab
             type="button"
@@ -128,6 +140,19 @@
         <span>{{ item.labelKey | translate }}</span>
       </button>
     }
+  }
+</mat-menu>
+
+<mat-menu #roleMenu="matMenu" class="role-menu" panelClass="role-menu-panel">
+  @for (role of availableRoles(); track role) {
+    <button
+      mat-menu-item
+      type="button"
+      [disabled]="role === currentRole() || isSwitchingRole()"
+      (click)="switchRole(role)">
+      <mat-icon aria-hidden="true">{{ role === currentRole() ? 'check' : 'badge' }}</mat-icon>
+      <span>{{ roleLabelKey(role) | translate }}</span>
+    </button>
   }
 </mat-menu>
 

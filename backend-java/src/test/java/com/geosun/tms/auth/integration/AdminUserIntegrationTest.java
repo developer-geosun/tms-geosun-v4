@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,11 +15,14 @@ import com.geosun.tms.auth.domain.user.Role;
 import com.geosun.tms.auth.domain.user.User;
 import com.geosun.tms.auth.dto.request.LoginRequest;
 import com.geosun.tms.auth.dto.request.RefreshRequest;
+import com.geosun.tms.auth.dto.request.SwitchRoleRequest;
 import com.geosun.tms.auth.dto.request.UpdateUserActiveRequest;
 import com.geosun.tms.auth.dto.request.UpdateUserRoleRequest;
+import com.geosun.tms.auth.dto.request.UpdateUserRolesRequest;
 import com.geosun.tms.auth.exception.ApiException;
 import com.geosun.tms.auth.repository.UserRepository;
 import com.geosun.tms.auth.service.AdminUserService;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -239,7 +243,7 @@ class AdminUserIntegrationTest {
   @Test
   void admin_lastAdminProtected_viaService() {
     // Інші класи без @Transactional могли залишити активних ADMIN у спільній H2.
-    for (User leftover : userRepository.findByRoleAndActiveTrueAndDeletedFalse(Role.ADMIN)) {
+    for (User leftover : userRepository.findActiveWithAvailableRole(Role.ADMIN)) {
       leftover.setActive(false);
       userRepository.save(leftover);
     }
@@ -298,6 +302,73 @@ class AdminUserIntegrationTest {
                     toJson(new UpdateUserRoleRequest(Role.MANAGER, "test-super-admin-password"))))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.role").value("MANAGER"));
+  }
+
+  @Test
+  void adminCanAssignMultipleRoles_andUserCanSwitch() throws Exception {
+    User admin = saveUser("multi-admin-" + UUID.randomUUID() + "@ex.com", "Secret123", Role.ADMIN);
+    User target = saveUser("multi-user-" + UUID.randomUUID() + "@ex.com", "Secret123", Role.USER);
+    Session adminSession = login(admin.getEmail(), "Secret123");
+
+    mockMvc
+        .perform(
+            put("/api/v1/admin/users/" + target.getId() + "/roles")
+                .header("Authorization", "Bearer " + adminSession.access())
+                .contentType(jsonContentType())
+                .content(
+                    toJson(
+                        new UpdateUserRolesRequest(
+                            Objects.requireNonNull(EnumSet.of(Role.USER, Role.MANAGER)), null))))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.role").value("USER"))
+        .andExpect(jsonPath("$.availableRoles.length()").value(2))
+        .andExpect(jsonPath("$.availableRoles[0]").value("USER"))
+        .andExpect(jsonPath("$.availableRoles[1]").value("MANAGER"));
+
+    Session userSession = login(target.getEmail(), "Secret123");
+    mockMvc
+        .perform(
+            post("/api/v1/auth/switch-role")
+                .header("Authorization", "Bearer " + userSession.access())
+                .contentType(jsonContentType())
+                .content(toJson(new SwitchRoleRequest(Role.MANAGER))))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.role").value("MANAGER"))
+        .andExpect(jsonPath("$.availableRoles.length()").value(2));
+
+    mockMvc
+        .perform(get("/api/v1/auth/me").header("Authorization", "Bearer " + userSession.access()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.role").value("MANAGER"));
+
+    mockMvc
+        .perform(
+            post("/api/v1/auth/switch-role")
+                .header("Authorization", "Bearer " + userSession.access())
+                .contentType(jsonContentType())
+                .content(toJson(new SwitchRoleRequest(Role.ADMIN))))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.code").value("ROLE_NOT_ASSIGNED"));
+  }
+
+  @Test
+  void filterByRoleMatchesAvailableNotOnlyActive() throws Exception {
+    User admin = saveUser("filter-admin-" + UUID.randomUUID() + "@ex.com", "Secret123", Role.ADMIN);
+    User target = saveUser("filter-user-" + UUID.randomUUID() + "@ex.com", "Secret123", Role.USER);
+    target.replaceAvailableRoles(Objects.requireNonNull(EnumSet.of(Role.USER, Role.MANAGER)));
+    target.setRole(Role.USER);
+    userRepository.save(target);
+    Session adminSession = login(admin.getEmail(), "Secret123");
+
+    mockMvc
+        .perform(
+            get("/api/v1/admin/users")
+                .param("role", "MANAGER")
+                .param("email", target.getEmail())
+                .header("Authorization", "Bearer " + adminSession.access()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.length()").value(1))
+        .andExpect(jsonPath("$.content[0].id").value(target.getId()));
   }
 
   private User saveUser(String email, String password, Role role) {

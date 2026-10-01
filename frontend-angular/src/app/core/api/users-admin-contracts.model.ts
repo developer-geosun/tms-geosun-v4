@@ -10,6 +10,7 @@ export interface UserAdminContractDto {
   id: string;
   email: string;
   role: AdminUserRole;
+  availableRoles: AdminUserRole[];
   active: boolean;
   deleted: boolean;
   emailVerified: boolean;
@@ -35,6 +36,12 @@ export interface AdminUserListParams {
 export interface UpdateUserRoleContractRequest {
   role: AdminUserRole;
   /** Обов'язковий при зміні ролі з ADMIN на іншу. */
+  superAdminPassword?: string;
+}
+
+export interface UpdateUserRolesContractRequest {
+  roles: AdminUserRole[];
+  /** Обов'язковий при знятті ролі ADMIN. */
   superAdminPassword?: string;
 }
 

@@ -60,6 +60,7 @@ describe('UsersAdminApiService', () => {
       id: 'user-1',
       email: 'a@example.com',
       role: 'MANAGER',
+      availableRoles: ['MANAGER'],
       active: true,
       deleted: false,
       emailVerified: true,
@@ -68,6 +69,28 @@ describe('UsersAdminApiService', () => {
       deletedAt: null
     });
     await expectAsync(pending).toBeResolvedTo(jasmine.objectContaining({ role: 'MANAGER' }));
+  });
+
+  it('updates roles via PUT /admin/users/{id}/roles', async () => {
+    const pending = service.updateRoles('user-1', { roles: ['USER', 'MANAGER'] });
+    const request = httpMock.expectOne(`${backendApi.adminUsers}/user-1/roles`);
+    expect(request.request.method).toBe('PUT');
+    expect(request.request.body).toEqual({ roles: ['USER', 'MANAGER'] });
+    request.flush({
+      id: 'user-1',
+      email: 'a@example.com',
+      role: 'USER',
+      availableRoles: ['USER', 'MANAGER'],
+      active: true,
+      deleted: false,
+      emailVerified: true,
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: '2026-01-01T00:00:00Z',
+      deletedAt: null
+    });
+    await expectAsync(pending).toBeResolvedTo(
+      jasmine.objectContaining({ availableRoles: ['USER', 'MANAGER'] })
+    );
   });
 
   it('soft-deletes via DELETE /admin/users/{id}', async () => {

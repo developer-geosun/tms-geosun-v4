@@ -160,7 +160,7 @@ public class DriverService {
         userRepository
             .findByEmailAndDeletedFalse(normalized)
             .orElseThrow(() -> ApiException.notFound("User not found"));
-    if (user.getRole() != Role.USER && user.getRole() != Role.DRIVER) {
+    if (!user.hasAvailableRole(Role.USER) && !user.hasAvailableRole(Role.DRIVER)) {
       throw ApiException.conflict(
           "USER_ROLE_NOT_LINKABLE", "Only USER or DRIVER accounts can be linked to a driver");
     }
@@ -181,7 +181,7 @@ public class DriverService {
             .findById(userId)
             .filter(u -> !u.isDeleted())
             .orElseThrow(() -> ApiException.notFound("User not found"));
-    if (user.getRole() != Role.USER && user.getRole() != Role.DRIVER) {
+    if (!user.hasAvailableRole(Role.USER) && !user.hasAvailableRole(Role.DRIVER)) {
       throw ApiException.conflict(
           "USER_ROLE_NOT_LINKABLE", "Only USER or DRIVER accounts can be linked to a driver");
     }
@@ -190,10 +190,11 @@ public class DriverService {
       throw ApiException.conflict(
           "USER_ALREADY_LINKED", "User is already linked to another driver");
     }
+    user.ensureRoleAssigned(Role.DRIVER);
     if (user.getRole() == Role.USER) {
       user.setRole(Role.DRIVER);
-      userRepository.save(user);
     }
+    userRepository.save(Objects.requireNonNull(user));
     driver.setUserId(userId);
     Driver saved = Objects.requireNonNull(driverRepository.save(driver));
     return toDto(saved, computeCompliance(saved));

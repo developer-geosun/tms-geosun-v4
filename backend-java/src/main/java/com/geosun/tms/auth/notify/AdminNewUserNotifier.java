@@ -90,7 +90,7 @@ public class AdminNewUserNotifier {
       return;
     }
 
-    List<User> admins = userRepository.findByRoleAndActiveTrueAndDeletedFalse(Role.ADMIN);
+    List<User> admins = userRepository.findActiveWithAvailableRole(Role.ADMIN);
     if (admins.isEmpty()) {
       log.info("admin_notify_queued newUserId={} recipients=0", userId);
       return;

@@ -21,12 +21,29 @@ public interface UserRepository
 
   boolean existsByEmailAndDeletedFalse(String email);
 
-  List<User> findByRoleAndActiveTrueAndDeletedFalse(Role role);
+  @Query(
+      """
+      select distinct u from User u join u.availableRoles r
+      where r = :role and u.active = true and u.deleted = false
+      """)
+  List<User> findActiveWithAvailableRole(@Param("role") Role role);
+
+  /** @deprecated використовуйте {@link #findActiveWithAvailableRole(Role)} */
+  @Deprecated
+  default List<User> findByRoleAndActiveTrueAndDeletedFalse(Role role) {
+    return findActiveWithAvailableRole(role);
+  }
 
   @Query(
       """
-      select count(u) from User u
-      where u.role = :role and u.active = true and u.deleted = false
+      select count(distinct u) from User u join u.availableRoles r
+      where r = :role and u.active = true and u.deleted = false
       """)
-  long countActiveByRole(@Param("role") Role role);
+  long countActiveWithAvailableRole(@Param("role") Role role);
+
+  /** @deprecated використовуйте {@link #countActiveWithAvailableRole(Role)} */
+  @Deprecated
+  default long countActiveByRole(Role role) {
+    return countActiveWithAvailableRole(role);
+  }
 }

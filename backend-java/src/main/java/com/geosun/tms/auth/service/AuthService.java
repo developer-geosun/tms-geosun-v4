@@ -38,6 +38,7 @@ import com.geosun.tms.auth.security.crypto.OpaqueTokenGenerator;
 import com.geosun.tms.auth.security.crypto.TokenHasher;
 import com.geosun.tms.auth.security.jwt.JwtService;
 import java.time.Instant;
+import java.util.EnumSet;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,6 +114,7 @@ public class AuthService {
     user.setEmail(email);
     user.setPasswordHash(passwordEncoder.encode(request.password()));
     user.setRole(Role.USER);
+    user.replaceAvailableRoles(Objects.requireNonNull(EnumSet.of(Role.USER)));
     user.setEmailVerified(false);
     userRepository.save(user);
 
@@ -446,6 +448,23 @@ public class AuthService {
         userRepository
             .findById(Objects.requireNonNull(principal.getUserId()))
             .orElseThrow(() -> ApiException.notFound("User not found"));
+    return toPublicUser(user);
+  }
+
+  /** Перемикає active role в межах available; сесії не revoke (фільтр читає роль з БД). */
+  @Transactional
+  public UserPublicDto switchRole(@NonNull UserPrincipal principal, @NonNull Role role) {
+    User user =
+        userRepository
+            .findById(Objects.requireNonNull(principal.getUserId()))
+            .orElseThrow(() -> ApiException.notFound("User not found"));
+    if (!user.hasAvailableRole(role)) {
+      throw ApiException.badRequest("ROLE_NOT_ASSIGNED", "Role is not assigned to this user");
+    }
+    if (user.getRole() != role) {
+      user.setRole(role);
+      userRepository.save(Objects.requireNonNull(user));
+    }
     return toPublicUser(user);
   }
 

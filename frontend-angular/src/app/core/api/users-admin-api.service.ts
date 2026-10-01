@@ -7,6 +7,7 @@ import {
   AdminUserListParams,
   UpdateUserActiveContractRequest,
   UpdateUserRoleContractRequest,
+  UpdateUserRolesContractRequest,
   UserAdminContractDto
 } from './users-admin-contracts.model';
 
@@ -53,6 +54,18 @@ export class UsersAdminApiService {
     return firstValueFrom(
       this.http.patch<UserAdminContractDto>(
         `${this.backendApi.adminUsers}/${encodeURIComponent(id)}/role`,
+        payload
+      )
+    );
+  }
+
+  async updateRoles(
+    id: string,
+    payload: UpdateUserRolesContractRequest
+  ): Promise<UserAdminContractDto> {
+    return firstValueFrom(
+      this.http.put<UserAdminContractDto>(
+        `${this.backendApi.adminUsers}/${encodeURIComponent(id)}/roles`,
         payload
       )
     );

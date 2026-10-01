@@ -632,17 +632,19 @@
       "resetFilters": "Reset",
       "delete": "Delete",
       "restore": "Restore",
-      "roleChangeConfirm": "Change this user's role?",
+      "roleChangeConfirm": "Change this user's roles?",
+      "rolesChangeConfirm": "Update the set of roles for this user?",
       "roleDemoteAdminConfirm": "Demoting an ADMIN requires the super-admin password. Enter it to continue.",
+      "rolesRequired": "Select at least one role",
       "deactivateConfirm": "Deactivate this user? Sessions will be revoked.",
       "deleteConfirm": "Soft-delete this user? Sessions will be revoked.",
       "restoreConfirm": "Restore this deleted user? The account will become active again.",
-      "roleUpdated": "Role updated",
+      "roleUpdated": "Roles updated",
       "activated": "User activated",
       "deactivated": "User deactivated",
       "deleteSuccess": "User deleted",
       "restoreSuccess": "User restored",
-      "roleUpdateFailed": "Failed to update role",
+      "roleUpdateFailed": "Failed to update roles",
       "activeUpdateFailed": "Failed to update status",
       "deleteFailed": "Failed to delete user",
       "restoreFailed": "Failed to restore user",
@@ -1364,6 +1366,17 @@
   "auth": {
     "register": "Sign up",
     "login": "Sign in",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "roles": {
+      "user": "User",
+      "manager": "Manager",
+      "driver": "Driver",
+      "admin": "Admin"
+    },
+    "switchRole": {
+      "label": "Switch role",
+      "success": "Role switched",
+      "failed": "Failed to switch role"
+    }
   }
 }

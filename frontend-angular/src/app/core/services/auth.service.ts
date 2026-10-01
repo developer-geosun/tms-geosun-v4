@@ -61,6 +61,18 @@ export class AuthService {
     return role ? [role] : [];
   });
 
+  /** Призначені ролі для перемикача (≥2 — показуємо UI). */
+  readonly availableRoles = computed<UserRole[]>(() => {
+    const user = this.state().user;
+    if (!user) {
+      return [];
+    }
+    const assigned = user.availableRoles?.length ? user.availableRoles : [user.role];
+    return uniqueRoles_(assigned);
+  });
+
+  readonly canSwitchRole = computed(() => this.availableRoles().length > 1);
+
   private refreshInFlight$: Observable<string> | null = null;
 
   constructor() {
@@ -135,6 +147,19 @@ export class AuthService {
       map((user) => this.normalizeUser_(user)),
       tap((user) => this.setUser(user))
     );
+  }
+
+  /** Перемикає active role в межах availableRoles. */
+  switchRole(role: UserRole): Observable<AuthUser> {
+    return this.http
+      .post<AuthUser | ApiErrorEnvelope>(this.toApiUrl('/auth/switch-role'), {
+        role: role.toUpperCase()
+      })
+      .pipe(
+        map((response) => this.ensureSuccessResponse_(response)),
+        map((user) => this.normalizeUser_(user)),
+        tap((user) => this.setUser(user))
+      );
   }
 
   /**
@@ -312,6 +337,11 @@ export class AuthService {
 
   private normalizeUser_(user: AuthUser): AuthUser {
     const normalizedRole = normalizeRole_(user.role);
+    const availableSource = user.availableRoles?.length ? user.availableRoles : [user.role];
+    const availableRoles = uniqueRoles_(availableSource.map((r) => normalizeRole_(r)));
+    if (!availableRoles.includes(normalizedRole)) {
+      availableRoles.unshift(normalizedRole);
+    }
     const profile = user.profile
       ? {
           ...user.profile,
@@ -332,6 +362,7 @@ export class AuthService {
     return {
       ...user,
       role: normalizedRole,
+      availableRoles,
       displayName: user.displayName?.trim() || user.email,
       profile
     };
@@ -377,4 +408,16 @@ function normalizeRole_(role: string): UserRole {
     return normalized;
   }
   return 'user';
+}
+
+function uniqueRoles_(roles: readonly UserRole[]): UserRole[] {
+  const seen = new Set<UserRole>();
+  const result: UserRole[] = [];
+  for (const role of roles) {
+    if (!seen.has(role)) {
+      seen.add(role);
+      result.push(role);
+    }
+  }
+  return result;
 }

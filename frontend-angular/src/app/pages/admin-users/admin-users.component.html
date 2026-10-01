@@ -77,9 +77,10 @@
                 <mat-form-field appearance="outline" class="user-card__role-field" subscriptSizing="dynamic">
                   @for (_ of [roleSelectEpoch()]; track _) {
                     <mat-select
-                      [value]="row.role"
+                      multiple
+                      [value]="assignedRoles(row)"
                       [disabled]="isCurrentUser(row) || row.deleted || isUpdating(row.id)"
-                      (selectionChange)="onRoleChange(row, $event.value)">
+                      (selectionChange)="onRolesChange(row, $event.value)">
                       @for (role of roleOptions; track role) {
                         <mat-option [value]="role">{{ ('pages.adminUsers.roles.' + role) | translate }}</mat-option>
                       }
@@ -197,9 +198,10 @@
             <mat-form-field appearance="outline" class="admin-users__role-field" subscriptSizing="dynamic">
               @for (_ of [roleSelectEpoch()]; track _) {
                 <mat-select
-                  [value]="row.role"
+                  multiple
+                  [value]="assignedRoles(row)"
                   [disabled]="isCurrentUser(row) || row.deleted || isUpdating(row.id)"
-                  (selectionChange)="onRoleChange(row, $event.value)">
+                  (selectionChange)="onRolesChange(row, $event.value)">
                   @for (role of roleOptions; track role) {
                     <mat-option [value]="role">{{ ('pages.adminUsers.roles.' + role) | translate }}</mat-option>
                   }

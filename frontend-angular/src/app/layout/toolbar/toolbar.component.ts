@@ -26,6 +26,9 @@ import { LanguageService, Language } from '../../core/services/language.service'
 import { AuthService } from '../../core/services/auth.service';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { SocialIconComponent } from '../../shared/components/social-icon/social-icon.component';
+import { showAppSnack } from '../../shared/utils/app-snackbar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { firstValueFrom } from 'rxjs';
 import { UserRole } from '../../shared/models';
 
 /**
@@ -69,10 +72,15 @@ export class ToolbarComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
+  private readonly snackBar = inject(MatSnackBar);
   readonly pageLoading = inject(PageLoadingService);
 
   /** Після NavigationEnd — щоб OnPush оновлював клас активного маршруту */
   private readonly navigationUrl = signal(this.router.url);
+  readonly isSwitchingRole = signal(false);
+  readonly canSwitchRole = this.authService.canSwitchRole;
+  readonly availableRoles = this.authService.availableRoles;
+  readonly currentRole = computed(() => this.authService.user()?.role ?? null);
 
   constructor() {
     this.router.events
@@ -278,6 +286,34 @@ export class ToolbarComponent {
 
   canAccess(allowedRoles: readonly UserRole[]): boolean {
     return this.authService.hasAnyRole(allowedRoles);
+  }
+
+  roleLabelKey(role: UserRole | null): string {
+    return role ? `auth.roles.${role}` : 'auth.roles.user';
+  }
+
+  async switchRole(role: UserRole): Promise<void> {
+    if (role === this.currentRole() || this.isSwitchingRole()) {
+      return;
+    }
+    this.isSwitchingRole.set(true);
+    try {
+      await firstValueFrom(this.authService.switchRole(role));
+      showAppSnack(this.snackBar, this.translateService, 'auth.switchRole.success', 'success');
+      const url = this.router.url;
+      const stillAllowed = this.navigationItems.some(
+        (item) =>
+          (url === item.route || url.startsWith(`${item.route}/`) || url.startsWith(`${item.route}?`)) &&
+          this.canAccess(item.roles)
+      );
+      if (!stillAllowed) {
+        await this.router.navigate(['/main']);
+      }
+    } catch {
+      showAppSnack(this.snackBar, this.translateService, 'auth.switchRole.failed', 'error');
+    } finally {
+      this.isSwitchingRole.set(false);
+    }
   }
 
   logout(): void {

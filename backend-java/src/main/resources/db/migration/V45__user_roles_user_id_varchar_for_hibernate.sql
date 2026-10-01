@@ -1,0 +1,9 @@
+-- Hibernate validate: String length=36 → VARCHAR, не CHAR (як V2 для users.id).
+
+SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS;
+SET FOREIGN_KEY_CHECKS = 0;
+
+ALTER TABLE user_roles
+    MODIFY COLUMN user_id VARCHAR(36) NOT NULL;
+
+SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;

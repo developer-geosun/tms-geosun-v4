@@ -28,6 +28,8 @@ export interface AuthUser {
   id: string;
   email: string;
   role: UserRole;
+  /** Призначені ролі (якщо немає — лише active). */
+  availableRoles?: UserRole[];
   displayName?: string;
   profile?: AuthUserProfile;
 }
