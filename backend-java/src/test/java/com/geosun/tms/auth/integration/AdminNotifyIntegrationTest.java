@@ -204,6 +204,8 @@ class AdminNotifyIntegrationTest {
     user.setEmail(email);
     user.setPasswordHash(passwordEncoder.encode(password));
     user.setRole(role);
+    // id уже заданий → Spring Data робить merge, і @PrePersist не встигає заповнити user_roles.
+    user.ensureRoleAssigned(Objects.requireNonNull(role));
     user.setEmailVerified(true);
     user.setActive(true);
     return userRepository.save(Objects.requireNonNull(user));

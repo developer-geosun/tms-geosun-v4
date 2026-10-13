@@ -302,7 +302,8 @@ class ChatbotTelegramIntegrationTest {
   }
 
   private static String telegramContactUpdate(String chatId, String phone, long contactUserId) {
-    return """
+    return
+"""
 {"update_id":2,"message":{"message_id":2,"chat":{"id":%s,"type":"private"},"contact":{"phone_number":"%s","user_id":%d}}}
 """
         .formatted(chatId, phone, contactUserId);

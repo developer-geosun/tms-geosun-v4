@@ -18,7 +18,7 @@ public class OpenApiConfig {
   @Bean
   public OpenAPI openAPI() {
     String description =
-        """
+"""
 MVP authentication API (v1). Access JWT: HS256, mandatory claims `sub` (user id), \
 `sessionId` (id of row in `refresh_tokens`), `iat`, `exp`; optional `iss` / `aud` if configured.
 
