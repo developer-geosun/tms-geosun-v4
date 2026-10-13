@@ -41,12 +41,12 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('tms-geosun');
   });
 
-  it('should render toolbar, content outlet area and footer', () => {
+  it('should render root router-outlet (shell/auth on child routes)', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('app-toolbar')).toBeTruthy();
-    expect(compiled.querySelector('.content')).toBeTruthy();
-    expect(compiled.querySelector('app-footer')).toBeTruthy();
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
+    expect(compiled.querySelector('app-toolbar')).toBeNull();
+    expect(compiled.querySelector('app-footer')).toBeNull();
   });
 });

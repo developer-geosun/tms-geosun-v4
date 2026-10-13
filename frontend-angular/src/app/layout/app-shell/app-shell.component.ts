@@ -84,6 +84,7 @@ export class AppShellComponent {
 
   private readonly sidenav = viewChild<MatSidenav>('shellSidenav');
   private readonly menuBtn = viewChild<ElementRef<HTMLButtonElement>>('menuBtn');
+  private readonly drawerCloseBtn = viewChild<ElementRef<HTMLButtonElement>>('drawerCloseBtn');
 
   readonly isShellNav = this.layout.isShellNav;
   readonly drawerOpen = signal(false);
@@ -201,6 +202,7 @@ export class AppShellComponent {
     } else {
       await nav.open();
       this.drawerOpen.set(true);
+      this.focusDrawerEntry();
     }
   }
 
@@ -220,8 +222,23 @@ export class AppShellComponent {
       this.drawerOpen.set(opened);
       if (!opened) {
         this.menuBtn()?.nativeElement.focus();
+      } else {
+        this.focusDrawerEntry();
       }
     }
+  }
+
+  /** Фокус у drawer після відкриття (a11y гамбургера з плану Stage 01). */
+  private focusDrawerEntry(): void {
+    queueMicrotask(() => {
+      const closeBtn = this.drawerCloseBtn()?.nativeElement;
+      if (closeBtn) {
+        closeBtn.focus();
+        return;
+      }
+      const firstNav = document.querySelector<HTMLElement>('.shell-sidenav .nav-item');
+      firstNav?.focus();
+    });
   }
 
   navigateTo(route: string): void {

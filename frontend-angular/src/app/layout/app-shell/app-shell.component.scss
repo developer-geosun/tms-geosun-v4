@@ -46,7 +46,8 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: #ffffff;
+  /* Білий диск логотипу як у pack (читабельність на будь-якій темі). */
+  background: var(--mat-sys-surface-container-lowest, #ffffff);
   display: grid;
   place-items: center;
   box-shadow: 0 1px 2px color-mix(in srgb, var(--mat-sys-on-surface) 8%, transparent);
@@ -155,11 +156,23 @@
   &.is-active {
     background: var(--mat-sys-secondary-container);
     color: var(--mat-sys-on-secondary-container);
+
+    mat-icon,
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      color: inherit;
+      opacity: 1;
+    }
   }
 }
 
 .nav-item-icon--filled {
   font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Scrim temporary drawer — як pack `--scrim`. */
+.app-shell .mat-drawer-backdrop.mat-drawer-shown {
+  background-color: color-mix(in srgb, var(--mat-sys-on-surface) 40%, transparent);
 }
 
 .nav-item-label {

@@ -169,10 +169,18 @@ export const NAVIGATION_ITEMS: readonly NavigationItem[] = [
   }
 ] as const;
 
-/** Знайти пункт навігації за поточним URL. */
+/** Знайти пункт навігації за поточним URL (найдовший префікс — detail `/admin/trips/:id`). */
 export function findNavigationItem(url: string): NavigationItem | undefined {
   const path = url.split('?')[0] ?? url;
-  return NAVIGATION_ITEMS.find(
-    (item) => path === item.route || path.startsWith(`${item.route}/`)
-  );
+  let best: NavigationItem | undefined;
+  let bestLen = -1;
+  for (const item of NAVIGATION_ITEMS) {
+    if (path === item.route || path.startsWith(`${item.route}/`)) {
+      if (item.route.length > bestLen) {
+        best = item;
+        bestLen = item.route.length;
+      }
+    }
+  }
+  return best;
 }
