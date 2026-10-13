@@ -1,0 +1,35 @@
+---
+description: Планы реализации хранить в docs/plans/ репозитория, не только в ~/.cursor/plans
+alwaysApply: true
+---
+
+# Хранение планов проекта
+
+**Дата создания:** 13 октября 2026, 20:30 (UTC+3)  
+**Дата изменения:** 13 октября 2026, 20:30 (UTC+3)
+
+Канон: [`docs/plans/`](docs/plans/) — индекс [`docs/plans/README.ru.md`](docs/plans/README.ru.md). Процесс A/B: [`dev-workflow.ru.mdc`](dev-workflow.ru.mdc).
+
+## Куда писать
+
+При создании или обновлении **плана реализации** (CreatePlan / план по brief / дельта-план / поэтапный handoff):
+
+1. Сохраняй файл в **`docs/plans/`** репозитория.
+2. Имя: `<тема>.ru.md` (или `.ru.en.md` и т.п.) — см. [`md-language-in-filename.ru.mdc`](md-language-in-filename.ru.mdc).
+3. В шапке: **Дата создания** / **Дата изменения** (UTC+3).
+4. Обнови строку в [`docs/plans/README.ru.md`](docs/plans/README.ru.md).
+
+## Запреты
+
+```
+❌ Оставлять план только в ~/.cursor/plans/ или UI Cursor без копии в репо
+❌ docs/specs/, docs/briefs/, корень репо, redesign-frontend/ — как место хранения планов
+❌ Имя без языкового суффикса (plan.md)
+✅ docs/plans/<slug>.ru.md + строка в README
+```
+
+## Cursor Plan UI
+
+Если CreatePlan создал файл вне репо — **сразу** перенеси/скопируй содержимое в `docs/plans/`, поправь относительные ссылки, удали дубль вне репо (если пользователь не просил оставить оба).
+
+Todos/чеклист этапов держи в теле `.md` (или синхронно с Cursor todos) — источник истины для команды = файл в `docs/plans/`.
