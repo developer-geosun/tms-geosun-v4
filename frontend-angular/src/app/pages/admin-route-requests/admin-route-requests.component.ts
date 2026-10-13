@@ -429,6 +429,50 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  /** Ключ перекладу статусу заявки (спільні ключі з my-freight-requests). */
+  statusLabelKey(status: string): string {
+    return `pages.myFreightRequests.requestStatus.${String(status).toLowerCase()}`;
+  }
+
+  /** Тон статус-чипа заявки (неутрал/інфо/варнінг/успіх/небезпека). */
+  statusTone(status: string): 'neutral' | 'info' | 'warning' | 'success' | 'danger' {
+    switch (String(status).toLowerCase()) {
+      case 'in_review':
+        return 'info';
+      case 'quoted':
+        return 'warning';
+      case 'accepted':
+        return 'success';
+      case 'rejected':
+      case 'cancelled':
+      case 'expired':
+        return 'danger';
+      default:
+        return 'neutral';
+    }
+  }
+
+  /** Ключ перекладу статусу пропозиції (quoteStatus.*). */
+  quoteStatusLabelKey(status: string): string {
+    return `pages.myFreightRequests.quoteStatus.${String(status).toLowerCase()}`;
+  }
+
+  /** Тон статус-чипа пропозиції. */
+  quoteStatusTone(status: string): 'neutral' | 'info' | 'warning' | 'success' | 'danger' {
+    switch (String(status).toLowerCase()) {
+      case 'sent':
+        return 'info';
+      case 'accepted':
+        return 'success';
+      case 'rejected':
+      case 'expired':
+      case 'superseded':
+        return 'danger';
+      default:
+        return 'neutral';
+    }
+  }
+
   /** Сума пропозиції для картки в черзі (лише QUOTED з поточною котировкою). */
   cardQuoteAmount(request: RouteRequestContractDto): string | null {
     if (String(request.status).toLowerCase() !== 'quoted') {

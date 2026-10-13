@@ -8,6 +8,8 @@ export const LAYOUT_BP = {
   tabletMin: 600,
   tabletMax: 1023.98,
   desktopMin: 1024,
+  /** App shell: permanent sidenav (handoff redesign ≥960). */
+  shellNavMin: 960,
   compactSplitMax: 1099.98
 } as const;
 
@@ -16,5 +18,7 @@ export const LAYOUT_QUERIES = {
   handset: `(max-width: ${LAYOUT_BP.handsetMax}px)`,
   tablet: `(min-width: ${LAYOUT_BP.tabletMin}px) and (max-width: ${LAYOUT_BP.tabletMax}px)`,
   desktop: `(min-width: ${LAYOUT_BP.desktopMin}px)`,
+  shellNav: `(min-width: ${LAYOUT_BP.shellNavMin}px)`,
+  belowShellNav: `(max-width: ${LAYOUT_BP.shellNavMin - 0.02}px)`,
   compactSplit: `(max-width: ${LAYOUT_BP.compactSplitMax}px)`
 } as const;

@@ -1,18 +1,22 @@
 <section class="routes-page">
-  <header class="routes-page__header">
-    <h1 class="routes-page__title">{{ listViewPageHeadingKey() | translate }}</h1>
-    <div class="routes-page__header-actions">
-      <div class="routes-page__header-fabs">
-        <button
-          mat-mini-fab
-          type="button"
-          class="routes-page__add-route"
-          (click)="createNewRoute()"
-          [attr.aria-label]="'pages.routes.addNewRoute' | translate"
-          [title]="'pages.routes.addNewRoute' | translate"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
+  <header class="gs-hero routes-page__hero">
+    <div class="routes-page__hero-copy">
+      <p class="gs-eyebrow">{{ 'navigation.routes' | translate }}</p>
+      <h1 class="gs-hero-title">{{ listViewPageHeadingKey() | translate }}</h1>
+      <p class="gs-hero-sub">{{ 'pages.routes.heroSub' | translate }}</p>
+    </div>
+    <div class="gs-hero-actions routes-page__hero-actions">
+      <button
+        mat-mini-fab
+        type="button"
+        class="routes-page__add-route"
+        (click)="createNewRoute()"
+        [attr.aria-label]="'pages.routes.addNewRoute' | translate"
+        [title]="'pages.routes.addNewRoute' | translate"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      @if (!showInlineListFilters()) {
         <button
           mat-mini-fab
           type="button"
@@ -23,25 +27,84 @@
         >
           <mat-icon>settings</mat-icon>
         </button>
-      </div>
+      }
     </div>
   </header>
 
-  @if (deleteFailed()) {
-    <p>{{ 'pages.routes.deleteFailed' | translate }}</p>
+  @if (showInlineListFilters()) {
+    <div
+      class="gs-filter-chips routes-page__filters"
+      role="group"
+      [attr.aria-label]="'pages.routes.listViewLabel' | translate"
+    >
+      <button
+        type="button"
+        class="gs-filter-chip"
+        [class.is-active]="listView() === 'active'"
+        [disabled]="toolbarControlsBusy()"
+        (click)="setListView('active')"
+      >
+        {{ 'pages.routes.listViewActive' | translate }}
+      </button>
+      <button
+        type="button"
+        class="gs-filter-chip"
+        [class.is-active]="listView() === 'all'"
+        [disabled]="toolbarControlsBusy()"
+        (click)="setListView('all')"
+      >
+        {{ 'pages.routes.listViewAll' | translate }}
+      </button>
+      <button
+        type="button"
+        class="gs-filter-chip"
+        [class.is-active]="listView() === 'deleted'"
+        [disabled]="toolbarControlsBusy()"
+        (click)="setListView('deleted')"
+      >
+        {{ 'pages.routes.listViewDeleted' | translate }}
+      </button>
+      <button
+        mat-stroked-button
+        type="button"
+        class="routes-page__sort-sheet"
+        (click)="onRoutesSettingsClick()"
+        [disabled]="toolbarControlsBusy()"
+      >
+        <mat-icon>sort</mat-icon>
+        {{ 'pages.routes.sortCardTitle' | translate }}
+      </button>
+    </div>
   }
 
-  @if (isLoading()) {
-    <p>{{ 'pages.routes.loading' | translate }}</p>
-  } @else if (loadFailed()) {
-    <p>{{ 'pages.routes.loadFailed' | translate }}</p>
-  } @else if (routeCards().length === 0) {
-    @if (listView() === 'deleted') {
-      <p>{{ 'pages.routes.emptyDeleted' | translate }}</p>
-    } @else {
-      <p>{{ 'pages.routes.empty' | translate }}</p>
-    }
-  } @else {
+  @if (deleteFailed()) {
+    <p class="routes-page__inline-error">{{ 'pages.routes.deleteFailed' | translate }}</p>
+  }
+
+  @if (!isLoading() && loadFailed()) {
+    <div class="gs-empty routes-page__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="error_outline"></mat-icon>
+      </div>
+      <h2 class="gs-empty__title">{{ 'pages.routes.loadFailed' | translate }}</h2>
+      <p class="gs-empty__body">{{ 'pages.routes.loadFailedHint' | translate }}</p>
+    </div>
+  } @else if (!isLoading() && routeCards().length === 0) {
+    <div class="gs-empty routes-page__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="route"></mat-icon>
+      </div>
+      @if (listView() === 'deleted') {
+        <h2 class="gs-empty__title">{{ 'pages.routes.emptyDeleted' | translate }}</h2>
+      } @else {
+        <h2 class="gs-empty__title">{{ 'pages.routes.empty' | translate }}</h2>
+        <p class="gs-empty__body">{{ 'pages.routes.emptyBody' | translate }}</p>
+        <button mat-flat-button color="primary" type="button" (click)="createNewRoute()">
+          {{ 'pages.routes.addNewRoute' | translate }}
+        </button>
+      }
+    </div>
+  } @else if (!isLoading()) {
     <div class="routes-page__cards">
       @for (route of routeCards(); track route.id) {
         <mat-card class="route-card" appearance="outlined">

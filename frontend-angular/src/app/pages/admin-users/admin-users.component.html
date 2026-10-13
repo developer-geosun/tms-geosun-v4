@@ -1,6 +1,9 @@
 <section class="admin-users">
   <header class="admin-users__header">
-    <h1>{{ 'pages.adminUsers.title' | translate }}</h1>
+    <div>
+      <p class="gs-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+      <h1>{{ 'pages.adminUsers.title' | translate }}</h1>
+    </div>
     <div class="admin-users__actions">
       @if (filtersActive()) {
         <button

@@ -60,7 +60,25 @@
       "adminSection": "Admin section is available",
       "freightCalculationLink": "Go to freight calculation",
       "freightCalculationHereLink": "Go to freight calculation (HERE API)",
-      "adminRouteRequestsLink": "Route requests queue (admin)"
+      "adminRouteRequestsLink": "Route requests queue (admin)",
+      "overviewHeading": "Overview",
+      "overviewHint": "Quick access to sections for your role",
+      "quickActionsHeading": "Quick actions",
+      "quickActionsHint": "Jump to sections available for your role",
+      "activityHeading": "Activity",
+      "activityHint": "Recent events or an empty module state",
+      "activityEmptyBody": "When data appears, it will show up here.",
+      "activityEmptyBodyDriver": "Assigned trips will appear after a manager assigns you.",
+      "activityEmptyBodyUser": "Create a route or send a freight request to get started.",
+      "kpiUsersHint": "Accounts and roles",
+      "kpiDriversHint": "Driver profiles in the system",
+      "kpiMyTripsHint": "Trips assigned to you",
+      "kpiProfileHint": "Personal details and contacts",
+      "kpiNewRouteHint": "Build a new route",
+      "cardRoutesHint": "Active and planned trips",
+      "cardFreightHint": "Requests and calculations",
+      "cardFleetHint": "Vehicles, drivers, combinations",
+      "cardQueueHint": "Route requests"
     },
     "login": {
       "title": "Sign in",
@@ -77,7 +95,16 @@
       "errorAccountDisabled": "Account is deactivated. Contact an administrator to reactivate it.",
       "errorUserDeleted": "Account has been deleted. Contact an administrator to restore it.",
       "errorEmailNotVerified": "Email is not confirmed yet.\nCheck your inbox (and possibly the Spam folder) and open the link in the message to confirm your email.\nAccess to the TMS GeoSun system will then be granted.",
-      "errorGeneric": "Sign in failed, please try again"
+      "errorGeneric": "Sign in failed, please try again",
+      "brand": {
+        "tagline": "Transport management without the noise",
+        "routes": "Routes",
+        "routesHint": "Plan and track trips",
+        "freight": "Freight",
+        "freightHint": "Rates, billing, documents",
+        "fleet": "Fleet",
+        "fleetHint": "Vehicles, status, load"
+      }
     },
     "register": {
       "title": "Create account",
@@ -292,6 +319,9 @@
       "deleteCancel": "Cancel",
       "deleteConfirmAction": "Delete",
       "empty": "No saved routes yet",
+      "emptyBody": "Create a route in the builder, then send a freight calculation request from here.",
+      "heroSub": "Saved routes, filters, and freight requests in one place.",
+      "loadFailedHint": "Check your connection and refresh the page.",
       "savedAt": "Last change",
       "createdAt": "Created",
       "lastOpenedAt": "Last opened",
@@ -322,13 +352,17 @@
       "sortByDistance": "Route length",
       "sortAsc": "Ascending",
       "sortDesc": "Descending",
-      "sortDirectionGroup": "Sort direction"
+      "sortDirectionGroup": "Sort direction",
+      "openSort": "Sort"
     },
     "myFreightRequests": {
       "title": "My freight calculation requests",
       "loading": "Loading your requests...",
       "loadFailed": "Failed to load requests. Try again.",
       "empty": "You have not sent any freight calculation requests yet.",
+      "emptyBody": "Open one of your routes and send a freight calculation request from the route card or builder.",
+      "goToRoutes": "Go to my routes",
+      "heroSub": "Track status, quotes, and linked routes for your requests.",
       "refresh": "Refresh",
       "requestId": "Request ID",
       "routeId": "Route ID",
@@ -513,6 +547,9 @@
     },
     "profile": {
       "title": "User profile",
+      "heroEyebrow": "Account",
+      "dirtyBadge": "Unsaved changes",
+      "footerHint": "Save applies to profile fields; Telegram link is updated separately.",
       "subtitle": "Account contact card",
       "loading": "Loading...",
       "loadFailed": "Failed to load profile",
@@ -1267,6 +1304,8 @@
       "refresh": "Refresh",
       "loading": "Loading…",
       "empty": "No assigned trips",
+      "emptyBody": "When dispatch assigns you a trip, it will appear in this list.",
+      "heroSub": "Assigned trips and expense reports for drivers and managers.",
       "loadFailed": "Failed to load",
       "detailLoading": "Loading details…",
       "detailLoadFailed": "Failed to open trip",
@@ -1333,6 +1372,19 @@
     "ukrainian": "Ukrainian",
     "english": "English",
     "russian": "Russian"
+  },
+  "shell": {
+    "brandProduct": "TMS",
+    "navAria": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "userMenu": "User menu",
+    "toolbarActions": "Theme, language, account",
+    "sectionOverview": "Overview",
+    "sectionUser": "User",
+    "sectionOps": "Operations",
+    "sectionRefs": "References",
+    "sectionSystem": "System"
   },
   "settings": {
     "buttonLabel": "Settings",

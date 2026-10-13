@@ -6,7 +6,10 @@
   <aside class="sidebar">
     <div class="sidebar-actions">
       <div class="sidebar-actions__head">
-        <h1 class="sidebar-actions__title">{{ getModeTitleKey() | translate }}</h1>
+        <div class="sidebar-actions__titles">
+          <p class="gs-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+          <h1 class="sidebar-actions__title">{{ getModeTitleKey() | translate }}</h1>
+        </div>
         <div class="sidebar-actions__distance-chip">
           <span class="sidebar-actions__distance-value">{{ (totalDistanceMeters() / 1000).toFixed(1) }}</span>
           <span>{{ 'pages.freightCalculation.km' | translate }}</span>

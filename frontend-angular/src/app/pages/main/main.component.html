@@ -1,17 +1,84 @@
-<div class="main-content">
-  <h1>{{ 'pages.main.title' | translate }}</h1>
-  <p>{{ 'pages.main.welcome' | translate }}</p>
-  @if (user(); as currentUser) {
-    <p>{{ 'pages.main.signedInAs' | translate }}: {{ currentUser.email }}</p>
-  }
+<div class="main-page">
+  <section class="main-hero">
+    <div class="main-hero-copy">
+      <p class="main-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+      <h1 class="main-hero-title">{{ 'pages.main.title' | translate }}</h1>
+      <p class="main-hero-welcome">{{ 'pages.main.welcome' | translate }}</p>
+      @if (user(); as currentUser) {
+        <p class="main-hero-signed">
+          {{ 'pages.main.signedInAs' | translate }}:
+          <strong>{{ currentUser.email }}</strong>
+        </p>
+      }
+      <div class="main-role-chips">
+        @if (canSeeManagerSection()) {
+          <span class="role-chip">{{ 'pages.main.managerSection' | translate }}</span>
+        }
+        @if (canSeeAdminSection()) {
+          <span class="role-chip role-chip--admin">{{ 'pages.main.adminSection' | translate }}</span>
+        }
+      </div>
+    </div>
+    <div class="main-hero-aside" aria-hidden="true">
+      <div class="main-hero-orb">
+        <mat-icon fontIcon="home"></mat-icon>
+      </div>
+    </div>
+  </section>
 
-  @if (canSeeManagerSection()) {
-    <p>{{ 'pages.main.managerSection' | translate }}</p>
-  }
+  <div class="main-section-head">
+    <h2>{{ 'pages.main.overviewHeading' | translate }}</h2>
+    <p class="main-section-sub">{{ 'pages.main.overviewHint' | translate }}</p>
+  </div>
 
-  @if (canSeeAdminSection()) {
-    <p>{{ 'pages.main.adminSection' | translate }}</p>
-  }
+  <div class="kpi-grid">
+    @for (item of kpiItems(); track item.route) {
+      <button type="button" class="kpi-card" (click)="navigateTo(item.route)">
+        <div class="kpi-card-top">
+          <span class="kpi-icon" [class.is-accent]="item.accent">
+            <mat-icon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
+          </span>
+          <mat-icon class="kpi-chevron" fontIcon="chevron_right" aria-hidden="true"></mat-icon>
+        </div>
+        <span class="kpi-title">{{ item.titleKey | translate }}</span>
+        <span class="kpi-hint">{{ item.hintKey | translate }}</span>
+      </button>
+    }
+  </div>
 
+  <div class="main-section-head">
+    <h2>{{ 'pages.main.quickActionsHeading' | translate }}</h2>
+    <p class="main-section-sub">{{ 'pages.main.quickActionsHint' | translate }}</p>
+  </div>
+
+  <div class="quick-grid">
+    @for (item of quickItems(); track item.route + item.titleKey) {
+      <button type="button" class="quick-tile" (click)="navigateTo(item.route)">
+        <span class="quick-icon">
+          <mat-icon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
+        </span>
+        <span class="quick-copy">
+          <span class="quick-title">{{ item.titleKey | translate }}</span>
+          <span class="quick-hint">{{ item.hintKey | translate }}</span>
+        </span>
+        <mat-icon class="kpi-chevron" fontIcon="chevron_right" aria-hidden="true"></mat-icon>
+      </button>
+    }
+  </div>
+
+  <div class="main-section-head">
+    <h2>{{ 'pages.main.activityHeading' | translate }}</h2>
+    <p class="main-section-sub">{{ 'pages.main.activityHint' | translate }}</p>
+  </div>
+
+  <section class="activity-empty">
+    <div class="activity-empty-icon" aria-hidden="true">
+      <mat-icon [fontIcon]="activity().icon"></mat-icon>
+    </div>
+    <h3>{{ activity().titleKey | translate }}</h3>
+    <p>{{ activity().bodyKey | translate }}</p>
+    <button type="button" mat-flat-button color="primary" (click)="navigateTo(activity().ctaRoute)">
+      {{ activity().ctaKey | translate }}
+    </button>
+  </section>
 </div>
-

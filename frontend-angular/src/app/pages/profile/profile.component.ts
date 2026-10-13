@@ -85,6 +85,10 @@ export class ProfileComponent implements OnInit {
   readonly loadError = signal<string | null>(null);
   readonly userEmail = computed(() => this.authService.user()?.email ?? '');
   readonly isAdmin = computed(() => this.authService.hasAnyRole(['admin']));
+  readonly primaryRoleKey = computed(() => {
+    const role = this.authService.roles()[0];
+    return role ? `auth.roles.${role}` : 'auth.roles.user';
+  });
   /** Прив'язка Telegram (окремо від форми профілю). */
   readonly telegramIdentity = signal<BotIdentitySelfContractDto | null>(null);
   readonly telegramBusy = signal(false);
@@ -108,6 +112,18 @@ export class ProfileComponent implements OnInit {
     this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.isDirty.set(this.form.dirty);
     });
+  }
+
+  /** Ініціали для hero-аватара. */
+  protected profileInitials(): string {
+    const first = this.form.controls.firstName.value.trim();
+    const last = this.form.controls.lastName.value.trim();
+    const letters = `${first.charAt(0)}${last.charAt(0)}`.toUpperCase();
+    if (letters.trim()) {
+      return letters;
+    }
+    const email = this.userEmail();
+    return email ? email.charAt(0).toUpperCase() : '?';
   }
 
   ngOnInit(): void {

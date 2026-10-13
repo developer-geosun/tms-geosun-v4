@@ -1,45 +1,39 @@
-<section class="verify-page">
-  <mat-card class="verify-card">
-    <div class="verify-header">
-      <div class="header-icon" aria-hidden="true">
-        <mat-icon [fontIcon]="status() === 'success' ? 'mark_email_read' : 'mail'"></mat-icon>
-      </div>
-      <h1>{{ 'pages.verifyEmail.title' | translate }}</h1>
-      @if (status() === 'loading' || status() === 'idle') {
-        <p class="subtitle">{{ 'pages.verifyEmail.subtitle' | translate }}</p>
-      }
-    </div>
+<section class="auth-form-page">
+  <p class="eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+  <h1 class="headline">{{ 'pages.verifyEmail.title' | translate }}</h1>
+  @if (status() === 'loading' || status() === 'idle') {
+    <p class="supporting">{{ 'pages.verifyEmail.subtitle' | translate }}</p>
+  }
 
-    @if (status() === 'loading' || status() === 'idle') {
-      <p class="info-text">
-        <mat-spinner diameter="20"></mat-spinner>
-        <span>{{ 'pages.verifyEmail.loading' | translate }}</span>
-      </p>
-    }
+  @if (status() === 'loading' || status() === 'idle') {
+    <p class="banner banner--success">
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>{{ 'pages.verifyEmail.loading' | translate }}</span>
+    </p>
+  }
 
-    @if (status() === 'success') {
-      <p class="success-text">
-        <mat-icon fontIcon="check_circle_outline" aria-hidden="true"></mat-icon>
-        <span>{{ 'pages.verifyEmail.success' | translate }}</span>
-      </p>
-    }
+  @if (status() === 'success') {
+    <p class="banner banner--success">
+      <mat-icon fontIcon="check_circle_outline" aria-hidden="true"></mat-icon>
+      <span>{{ 'pages.verifyEmail.success' | translate }}</span>
+    </p>
+  }
 
-    @if (status() === 'invalid') {
-      <p class="error-text">
-        <mat-icon fontIcon="error_outline" aria-hidden="true"></mat-icon>
-        <span>{{ 'pages.verifyEmail.invalid' | translate }}</span>
-      </p>
-    }
+  @if (status() === 'invalid') {
+    <p class="banner banner--error">
+      <mat-icon fontIcon="error_outline" aria-hidden="true"></mat-icon>
+      <span>{{ 'pages.verifyEmail.invalid' | translate }}</span>
+    </p>
+  }
 
-    @if (status() === 'error') {
-      <p class="error-text">
-        <mat-icon fontIcon="error_outline" aria-hidden="true"></mat-icon>
-        <span>{{ 'pages.verifyEmail.error' | translate }}</span>
-      </p>
-    }
+  @if (status() === 'error') {
+    <p class="banner banner--error">
+      <mat-icon fontIcon="error_outline" aria-hidden="true"></mat-icon>
+      <span>{{ 'pages.verifyEmail.error' | translate }}</span>
+    </p>
+  }
 
-    <button class="submit-button" mat-flat-button color="primary" type="button" (click)="goToLogin()">
-      {{ 'pages.verifyEmail.toLogin' | translate }}
-    </button>
-  </mat-card>
+  <button class="submit-button" mat-flat-button color="primary" type="button" (click)="goToLogin()">
+    {{ 'pages.verifyEmail.toLogin' | translate }}
+  </button>
 </section>

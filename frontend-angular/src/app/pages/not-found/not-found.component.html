@@ -1,6 +1,12 @@
-<div class="not-found-content">
-  <h1>{{ 'pages.notFound.title' | translate }}</h1>
-  <p>{{ 'pages.notFound.message' | translate }}</p>
-  <a routerLink="/main">{{ 'common.returnToHome' | translate }}</a>
+<div class="status-page">
+  <div class="status-card">
+    <div class="status-card__icon" aria-hidden="true">
+      <mat-icon fontIcon="search_off"></mat-icon>
+    </div>
+    <p class="status-card__code">{{ 'pages.notFound.title' | translate }}</p>
+    <h1 class="status-card__title">{{ 'pages.notFound.message' | translate }}</h1>
+    <a mat-flat-button color="primary" [routerLink]="homeLink()">
+      {{ 'common.returnToHome' | translate }}
+    </a>
+  </div>
 </div>
-

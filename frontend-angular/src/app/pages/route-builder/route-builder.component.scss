@@ -22,11 +22,11 @@
   box-sizing: border-box;
 }
 .sidebar {
-  width: 360px;
-  flex: 0 0 360px;
+  width: 400px;
+  flex: 0 0 400px;
   min-width: 0;
-  padding: 14px;
-  border-right: 1px solid var(--mat-sys-outline-variant);
+  padding: 12px;
+  border-right: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 78%, transparent);
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -44,20 +44,26 @@
 }
 .sidebar-header p {
   margin: 0;
-  color: #64748b;
+  color: var(--mat-sys-on-surface-variant);
+}
+.sidebar-actions__titles {
+  min-width: 0;
+}
+.sidebar-actions__titles .gs-eyebrow {
+  margin-bottom: 2px;
 }
 .sidebar-actions {
   flex: 0 0 auto;
-  margin-top: 4px;
+  margin-top: 0;
   z-index: 20;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px;
+  padding: 14px;
   background: var(--mat-sys-surface-container-high);
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 14px;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 78%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--mat-sys-shadow, #000) 10%, transparent);
 }
 .sidebar-actions__head {
   display: grid;
@@ -192,8 +198,11 @@
   border: 3px solid #1d4ed8;
   box-shadow: 0 0 0 2px #fff;
 }
-.point-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; margin: 0 0 8px; }
 .point-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   border: 1px solid var(--mat-sys-outline-variant);
   background: var(--mat-sys-surface-container);
   padding: 10px;
@@ -295,6 +304,8 @@
   font-size: 0.71875rem;
   line-height: 1.05;
 }
+/* ::ng-deep нижче — свідоме виключення: компактний touch-target/padding mat-checkbox
+   (layout, не колір/тема) не має публічного CSS-токена-еквівалента в Angular Material. */
 .point-operation-checkbox ::ng-deep .mat-mdc-checkbox-touch-target {
   width: 28px;
   height: 28px;
@@ -361,7 +372,6 @@
 .segment:has(> span) {
   min-height: 32px;
 }
-.point-actions button { border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; padding: 6px 8px; cursor: pointer; }
 .border-picker {
   margin: 0 0 8px;
   width: 100%;
@@ -386,35 +396,19 @@
 .border-panel--selects {
   gap: 18px;
 }
+/* Поля пошуку країни/КПП — зелений акцент через офіційні mat-* токени (без ::ng-deep) */
 .border-field {
   width: 100%;
   font-size: 0.8125rem;
   line-height: 1.45;
-}
-.border-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-  display: none;
-}
-.border-field ::ng-deep .mat-mdc-text-field-wrapper {
-  padding-bottom: 0;
-}
-.border-field ::ng-deep .mat-mdc-floating-label,
-.border-field ::ng-deep .mat-mdc-select,
-.border-field ::ng-deep .mat-mdc-select-value-text {
-  font-size: inherit;
-  color: #14532d !important;
-}
-.border-field ::ng-deep .mat-mdc-notched-outline .mdc-floating-label--float-above {
-  font-size: inherit;
-  color: #14532d !important;
-}
-.border-field ::ng-deep .mat-mdc-form-field-icon-suffix,
-.border-field ::ng-deep .mat-mdc-select-arrow {
-  color: #14532d !important;
-}
-.border-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
-.border-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
-.border-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-  border-color: #166534 !important;
+  --mat-form-field-outlined-label-text-color: #14532d;
+  --mat-form-field-outlined-focus-label-text-color: #14532d;
+  --mat-form-field-outlined-outline-color: #166534;
+  --mat-form-field-outlined-hover-outline-color: #166534;
+  --mat-form-field-outlined-focus-outline-color: #166534;
+  --mat-select-enabled-trigger-text-color: #14532d;
+  --mat-select-enabled-arrow-color: #14532d;
+  --mat-select-focused-arrow-color: #14532d;
 }
 .sidebar-actions__buttons {
   flex-wrap: wrap;
@@ -458,6 +452,8 @@
   white-space: normal;
   min-width: 0;
 }
+/* ::ng-deep нижче — свідоме виключення: перенос тексту кнопки у вузькій 3-колонковій сітці
+   (layout, не колір/тема) не має публічного CSS-токена-еквівалента в Angular Material. */
 .sidebar-actions__buttons--create-row > .mat-mdc-button-base.sidebar-login-button ::ng-deep .mdc-button__label {
   white-space: normal;
   line-height: 1.2;
@@ -477,23 +473,19 @@
   line-height: 1.2;
   text-align: center;
 }
+/* Поле пошуку точки — тонована підложка через офіційні mdc/mat токени (без ::ng-deep) */
 .search-field {
   width: 100%;
-}
-.search-field ::ng-deep .mat-mdc-text-field-wrapper {
-  background: color-mix(in srgb, var(--mat-sys-surface-container) 86%, transparent);
-  border-radius: 12px;
-}
-.search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
-.search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
-.search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-  border-color: color-mix(in srgb, var(--mat-sys-on-surface) 44%, transparent);
-}
-.search-field ::ng-deep .mat-mdc-input-element {
-  color: var(--mat-sys-on-surface);
-}
-.search-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-  display: none;
+  --mdc-outlined-text-field-container-color: color-mix(
+    in srgb,
+    var(--mat-sys-surface-container) 86%,
+    transparent
+  );
+  --mdc-outlined-text-field-container-shape: 12px;
+  --mat-form-field-outlined-outline-color: color-mix(in srgb, var(--mat-sys-on-surface) 44%, transparent);
+  --mat-form-field-outlined-hover-outline-color: color-mix(in srgb, var(--mat-sys-on-surface) 44%, transparent);
+  --mat-form-field-outlined-focus-outline-color: color-mix(in srgb, var(--mat-sys-on-surface) 44%, transparent);
+  --mat-form-field-outlined-input-text-color: var(--mat-sys-on-surface);
 }
 /* Поле додавання точки всередині липкого блоку — без додаткового верхнього відступу */
 .sidebar-actions .search-box { margin-top: 0; width: 100%; min-width: 0; }
@@ -578,7 +570,7 @@
 .route-builder-panel-toggle {
   position: fixed;
   z-index: 1100;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--mat-sys-shadow, #000) 20%, transparent);
 }
 
 .route-builder-panel-toggle.mat-mdc-fab {
@@ -606,44 +598,6 @@
 }
 .small-note { font-size: 0.6875rem; color: var(--mat-sys-on-surface-variant); }
 
-.my-requests-panel {
-  margin-top: 10px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 10px;
-  background: #fff;
-}
-
-.my-requests-panel h3 {
-  margin: 0 0 8px;
-  font-size: 0.875rem;
-}
-
-.my-requests-list {
-  display: grid;
-  gap: 8px;
-}
-
-.my-request-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 8px;
-  display: grid;
-  gap: 4px;
-}
-
-.my-request-item > div:first-child {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.my-request-quote {
-  display: grid;
-  gap: 2px;
-  color: #0f172a;
-}
 @include bp.compact-split {
   .freight-layout {
     display: flex;
@@ -741,17 +695,14 @@
   .border-panel__title {
     color: #86efac;
   }
-  .border-field ::ng-deep .mat-mdc-floating-label,
-  .border-field ::ng-deep .mat-mdc-select,
-  .border-field ::ng-deep .mat-mdc-select-value-text,
-  .border-field ::ng-deep .mat-mdc-notched-outline .mdc-floating-label--float-above,
-  .border-field ::ng-deep .mat-mdc-form-field-icon-suffix,
-  .border-field ::ng-deep .mat-mdc-select-arrow {
-    color: #86efac !important;
-  }
-  .border-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
-  .border-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
-  .border-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-    border-color: #4ade80 !important;
+  .border-field {
+    --mat-form-field-outlined-label-text-color: #86efac;
+    --mat-form-field-outlined-focus-label-text-color: #86efac;
+    --mat-form-field-outlined-outline-color: #4ade80;
+    --mat-form-field-outlined-hover-outline-color: #4ade80;
+    --mat-form-field-outlined-focus-outline-color: #4ade80;
+    --mat-select-enabled-trigger-text-color: #86efac;
+    --mat-select-enabled-arrow-color: #86efac;
+    --mat-select-focused-arrow-color: #86efac;
   }
 }

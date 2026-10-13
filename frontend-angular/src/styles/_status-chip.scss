@@ -1,0 +1,37 @@
+/* Спільний статус-чип (неутрал/інфо/варнінг/успіх/небезпека) — рейси, заявки на маршрут тощо. */
+@mixin status-chip-tones($selector: '.status-chip') {
+  #{$selector} {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    white-space: nowrap;
+
+    &--neutral {
+      background: var(--mat-sys-secondary-container, #e8def8);
+      color: var(--mat-sys-on-secondary-container, #1d192b);
+    }
+
+    &--info {
+      background: color-mix(in srgb, var(--mat-sys-primary, #1967d2) 16%, transparent);
+      color: var(--mat-sys-primary, #1967d2);
+    }
+
+    &--warning {
+      background: color-mix(in srgb, #ef6c00 16%, transparent);
+      color: #ef6c00;
+    }
+
+    &--success {
+      background: color-mix(in srgb, #2e7d32 16%, transparent);
+      color: #2e7d32;
+    }
+
+    &--danger {
+      background: var(--mat-sys-error-container, #f9dedc);
+      color: var(--mat-sys-on-error-container, #8c1d18);
+    }
+  }
+}

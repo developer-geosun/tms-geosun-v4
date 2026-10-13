@@ -1,0 +1,204 @@
+<mat-sidenav-container class="app-shell" autosize>
+  <mat-sidenav
+    #shellSidenav
+    id="shellSidenav"
+    class="shell-sidenav"
+    [mode]="isShellNav() ? 'side' : 'over'"
+    [opened]="isShellNav() || drawerOpen()"
+    [fixedInViewport]="!isShellNav()"
+    [attr.aria-label]="'shell.navAria' | translate"
+    (openedChange)="onSidenavOpenedChange($event)">
+    <div class="sidenav-header">
+      <div class="sidenav-logo-disc" aria-hidden="true">
+        <img src="assets/GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+      </div>
+      <div class="sidenav-wordmark">
+        <span class="name">GeoSun</span>
+        <span class="product">{{ 'shell.brandProduct' | translate }}</span>
+      </div>
+      @if (!isShellNav()) {
+        <button
+          type="button"
+          mat-icon-button
+          class="drawer-close"
+          (click)="closeDrawer()"
+          [attr.aria-label]="'shell.closeMenu' | translate">
+          <mat-icon fontIcon="close" aria-hidden="true"></mat-icon>
+        </button>
+      }
+    </div>
+
+    <nav class="sidenav-nav" [attr.aria-label]="'shell.navAria' | translate">
+      @for (section of navSections(); track section.id) {
+        <div class="nav-section">
+          <div class="nav-section-label">{{ section.labelKey | translate }}</div>
+          @for (item of section.items; track item.route) {
+            <button
+              type="button"
+              class="nav-item"
+              [class.is-active]="isRouteActive(item.route)"
+              [attr.aria-current]="isRouteActive(item.route) ? 'page' : null"
+              (click)="navigateTo(item.route)">
+              <mat-icon [class.nav-item-icon--filled]="isRouteActive(item.route)" aria-hidden="true">
+                {{ item.icon }}
+              </mat-icon>
+              <span class="nav-item-label">{{ item.labelKey | translate }}</span>
+            </button>
+          }
+        </div>
+      }
+    </nav>
+
+    <div class="sidenav-footer">
+      <span class="sidenav-footer__copy">&copy; {{ 'common.designedBy' | translate }}</span>
+      <button
+        type="button"
+        class="sidenav-footer__info"
+        (click)="openAppInfoDialog()"
+        [attr.aria-label]="'common.appInfoDialog.open' | translate"
+        [matTooltip]="'common.appInfoDialog.open' | translate">
+        i
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="shell-content-host">
+    <header class="app-toolbar" role="banner">
+      <button
+        #menuBtn
+        type="button"
+        class="menu-btn"
+        [class.menu-btn--hidden]="isShellNav()"
+        (click)="toggleDrawer()"
+        [attr.aria-controls]="'shellSidenav'"
+        [attr.aria-expanded]="!isShellNav() && drawerOpen()"
+        [attr.aria-label]="'shell.openMenu' | translate">
+        <mat-icon fontIcon="menu" aria-hidden="true"></mat-icon>
+      </button>
+
+      <h1 class="toolbar-title">{{ pageTitleKey() | translate }}</h1>
+
+      <div class="toolbar-actions" role="toolbar" [attr.aria-label]="'shell.toolbarActions' | translate">
+        <button
+          type="button"
+          mat-icon-button
+          class="chrome-icon-btn"
+          [matMenuTriggerFor]="themeMenu"
+          [attr.aria-label]="'settings.themeSection' | translate"
+          [attr.title]="'settings.themeSection' | translate">
+          <mat-icon fontIcon="format_color_fill" aria-hidden="true"></mat-icon>
+        </button>
+        <mat-menu #themeMenu="matMenu" class="shell-chrome-menu" panelClass="shell-chrome-menu-panel">
+          @for (theme of themes; track theme.code) {
+            <button
+              type="button"
+              mat-menu-item
+              role="menuitemradio"
+              [attr.aria-checked]="currentTheme() === theme.code"
+              (click)="changeTheme(theme.code)">
+              <mat-icon aria-hidden="true">
+                {{ currentTheme() === theme.code ? 'radio_button_checked' : 'radio_button_unchecked' }}
+              </mat-icon>
+              <span>{{ theme.label }}</span>
+              <span class="theme-preview" [class]="'theme-preview--' + theme.code" aria-hidden="true"></span>
+            </button>
+          }
+        </mat-menu>
+
+        <button
+          type="button"
+          class="lang-trigger"
+          [matMenuTriggerFor]="langMenu"
+          [attr.aria-label]="'settings.languageSection' | translate">
+          <span>{{ langCodeLabel(currentLanguage()) }}</span>
+          <mat-icon fontIcon="arrow_drop_down" aria-hidden="true"></mat-icon>
+        </button>
+        <mat-menu #langMenu="matMenu" class="shell-chrome-menu" panelClass="shell-chrome-menu-panel">
+          @for (lang of languages; track lang.code) {
+            <button
+              type="button"
+              mat-menu-item
+              role="menuitemradio"
+              [attr.aria-checked]="currentLanguage() === lang.code"
+              (click)="changeLanguage(lang.code)">
+              <mat-icon aria-hidden="true">
+                {{ currentLanguage() === lang.code ? 'radio_button_checked' : 'radio_button_unchecked' }}
+              </mat-icon>
+              <span>{{ lang.label }}</span>
+            </button>
+          }
+        </mat-menu>
+
+        @if (canSwitchRole()) {
+          <button
+            type="button"
+            mat-icon-button
+            class="chrome-icon-btn"
+            [matMenuTriggerFor]="roleMenu"
+            [disabled]="isSwitchingRole()"
+            [attr.aria-label]="'auth.switchRole.label' | translate"
+            [attr.title]="
+              ('auth.switchRole.label' | translate) + ': ' + (roleLabelKey(currentRole()) | translate)
+            ">
+            <mat-icon fontIcon="swap_horiz" aria-hidden="true"></mat-icon>
+          </button>
+          <mat-menu #roleMenu="matMenu" panelClass="shell-chrome-menu-panel">
+            @for (role of availableRoles(); track role) {
+              <button
+                type="button"
+                mat-menu-item
+                [disabled]="role === currentRole() || isSwitchingRole()"
+                (click)="switchRole(role)">
+                <mat-icon aria-hidden="true">{{ role === currentRole() ? 'check' : 'badge' }}</mat-icon>
+                <span>{{ roleLabelKey(role) | translate }}</span>
+              </button>
+            }
+          </mat-menu>
+        }
+
+        <button
+          type="button"
+          class="user-trigger"
+          [matMenuTriggerFor]="userMenu"
+          [attr.aria-label]="'shell.userMenu' | translate">
+          <span class="user-avatar" aria-hidden="true">{{ userInitials() }}</span>
+          <span class="user-name">{{ userEmail() }}</span>
+          <mat-icon fontIcon="arrow_drop_down" aria-hidden="true"></mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu" panelClass="shell-chrome-menu-panel">
+          <div class="user-menu-header">
+            <div class="email">{{ userEmail() }}</div>
+            <div class="role">{{ roleLabelKey(currentRole()) | translate }}</div>
+          </div>
+          <button type="button" mat-menu-item (click)="navigateToProfile()">
+            <mat-icon fontIcon="person" aria-hidden="true"></mat-icon>
+            <span>{{ 'navigation.profile' | translate }}</span>
+          </button>
+          <button type="button" mat-menu-item (click)="logout()">
+            <mat-icon fontIcon="logout" aria-hidden="true"></mat-icon>
+            <span>{{ 'auth.logout' | translate }}</span>
+          </button>
+        </mat-menu>
+      </div>
+    </header>
+
+    <div class="toolbar-shell__progress-slot" aria-hidden="true">
+      <mat-progress-bar
+        class="toolbar-shell__progress"
+        [class.toolbar-shell__progress--active]="pageLoading.isActive()"
+        mode="indeterminate" />
+    </div>
+
+    <main class="app-content" role="main">
+      @if (showProfileBanner()) {
+        <div class="profile-incomplete-banner" role="status">
+          <span>{{ 'pages.profile.incompleteBanner' | translate }}</span>
+          <a mat-stroked-button routerLink="/profile">
+            {{ 'pages.profile.openProfile' | translate }}
+          </a>
+        </div>
+      }
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

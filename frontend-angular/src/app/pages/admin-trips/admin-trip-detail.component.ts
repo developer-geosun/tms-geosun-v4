@@ -46,6 +46,7 @@ import {
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { showAppSnack } from '../../shared/utils/app-snackbar';
 import { getHandsetFriendlyDialogConfig } from '../../shared/utils/handset-friendly-dialog-config';
+import { StatusTone, TRIP_STATUS_TONE } from './admin-trips.component';
 
 type VehicleMode = 'combination' | 'manual';
 
@@ -281,6 +282,11 @@ export class AdminTripDetailComponent implements OnInit {
 
   statusLabelKey(status: TripStatusContract): string {
     return `pages.adminTrips.status.${status}`;
+  }
+
+  /** Тон статус-чипа — спільна палітра зі списком рейсів. */
+  statusTone(status: TripStatusContract): StatusTone {
+    return TRIP_STATUS_TONE[status] ?? 'neutral';
   }
 
   expenseStatusLabelKey(status: string): string {

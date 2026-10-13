@@ -8,33 +8,12 @@
   box-sizing: border-box;
 }
 
-.my-freight-requests-page__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
+.my-freight-requests-page__hero {
+  margin-bottom: 0;
 }
 
-.my-freight-requests-page__title {
-  margin: 0;
-  font-size: var(--page-title-size);
-  line-height: 1.25;
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.my-freight-requests-page__spinner {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--mat-sys-on-surface-variant);
-}
-
-.my-freight-requests-page__message {
-  margin: 0;
-  color: var(--mat-sys-on-surface-variant);
+.my-freight-requests-page__state {
+  margin-top: 0.25rem;
 }
 
 .my-freight-requests-page__cards {
@@ -51,7 +30,7 @@
   width: 100%;
   font-size: 0.8125rem;
   line-height: 1.35;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--mat-sys-shadow, #000) 10%, transparent);
 }
 
 .freight-request-card__header {

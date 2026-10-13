@@ -8,43 +8,44 @@
   min-width: 0;
 }
 
-.routes-page__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  /* Заголовок і пара FAB завжди в одному рядку при вузькому екрані. */
-  flex-wrap: nowrap;
+.routes-page__hero {
+  margin-bottom: 0;
+}
+
+.routes-page__hero-copy {
   min-width: 0;
 }
 
-.routes-page__header-actions {
-  display: flex;
+.routes-page__hero-actions {
   align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 0;
-  min-width: 0;
+}
+
+.routes-page__filters {
+  align-items: center;
+}
+
+.routes-page__sort-sheet {
+  margin-left: auto;
+
+  @include bp.handset {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.routes-page__inline-error {
+  margin: 0 0 0.75rem;
+  color: var(--mat-sys-error);
+  font-size: 0.875rem;
+}
+
+.routes-page__state {
+  margin-top: 0.25rem;
 }
 
 .route-card__status-chips {
   margin-top: 0.25rem;
-}
-
-.routes-page__title {
-  margin: 0;
-  font-size: var(--page-title-size);
-  line-height: 1.25;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.routes-page__header-fabs {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
 }
 
 .routes-page__add-route,
@@ -89,7 +90,7 @@
   font-size: 0.8125rem;
   line-height: 1.25;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--mat-sys-shadow, #000) 10%, transparent);
 }
 
 .route-card mat-card-header.route-card__header {

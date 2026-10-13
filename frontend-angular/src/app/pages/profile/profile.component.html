@@ -1,35 +1,56 @@
 <section class="profile-page" [class.profile-page--handset]="isHandset()">
   @if (isLoading()) {
-    <p>{{ 'pages.profile.loading' | translate }}</p>
+    <p class="profile-page__loading">{{ 'pages.profile.loading' | translate }}</p>
   } @else if (loadError(); as err) {
-    <p class="profile-page__error">{{ err | translate }}</p>
-    <button mat-stroked-button type="button" (click)="reload()">
-      {{ 'pages.profile.retry' | translate }}
-    </button>
+    <div class="gs-empty profile-page__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="error_outline"></mat-icon>
+      </div>
+      <h2 class="gs-empty__title">{{ err | translate }}</h2>
+      <button mat-stroked-button type="button" (click)="reload()">
+        {{ 'pages.profile.retry' | translate }}
+      </button>
+    </div>
   } @else {
+    <header class="gs-hero profile-page__hero">
+      <div class="profile-page__hero-main">
+        <span class="profile-page__avatar" aria-hidden="true">{{ profileInitials() }}</span>
+        <div class="profile-page__hero-copy">
+          <p class="gs-eyebrow">{{ 'pages.profile.heroEyebrow' | translate }}</p>
+          <h1 class="gs-hero-title">{{ 'pages.profile.title' | translate }}</h1>
+          <p class="gs-hero-sub">{{ 'pages.profile.subtitle' | translate }}</p>
+          @if (userEmail()) {
+            <p class="profile-page__hero-email">{{ userEmail() }}</p>
+          }
+          <div class="profile-page__hero-meta">
+            <span class="profile-page__role-chip">{{ primaryRoleKey() | translate }}</span>
+            @if (isDirty()) {
+              <span class="profile-page__dirty-badge">{{ 'pages.profile.dirtyBadge' | translate }}</span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="gs-hero-actions">
+        <button
+          mat-icon-button
+          type="button"
+          class="profile-page__close"
+          (click)="close()"
+          [attr.aria-label]="'pages.profile.close' | translate"
+          [matTooltip]="'pages.profile.close' | translate"
+        >
+          <mat-icon aria-hidden="true">close</mat-icon>
+        </button>
+      </div>
+    </header>
+
     <form class="profile-page__form" [formGroup]="form" (ngSubmit)="save()">
       <mat-card appearance="outlined" class="profile-page__card">
-        <div class="profile-page__card-header">
-          <h1 class="profile-page__card-title">
-            {{ 'pages.profile.title' | translate }}
-          </h1>
-          <button
-            mat-icon-button
-            type="button"
-            class="profile-page__close"
-            (click)="close()"
-            [attr.aria-label]="'pages.profile.close' | translate"
-            [matTooltip]="'pages.profile.close' | translate"
-          >
-            <mat-icon aria-hidden="true">close</mat-icon>
-          </button>
-        </div>
-
         <mat-card-content class="profile-page__card-content">
           <div class="profile-page__columns">
             <!-- Ліва колонка: секції без вкладених карток -->
             <div class="profile-page__column">
-              <section class="profile-page__section">
+              <section class="profile-page__section gs-panel">
                 <h2 class="profile-page__section-title">
                   {{ 'pages.profile.sectionIdentity' | translate }}
                 </h2>
@@ -64,7 +85,7 @@
                 </div>
               </section>
 
-              <section class="profile-page__section">
+              <section class="profile-page__section gs-panel">
                 <h2 class="profile-page__section-title">
                   {{ 'pages.profile.sectionPersonType' | translate }}
                 </h2>
@@ -100,7 +121,7 @@
                 </mat-form-field>
               </section>
 
-              <section class="profile-page__section">
+              <section class="profile-page__section gs-panel">
                 <h2 class="profile-page__section-title">
                   {{ 'pages.profile.sectionChannels' | translate }}
                 </h2>
@@ -125,7 +146,7 @@
 
             <!-- Права колонка: телефони -->
             <div class="profile-page__column profile-page__column--phones" formArrayName="phones">
-              <section class="profile-page__section profile-page__section--phones">
+              <section class="profile-page__section profile-page__section--phones gs-panel">
                 <div class="profile-page__phones-header">
                   <h2 class="profile-page__section-title">
                     {{ 'pages.profile.sectionPhones' | translate }}
@@ -297,22 +318,25 @@
         </mat-card-content>
 
         <mat-card-actions align="end" class="profile-page__footer">
-          <button
-            mat-stroked-button
-            type="button"
-            (click)="reload()"
-            [disabled]="isSaving() || !isDirty()"
-          >
-            {{ 'pages.profile.cancel' | translate }}
-          </button>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="isSaving() || !isDirty()"
-          >
-            {{ 'pages.profile.save' | translate }}
-          </button>
+          <p class="profile-page__footer-hint">{{ 'pages.profile.footerHint' | translate }}</p>
+          <div class="profile-page__footer-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="reload()"
+              [disabled]="isSaving() || !isDirty()"
+            >
+              {{ 'pages.profile.cancel' | translate }}
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="isSaving() || !isDirty()"
+            >
+              {{ 'pages.profile.save' | translate }}
+            </button>
+          </div>
         </mat-card-actions>
       </mat-card>
     </form>

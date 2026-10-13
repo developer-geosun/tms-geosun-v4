@@ -1,4 +1,5 @@
 @use 'breakpoints' as bp;
+@use 'status-chip';
 @use 'admin-list-toolbar';
 
 :host {
@@ -86,14 +87,6 @@
     opacity: 0.85;
   }
 
-  &__badge {
-    font-size: 0.75rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    background: var(--mat-sys-secondary-container, #e8def8);
-    white-space: nowrap;
-  }
-
   &__content {
     display: flex;
     flex-direction: column;
@@ -115,6 +108,9 @@
     padding: 0 1rem 1rem;
   }
 }
+
+/* Статус-чип рейсу: тон за семантикою (неутрал/інфо/варнінг/успіх/небезпека), як compliance-чипи у vehicles/drivers. */
+@include status-chip.status-chip-tones('.status-chip');
 
 @include bp.handset {
   .admin-trips {

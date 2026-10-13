@@ -1,0 +1,112 @@
+<div class="auth-shell">
+  <aside class="brand-panel" aria-label="GeoSun">
+    <div class="brand-decor" aria-hidden="true">
+      <span class="brand-blob brand-blob--a"></span>
+      <span class="brand-blob brand-blob--b"></span>
+      <span class="brand-blob brand-blob--c"></span>
+    </div>
+
+    <div class="brand-top">
+      <div class="brand-logo-row">
+        <div class="brand-logo-disc" aria-hidden="true">
+          <img src="assets/GeoSun_logo_svg.svg" alt="" width="40" height="40" />
+        </div>
+        <div class="brand-wordmark">
+          <span class="name">GeoSun</span>
+          <span class="product">{{ 'shell.brandProduct' | translate }}</span>
+        </div>
+      </div>
+
+      <div class="brand-chrome" role="toolbar" [attr.aria-label]="'shell.toolbarActions' | translate">
+        <button
+          type="button"
+          mat-icon-button
+          class="chrome-icon-btn"
+          [matMenuTriggerFor]="themeMenu"
+          [attr.aria-label]="'settings.themeSection' | translate"
+          [attr.title]="'settings.themeSection' | translate">
+          <mat-icon fontIcon="format_color_fill" aria-hidden="true"></mat-icon>
+        </button>
+        <mat-menu #themeMenu="matMenu" panelClass="shell-chrome-menu-panel">
+          @for (theme of themes; track theme.code) {
+            <button
+              type="button"
+              mat-menu-item
+              role="menuitemradio"
+              [attr.aria-checked]="currentTheme() === theme.code"
+              (click)="changeTheme(theme.code)">
+              <mat-icon aria-hidden="true">
+                {{ currentTheme() === theme.code ? 'radio_button_checked' : 'radio_button_unchecked' }}
+              </mat-icon>
+              <span>{{ theme.label }}</span>
+            </button>
+          }
+        </mat-menu>
+
+        <button
+          type="button"
+          class="lang-trigger"
+          [matMenuTriggerFor]="langMenu"
+          [attr.aria-label]="'settings.languageSection' | translate">
+          <span>{{ langCodeLabel(currentLanguage()) }}</span>
+          <mat-icon fontIcon="arrow_drop_down" aria-hidden="true"></mat-icon>
+        </button>
+        <mat-menu #langMenu="matMenu" panelClass="shell-chrome-menu-panel">
+          @for (lang of languages; track lang.code) {
+            <button
+              type="button"
+              mat-menu-item
+              role="menuitemradio"
+              [attr.aria-checked]="currentLanguage() === lang.code"
+              (click)="changeLanguage(lang.code)">
+              <mat-icon aria-hidden="true">
+                {{ currentLanguage() === lang.code ? 'radio_button_checked' : 'radio_button_unchecked' }}
+              </mat-icon>
+              <span>{{ lang.label }}</span>
+            </button>
+          }
+        </mat-menu>
+      </div>
+    </div>
+
+    <div class="brand-mid">
+      <p class="brand-tagline">{{ 'pages.login.brand.tagline' | translate }}</p>
+      <ul class="value-list">
+        @for (item of brandValues; track item.titleKey) {
+          <li>
+            <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
+            <div>
+              <strong>{{ item.titleKey | translate }}</strong>
+              <span>{{ item.hintKey | translate }}</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="brand-footer">
+      <p class="brand-footer__copy">&copy; {{ 'common.designedBy' | translate }}</p>
+      <div class="brand-footer__social">
+        <app-social-icon type="telegram" [url]="configService.developerTelegramUrl"></app-social-icon>
+        <app-social-icon type="whatsapp" [url]="configService.developerWhatsAppUrl"></app-social-icon>
+        <app-social-icon type="viber" [url]="configService.developerViberUrl"></app-social-icon>
+        <app-social-icon type="facebook" [url]="configService.developerFacebookUrl"></app-social-icon>
+        <app-social-icon type="linkedin" [url]="configService.developerLinkedInUrl"></app-social-icon>
+        <button
+          type="button"
+          class="brand-footer__info"
+          (click)="openAppInfoDialog()"
+          [attr.aria-label]="'common.appInfoDialog.open' | translate"
+          [matTooltip]="'common.appInfoDialog.open' | translate">
+          i
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <section class="form-panel">
+    <div class="form-wrap">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+</div>

@@ -106,12 +106,24 @@
   align-items: flex-start;
   justify-content: space-between;
   flex-shrink: 0;
+  padding: 1.15rem 1.2rem 1rem;
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--mat-sys-primary-container) 72%, var(--mat-sys-surface)) 0%,
+      color-mix(in srgb, var(--mat-sys-secondary-container) 42%, var(--mat-sys-surface)) 100%
+    );
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 70%, transparent);
+  margin-bottom: 0.9rem;
 
   h1,
   .page__title {
     margin: 0;
-    font-size: var(--page-title-size, clamp(1.1rem, 2.5vw, 1.5rem));
-    font-weight: 600;
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--mat-sys-on-surface);
   }
 
   @include bp.handset {

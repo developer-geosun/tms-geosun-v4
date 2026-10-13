@@ -1,16 +1,20 @@
-<div class="stop-service-content">
-  <div class="stop-service-header">
-    <h1>{{ 'pages.stopService.title' | translate }}</h1>
-    <p class="message">{{ 'pages.stopService.message' | translate }}</p>
-    <div class="loading-dots">
+<div class="status-page">
+  <div class="status-card status-card--warn">
+    <div class="status-card__icon" aria-hidden="true">
+      <mat-icon fontIcon="construction"></mat-icon>
+    </div>
+    <h1 class="status-card__title">{{ 'pages.stopService.title' | translate }}</h1>
+    <p class="status-card__message">{{ 'pages.stopService.message' | translate }}</p>
+    <div class="loading-dots" aria-hidden="true">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <p class="sub-message">{{ 'pages.stopService.subMessage' | translate }}</p>
-    <p class="try-later">{{ 'pages.stopService.tryLater' | translate }}</p>
+    <p class="status-card__sub">{{ 'pages.stopService.subMessage' | translate }}</p>
+    <p class="status-card__sub">{{ 'pages.stopService.tryLater' | translate }}</p>
     <button
-      mat-stroked-button
+      mat-flat-button
+      color="primary"
       type="button"
       class="refresh-button"
       (click)="refresh()"
@@ -19,7 +23,7 @@
       @if (isChecking()) {
         <mat-spinner diameter="18"></mat-spinner>
       } @else {
-        <mat-icon>refresh</mat-icon>
+        <mat-icon fontIcon="refresh"></mat-icon>
       }
       {{ 'pages.stopService.refresh' | translate }}
     </button>

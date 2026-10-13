@@ -1,4 +1,5 @@
 @use 'breakpoints' as bp;
+@use 'status-chip';
 
 :host {
   display: flex;
@@ -49,13 +50,6 @@
   &__number {
     font-weight: 500;
     opacity: 0.8;
-  }
-
-  &__status {
-    font-size: 0.8125rem;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    background: var(--mat-sys-secondary-container, #e8def8);
   }
 
   &__error {
@@ -157,6 +151,8 @@
     color: var(--mat-sys-primary, #1565c0);
   }
 }
+
+@include status-chip.status-chip-tones('.status-chip');
 
 @include bp.handset {
   .admin-trip-detail {

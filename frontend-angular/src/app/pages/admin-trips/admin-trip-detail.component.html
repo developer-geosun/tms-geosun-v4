@@ -1,11 +1,12 @@
 <section class="admin-trip-detail">
-  <header class="admin-trip-detail__header">
+  <header class="admin-trip-detail__header gs-hero">
     <div class="admin-trip-detail__title-block">
       <a mat-stroked-button routerLink="/admin/trips">
         <mat-icon aria-hidden="true">arrow_back</mat-icon>
         {{ 'pages.adminTrips.backToList' | translate }}
       </a>
-      <h1>
+      <p class="gs-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+      <h1 class="gs-hero-title">
         {{
           (isCreate() ? 'pages.adminTrips.createTitle' : 'pages.adminTrips.editTitle') | translate
         }}
@@ -15,7 +16,9 @@
       </h1>
     </div>
     @if (trip(); as t) {
-      <span class="admin-trip-detail__status">{{ statusLabelKey(t.status) | translate }}</span>
+      <span [class]="'status-chip status-chip--' + statusTone(t.status)">
+        {{ statusLabelKey(t.status) | translate }}
+      </span>
     }
   </header>
 

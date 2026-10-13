@@ -135,6 +135,11 @@ export class AdminTripsComponent {
     return `pages.adminTrips.status.${status}`;
   }
 
+  /** Колірний тон статус-чипа (узгоджено з тонами compliance-чипів у vehicles/drivers). */
+  statusTone(status: TripStatusContract): StatusTone {
+    return TRIP_STATUS_TONE[status] ?? 'neutral';
+  }
+
   formatDate(iso: string | null): string {
     if (!iso) {
       return '—';
@@ -161,3 +166,14 @@ export class AdminTripsComponent {
     showAppSnack(this.snackBar, this.translate, messageKey, kind);
   }
 }
+
+/** Тон статус-чипа: neutral/info/warning/success/danger (спільна палітра для списку й деталі рейсу). */
+export type StatusTone = 'neutral' | 'info' | 'warning' | 'success' | 'danger';
+
+export const TRIP_STATUS_TONE: Record<TripStatusContract, StatusTone> = {
+  DRAFT: 'neutral',
+  PLANNED: 'info',
+  IN_PROGRESS: 'warning',
+  COMPLETED: 'success',
+  CANCELLED: 'danger'
+};

@@ -18,7 +18,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
+import { LayoutService } from '../../core/layout';
 import { RoutesApiService } from '../../core/api/routes-api.service';
+import { syncPageLoadingToToolbar } from '../../shared/utils/sync-page-loading-to-toolbar';
 import { RoutePointContract, RouteSummaryContractDto } from '../../core/api/routes-contracts.model';
 import { RouteDeleteConfirmDialogComponent, getRouteFreightRequestDialogConfig, RouteFreightRequestDialogComponent } from '../../shared/components';
 import { showAppSnack } from '../../shared/utils/app-snackbar';
@@ -49,6 +51,7 @@ import {
 })
 export class RoutesComponent {
   private readonly routesApi = inject(RoutesApiService);
+  private readonly layout = inject(LayoutService);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
   private readonly bottomSheet = inject(MatBottomSheet);
@@ -94,9 +97,19 @@ export class RoutesComponent {
   readonly deletingRouteId = signal<string | null>(null);
   readonly restoringRouteId = signal<string | null>(null);
   readonly deleteFailed = signal(false);
+  /** Inline-фільтр «Показати» на широкому viewport (bottom sheet лишається на handset). */
+  readonly showInlineListFilters = this.layout.isShellNav;
 
   constructor() {
+    syncPageLoadingToToolbar(this.isLoading);
     void this.loadRouteCards();
+  }
+
+  protected setListView(view: RoutesToolbarListView): void {
+    if (this.toolbarControlsBusy()) {
+      return;
+    }
+    this.listView.set(view);
   }
 
   formatRouteDateTime(isoDateTime: string | null | undefined): string {

@@ -1,6 +1,9 @@
 <section class="admin-vehicles">
   <header class="admin-vehicles__header">
-    <h1>{{ 'pages.adminVehicles.title' | translate }}</h1>
+    <div>
+      <p class="gs-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+      <h1>{{ 'pages.adminVehicles.title' | translate }}</h1>
+    </div>
     <div class="admin-vehicles__actions">
       <mat-button-toggle-group
         [value]="listView()"

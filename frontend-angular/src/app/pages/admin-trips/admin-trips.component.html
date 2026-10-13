@@ -1,6 +1,9 @@
 <section class="admin-trips">
   <header class="admin-trips__header">
-    <h1>{{ 'pages.adminTrips.title' | translate }}</h1>
+    <div>
+      <p class="gs-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+      <h1>{{ 'pages.adminTrips.title' | translate }}</h1>
+    </div>
     <div class="admin-trips__actions">
       <mat-button-toggle-group
         [value]="statusFilter()"
@@ -61,7 +64,9 @@
                 <div class="trip-card__number">{{ row.tripNumber }}</div>
                 <div class="trip-card__title">{{ row.title || '—' }}</div>
               </div>
-              <span class="trip-card__badge">{{ statusLabelKey(row.status) | translate }}</span>
+              <span [class]="'status-chip status-chip--' + statusTone(row.status)">
+                {{ statusLabelKey(row.status) | translate }}
+              </span>
             </div>
             <mat-card-content class="trip-card__content">
               <div class="trip-card__field">
@@ -100,7 +105,11 @@
           </ng-container>
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>{{ 'pages.adminTrips.statusLabel' | translate }}</th>
-            <td mat-cell *matCellDef="let row">{{ statusLabelKey(row.status) | translate }}</td>
+            <td mat-cell *matCellDef="let row">
+              <span [class]="'status-chip status-chip--' + statusTone(row.status)">
+                {{ statusLabelKey(row.status) | translate }}
+              </span>
+            </td>
           </ng-container>
           <ng-container matColumnDef="driver">
             <th mat-header-cell *matHeaderCellDef>{{ 'pages.adminTrips.driver' | translate }}</th>

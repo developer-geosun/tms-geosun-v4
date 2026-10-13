@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +23,6 @@ import { SyncBrowserAutofillDirective } from '../../shared/directives/sync-brows
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    MatCardModule,
     MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,

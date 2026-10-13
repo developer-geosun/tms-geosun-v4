@@ -2,7 +2,10 @@
   <mat-drawer-container class="admin-route-requests__drawer-container" autosize hasBackdrop="true">
     <mat-drawer-content class="admin-route-requests__drawer-content">
       <header class="admin-route-requests__header">
-        <h1>{{ 'pages.adminRouteRequests.title' | translate }}</h1>
+    <div>
+      <p class="gs-eyebrow">{{ 'shell.brandProduct' | translate }}</p>
+      <h1>{{ 'pages.adminRouteRequests.title' | translate }}</h1>
+    </div>
         <div class="admin-route-requests__actions">
           <button
             mat-stroked-button
@@ -62,7 +65,9 @@
                 (click)="selectRequest(request.id)">
                 <div class="request-card__top">
                   <strong>{{ request.route?.title || request.routeId }}</strong>
-                  <span class="request-card__status">{{ request.status }}</span>
+                  <span [class]="'status-chip status-chip--' + statusTone(request.status)">
+                    {{ statusLabelKey(request.status) | translate }}
+                  </span>
                 </div>
                 <div class="request-card__meta">
                   <small>{{ request.createdAt | date: 'short' }}</small>
@@ -96,7 +101,12 @@
                 </button>
               </div>
           <p><strong>ID:</strong> {{ selected.id }}</p>
-          <p><strong>{{ 'pages.adminRouteRequests.status' | translate }}:</strong> {{ selected.status }}</p>
+          <p>
+            <strong>{{ 'pages.adminRouteRequests.status' | translate }}:</strong>
+            <span [class]="'status-chip status-chip--' + statusTone(selected.status)">
+              {{ statusLabelKey(selected.status) | translate }}
+            </span>
+          </p>
           <p>
             <strong>{{ 'pages.adminRouteRequests.preferredStartDate' | translate }}:</strong>
             {{ selected.preferredStartDate || '-' }}
@@ -406,7 +416,12 @@
             @for (quote of quoteHistory(); track quote.id) {
               <div class="quote-history__item">
                 <div><strong>ID:</strong> {{ quote.id }}</div>
-                <div><strong>{{ 'pages.adminRouteRequests.status' | translate }}:</strong> {{ quote.status }}</div>
+                <div>
+                  <strong>{{ 'pages.adminRouteRequests.status' | translate }}:</strong>
+                  <span [class]="'status-chip status-chip--' + quoteStatusTone(quote.status)">
+                    {{ quoteStatusLabelKey(quote.status) | translate }}
+                  </span>
+                </div>
                 <div>
                   <strong>{{ 'pages.adminRouteRequests.quoteAmount' | translate }}:</strong>
                   {{ quote.totalAmount }} {{ quote.currency }}

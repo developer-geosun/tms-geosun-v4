@@ -1,112 +1,124 @@
-@use 'breakpoints' as bp;
-
 :host {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: clamp(420px, calc(100vh - 220px), 100%);
-  box-sizing: border-box;
+  display: block;
+  min-height: 100%;
+  min-height: 100dvh;
+  background: var(--mat-sys-background);
 }
 
-.stop-service-content {
+.status-page {
   box-sizing: border-box;
+  min-height: 100%;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+}
+
+.status-card {
+  width: min(100%, 480px);
+  padding: 36px 28px;
+  border-radius: 28px;
+  text-align: center;
+  background: var(--mat-sys-surface-container-lowest);
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 75%, transparent);
+  color: var(--mat-sys-on-surface);
   display: flex;
   flex-direction: column;
-  width: 100%;
-  justify-content: center;
   align-items: center;
-  padding: 16px;
-  overflow-x: hidden;
-  
-  .stop-service-header {
-    background-color: #d32f2f;
-    color: white;
-    padding: 24px;
-    text-align: center;
-    width: min(100%, 640px);
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    
-    h1 {
-      margin: 0 0 16px 0;
-      font-size: 24px;
-      font-weight: 500;
-      
-      @include bp.tablet-up {
-        font-size: 32px;
-      }
-    }
-    
-    .message {
-      margin: 0 0 16px 0;
-      font-size: 16px;
-      
-      @include bp.tablet-up {
-        font-size: 18px;
-      }
-    }
-    
-    .loading-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin: 16px 0;
-      
-      span {
-        width: 8px;
-        height: 8px;
-        background-color: white;
-        border-radius: 50%;
-        animation: pulse 1.4s ease-in-out infinite both;
-        
-        &:nth-child(1) {
-          animation-delay: -0.32s;
-        }
-        
-        &:nth-child(2) {
-          animation-delay: -0.16s;
-        }
-      }
-    }
-    
-    .sub-message,
-    .try-later {
-      margin: 8px 0;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.9);
-      
-      @include bp.tablet-up {
-        font-size: 16px;
-      }
+  gap: 10px;
+}
+
+.status-card--warn {
+  border-color: color-mix(in srgb, var(--mat-sys-error) 35%, var(--mat-sys-outline-variant));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--mat-sys-error-container) 55%, var(--mat-sys-surface-container-lowest)) 0%,
+      var(--mat-sys-surface-container-lowest) 48%
+    );
+}
+
+.status-card__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  margin-bottom: 4px;
+
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.status-card__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--mat-sys-on-surface);
+}
+
+.status-card__message {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.status-card__sub {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+
+  span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--mat-sys-error);
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite both;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
     }
 
-    .refresh-button {
-      margin-top: 20px;
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.7);
-
-      mat-icon,
-      mat-spinner {
-        margin-right: 8px;
-      }
-
-      mat-spinner {
-        display: inline-block;
-        // Колір кільця = колір тексту кнопки (білий)
-        --mat-progress-spinner-active-indicator-color: currentColor;
-      }
-
-      &:hover:not(:disabled) {
-        background-color: rgba(255, 255, 255, 0.12);
-      }
+    &:nth-child(2) {
+      animation-delay: -0.16s;
     }
   }
 }
 
+.refresh-button {
+  margin-top: 12px;
+  min-height: 44px;
+
+  mat-icon,
+  mat-spinner {
+    margin-right: 8px;
+  }
+
+  mat-spinner {
+    display: inline-block;
+    --mat-progress-spinner-active-indicator-color: currentColor;
+  }
+}
+
 @keyframes pulse {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0);
     opacity: 0.5;
   }
@@ -115,4 +127,3 @@
     opacity: 1;
   }
 }
-

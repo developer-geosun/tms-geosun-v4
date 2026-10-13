@@ -1,25 +1,41 @@
 <section class="my-trips">
-  <header class="my-trips__header">
-    <h1>{{ 'pages.myTrips.title' | translate }}</h1>
-    <button mat-stroked-button type="button" (click)="reload()">
-      <mat-icon aria-hidden="true">refresh</mat-icon>
-      {{ 'pages.myTrips.refresh' | translate }}
-    </button>
+  <header class="gs-hero my-trips__hero">
+    <div>
+      <p class="gs-eyebrow">{{ 'navigation.myTrips' | translate }}</p>
+      <h1 class="gs-hero-title">{{ 'pages.myTrips.title' | translate }}</h1>
+      <p class="gs-hero-sub">{{ 'pages.myTrips.heroSub' | translate }}</p>
+    </div>
+    <div class="gs-hero-actions">
+      <button mat-stroked-button type="button" (click)="reload()" [disabled]="isLoading()">
+        <mat-icon aria-hidden="true">refresh</mat-icon>
+        {{ 'pages.myTrips.refresh' | translate }}
+      </button>
+    </div>
   </header>
 
   @if (loadError()) {
-    <div class="my-trips__messages">
-      <p class="my-trips__error">{{ loadError() | translate }}</p>
+    <div class="gs-empty my-trips__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="error_outline"></mat-icon>
+      </div>
+      <h2 class="gs-empty__title">{{ loadError() | translate }}</h2>
     </div>
   }
 
   @if (!isLoading() && trips().length === 0 && !loadError()) {
-    <p class="my-trips__empty">{{ 'pages.myTrips.empty' | translate }}</p>
+    <div class="gs-empty my-trips__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="directions_bus"></mat-icon>
+      </div>
+      <h2 class="gs-empty__title">{{ 'pages.myTrips.empty' | translate }}</h2>
+      <p class="gs-empty__body">{{ 'pages.myTrips.emptyBody' | translate }}</p>
+    </div>
   }
 
   <mat-accordion class="my-trips__accordion" multi="false">
     @for (trip of trips(); track trip.id) {
       <mat-expansion-panel
+        class="my-trips__panel"
         [expanded]="expandedTripId() === trip.id"
         (opened)="onPanelOpened(trip)"
         (closed)="onPanelClosed(trip.id)"
@@ -27,15 +43,17 @@
         <mat-expansion-panel-header>
           <mat-panel-title>{{ trip.tripNumber }}</mat-panel-title>
           <mat-panel-description>
-            <span>{{ trip.title || '—' }}</span>
-            <span class="my-trips__badge">{{ statusLabelKey(trip.status) | translate }}</span>
+            <span class="my-trips__panel-desc">
+              <span class="my-trips__panel-route">{{ trip.title || '—' }}</span>
+              <span class="my-trips__badge">{{ statusLabelKey(trip.status) | translate }}</span>
+            </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
         @if (detailLoading() && expandedTripId() === trip.id) {
           <p>{{ 'pages.myTrips.detailLoading' | translate }}</p>
         } @else if (detailTrip()?.id === trip.id) {
-          <div class="my-trips__detail">
+          <div class="my-trips__detail gs-panel">
             <div class="my-trips__meta">
               <div>
                 <span class="my-trips__label">{{ 'pages.myTrips.route' | translate }}</span>

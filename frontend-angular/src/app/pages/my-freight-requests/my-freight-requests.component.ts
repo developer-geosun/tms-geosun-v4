@@ -7,10 +7,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CountryDistanceContractDto, RouteRequestContractDto, RouteRequestsApiService } from '../../core/api';
+import { syncPageLoadingToToolbar } from '../../shared/utils/sync-page-loading-to-toolbar';
 import { RoutePointContract } from '../../core/api/routes-contracts.model';
 
 /**
@@ -27,7 +27,6 @@ import { RoutePointContract } from '../../core/api/routes-contracts.model';
     MatIconModule,
     MatChipsModule,
     MatDividerModule,
-    MatProgressSpinnerModule,
     MatExpansionModule,
     MatListModule
   ],
@@ -57,7 +56,12 @@ export class MyFreightRequestsComponent {
   readonly loadFailed = signal(false);
 
   constructor() {
+    syncPageLoadingToToolbar(this.isLoading);
     void this.reload();
+  }
+
+  async goToRoutes(): Promise<void> {
+    await this.router.navigate(['/routes']);
   }
 
   async reload(): Promise<void> {

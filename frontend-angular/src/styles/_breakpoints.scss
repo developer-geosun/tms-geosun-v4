@@ -4,6 +4,8 @@ $handset-max: 599.98px;
 $tablet-min: 600px;
 $tablet-max: 1023.98px;
 $desktop-min: 1024px;
+/** App shell sidenav (redesign handoff). */
+$shell-nav-min: 960px;
 $compact-split-max: 1099.98px;
 
 // Card-grid (routes): іменовані винятки, не «магічні» ad-hoc.
@@ -37,6 +39,20 @@ $grid-3col-min: 1320px;
 /** ≤ desktop-1px: burger nav (toolbar). */
 @mixin below-desktop {
   @media (max-width: $tablet-max) {
+    @content;
+  }
+}
+
+/** Permanent sidenav AppShell. */
+@mixin shell-nav {
+  @media (min-width: $shell-nav-min) {
+    @content;
+  }
+}
+
+/** Temporary drawer AppShell. */
+@mixin below-shell-nav {
+  @media (max-width: ($shell-nav-min - 0.02px)) {
     @content;
   }
 }

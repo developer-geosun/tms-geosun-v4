@@ -1,28 +1,44 @@
 <section class="my-freight-requests-page">
-  <header class="my-freight-requests-page__header">
-    <h1 class="my-freight-requests-page__title">{{ 'pages.myFreightRequests.title' | translate }}</h1>
-    <button
-      mat-stroked-button
-      type="button"
-      color="primary"
-      (click)="reload()"
-      [disabled]="isLoading()"
-      [attr.aria-label]="'pages.myFreightRequests.refresh' | translate">
-      <mat-icon>refresh</mat-icon>
-      {{ 'pages.myFreightRequests.refresh' | translate }}
-    </button>
+  <header class="gs-hero my-freight-requests-page__hero">
+    <div>
+      <p class="gs-eyebrow">{{ 'navigation.myFreightRequests' | translate }}</p>
+      <h1 class="gs-hero-title">{{ 'pages.myFreightRequests.title' | translate }}</h1>
+      <p class="gs-hero-sub">{{ 'pages.myFreightRequests.heroSub' | translate }}</p>
+    </div>
+    <div class="gs-hero-actions">
+      <button
+        mat-stroked-button
+        type="button"
+        color="primary"
+        (click)="reload()"
+        [disabled]="isLoading()"
+        [attr.aria-label]="'pages.myFreightRequests.refresh' | translate"
+      >
+        <mat-icon>refresh</mat-icon>
+        {{ 'pages.myFreightRequests.refresh' | translate }}
+      </button>
+    </div>
   </header>
 
-  @if (isLoading()) {
-    <div class="my-freight-requests-page__spinner">
-      <mat-progress-spinner mode="indeterminate" diameter="40" />
-      <span>{{ 'pages.myFreightRequests.loading' | translate }}</span>
+  @if (!isLoading() && loadFailed()) {
+    <div class="gs-empty my-freight-requests-page__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="error_outline"></mat-icon>
+      </div>
+      <h2 class="gs-empty__title">{{ 'pages.myFreightRequests.loadFailed' | translate }}</h2>
     </div>
-  } @else if (loadFailed()) {
-    <p class="my-freight-requests-page__message">{{ 'pages.myFreightRequests.loadFailed' | translate }}</p>
-  } @else if (requests().length === 0) {
-    <p class="my-freight-requests-page__message">{{ 'pages.myFreightRequests.empty' | translate }}</p>
-  } @else {
+  } @else if (!isLoading() && requests().length === 0) {
+    <div class="gs-empty my-freight-requests-page__state">
+      <div class="gs-empty__icon" aria-hidden="true">
+        <mat-icon fontIcon="local_shipping"></mat-icon>
+      </div>
+      <h2 class="gs-empty__title">{{ 'pages.myFreightRequests.empty' | translate }}</h2>
+      <p class="gs-empty__body">{{ 'pages.myFreightRequests.emptyBody' | translate }}</p>
+      <button mat-flat-button color="primary" type="button" (click)="goToRoutes()">
+        {{ 'pages.myFreightRequests.goToRoutes' | translate }}
+      </button>
+    </div>
+  } @else if (!isLoading()) {
     <div class="my-freight-requests-page__cards">
       @for (req of requests(); track req.id) {
         <mat-card class="freight-request-card" appearance="outlined">
