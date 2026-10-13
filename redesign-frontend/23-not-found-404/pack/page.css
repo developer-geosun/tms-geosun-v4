@@ -1,0 +1,81 @@
+/* Prevent long toolbar titles from expanding the mobile shell grid */
+.app-shell,
+.app-toolbar,
+.app-content {
+  min-width: 0;
+  max-width: 100%;
+}
+.app-toolbar { overflow: hidden; }
+
+/* /404 — Material Dev */
+.app-content,
+.page-view.is-active,
+.page-center {
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+.page-center {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: min(560px, calc(100dvh - 120px));
+  padding: 1.25rem 1rem 2rem;
+  box-sizing: border-box;
+}
+
+.nf-card {
+  width: 100%;
+  max-width: min(100%, 480px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.65rem;
+  padding: 2.25rem 1.5rem 1.75rem;
+  border-radius: 28px;
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 70%, transparent);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--mat-sys-shadow) 8%, transparent),
+              0 8px 24px color-mix(in srgb, var(--mat-sys-shadow) 6%, transparent);
+}
+
+.nf-code {
+  margin: 0;
+  font-size: clamp(3.5rem, 12vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--mat-sys-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.nf-icon-disc {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  margin-bottom: 0.25rem;
+}
+.nf-icon-disc .material-symbols-outlined { font-size: 32px; }
+
+.nf-message {
+  margin: 0 0 0.5rem;
+  max-width: 36ch;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.nf-actions { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+
+@media (max-width: 599px) {
+  .page-center { min-height: min(480px, calc(100dvh - 100px)); padding: 1rem 0.75rem 1.5rem; }
+  .nf-card { border-radius: 22px; padding: 1.75rem 1.15rem 1.4rem; }
+}

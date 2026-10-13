@@ -1,0 +1,172 @@
+/* Prevent long toolbar titles from expanding the mobile shell grid */
+.app-shell,
+.app-toolbar,
+.app-content {
+  min-width: 0;
+  max-width: 100%;
+}
+.app-toolbar { overflow: hidden; }
+
+/* /stop-service — Material Dev (M3 error tokens, not hardcoded #d32f2f) */
+
+/* Shell themes currently omit --mat-sys-on-error; define for this page. */
+[data-theme="azure-blue"],
+[data-theme="rose-red"] {
+  --mat-sys-on-error: #ffffff;
+}
+[data-theme="magenta-violet"],
+[data-theme="cyan-orange"] {
+  --mat-sys-on-error: #690005;
+}
+
+.app-content,
+.page-view.is-active,
+.page-center {
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+.page-center {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: min(560px, calc(100dvh - 120px));
+  padding: 1.25rem 1rem 2rem;
+  width: 100%;
+}
+
+.ss-card {
+  width: 100%;
+  max-width: min(100%, 640px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.55rem;
+  padding: 2rem 1.5rem 1.75rem;
+  border-radius: 24px;
+  background: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--mat-sys-shadow) 22%, transparent);
+}
+
+.ss-icon-disc {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--mat-sys-on-error) 16%, transparent);
+  color: var(--mat-sys-on-error);
+  margin-bottom: 0.25rem;
+  flex-shrink: 0;
+}
+.ss-icon-disc .material-symbols-outlined { font-size: 28px; }
+
+.ss-title {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: inherit;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.ss-message {
+  margin: 0;
+  font-size: clamp(0.9375rem, 2.2vw, 1.125rem);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--mat-sys-on-error) 92%, transparent);
+  max-width: 42ch;
+  overflow-wrap: anywhere;
+}
+
+.ss-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0.65rem 0 0.35rem;
+}
+.ss-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mat-sys-on-error);
+  animation: ss-pulse 1.4s ease-in-out infinite both;
+}
+.ss-dots span:nth-child(1) { animation-delay: -0.32s; }
+.ss-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes ss-pulse {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.45; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.ss-sub, .ss-later {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--mat-sys-on-error) 88%, transparent);
+  max-width: 44ch;
+  overflow-wrap: anywhere;
+}
+
+.ss-actions { margin-top: 1rem; }
+
+.ss-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0 1.15rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--mat-sys-on-error) 70%, transparent);
+  background: transparent;
+  color: var(--mat-sys-on-error);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.ss-refresh:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--mat-sys-on-error) 12%, transparent);
+}
+.ss-refresh:disabled { opacity: 0.7; cursor: wait; }
+.ss-refresh .material-symbols-outlined { font-size: 20px; }
+
+.ss-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid color-mix(in srgb, var(--mat-sys-on-error) 35%, transparent);
+  border-top-color: var(--mat-sys-on-error);
+  border-radius: 50%;
+  animation: ss-spin 0.7s linear infinite;
+}
+@keyframes ss-spin { to { transform: rotate(360deg); } }
+
+.ss-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 80;
+  max-width: calc(100vw - 2rem);
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: var(--mat-sys-inverse-surface);
+  color: var(--mat-sys-inverse-on-surface);
+  font-size: 0.8125rem;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--mat-sys-shadow) 25%, transparent);
+}
+
+@media (max-width: 599px) {
+  .page-center { min-height: min(480px, calc(100dvh - 100px)); padding: 1rem 0.75rem 1.5rem; }
+  .ss-card { border-radius: 18px; padding: 1.5rem 1.1rem 1.35rem; }
+  /* Long stop-service title — prefer ellipsis in toolbar (shell already sets it) */
+}

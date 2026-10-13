@@ -1,0 +1,772 @@
+/* /route-builder page body — M3 redesign inside approved App shell */
+
+.app-content--flush {
+  padding: 0 !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.page-view[data-page="route-builder"] {
+  display: none;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+}
+.page-view[data-page="route-builder"].is-active {
+  display: flex;
+}
+
+.page-view[data-page="stub"] {
+  display: none;
+  padding: 28px;
+}
+.page-view[data-page="stub"].is-active {
+  display: block;
+}
+
+/* ---------- Builder layout ---------- */
+.rb-layout {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: var(--mat-sys-surface);
+}
+
+.rb-panel {
+  width: 400px;
+  flex: 0 0 400px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+  z-index: 2;
+}
+
+.rb-map {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, var(--mat-sys-primary) 12%, transparent), transparent 55%),
+    radial-gradient(ellipse at 70% 80%, color-mix(in srgb, var(--mat-sys-tertiary, var(--mat-sys-secondary)) 10%, transparent), transparent 50%),
+    var(--mat-sys-surface-container-low, var(--mat-sys-surface-container));
+  overflow: hidden;
+}
+
+/* ---------- Actions card ---------- */
+.rb-actions {
+  flex: 0 0 auto;
+  margin: 12px 12px 0;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-high);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--mat-sys-shadow, #000) 10%, transparent);
+}
+
+.rb-actions__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+}
+
+.rb-actions__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--mat-sys-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rb-distance {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mat-sys-on-primary-container);
+  background: color-mix(in srgb, var(--mat-sys-primary-container) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mat-sys-primary) 28%, transparent);
+}
+.rb-distance__val {
+  font-size: 0.95rem;
+}
+
+.rb-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rb-meta small {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.rb-actions__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rb-actions__btns--create {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.rb-actions__btns--create .rb-btn--primary {
+  grid-column: 1 / -1;
+}
+.rb-actions__btns--edit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.rb-actions__btns--edit .rb-btn--primary {
+  grid-column: 1 / -1;
+}
+.rb-actions__btns--view {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.rb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 650;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.rb-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.rb-btn--tonal {
+  background: var(--mat-sys-secondary-container, var(--mat-sys-surface-container-highest));
+  color: var(--mat-sys-on-secondary-container, var(--mat-sys-on-surface));
+  border-color: color-mix(in srgb, var(--mat-sys-outline-variant) 70%, transparent);
+}
+.rb-btn--outline {
+  background: transparent;
+  color: var(--mat-sys-primary);
+  border-color: color-mix(in srgb, var(--mat-sys-outline) 70%, transparent);
+}
+.rb-btn--primary {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--mat-sys-shadow, #000) 18%, transparent);
+}
+.rb-btn--primary:not(:disabled):hover {
+  filter: brightness(1.05);
+}
+.rb-btn--freight {
+  flex: 1 1 auto;
+  min-width: 140px;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.rb-mini-fab {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  flex: 0 0 auto;
+}
+.rb-mini-fab .material-symbols-outlined {
+  font-size: 20px;
+}
+.rb-mini-fab--danger {
+  background: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+}
+.rb-mini-fab:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rb-error {
+  color: var(--mat-sys-error);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+/* Search */
+.rb-search {
+  position: relative;
+}
+.rb-search-field {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  padding: 0 14px 0 42px;
+  font: inherit;
+  font-size: 0.875rem;
+  outline: none;
+  box-sizing: border-box;
+}
+.rb-search-field:focus {
+  border-color: var(--mat-sys-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mat-sys-primary) 22%, transparent);
+}
+.rb-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 20px;
+  pointer-events: none;
+}
+.rb-search-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+.rb-results {
+  margin-top: 8px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--mat-sys-surface-container);
+  max-height: 160px;
+  overflow-y: auto;
+}
+.rb-results button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 10px 12px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--mat-sys-on-surface);
+  border-bottom: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 60%, transparent);
+}
+.rb-results button:last-child {
+  border-bottom: 0;
+}
+.rb-results button:hover,
+.rb-results button.is-active {
+  background: color-mix(in srgb, var(--mat-sys-primary) 10%, transparent);
+}
+
+/* Points list */
+.rb-points {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rb-points-empty {
+  margin: 8px;
+  padding: 28px 18px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px dashed var(--mat-sys-outline-variant);
+  color: var(--mat-sys-on-surface-variant);
+  background: color-mix(in srgb, var(--mat-sys-surface-container) 70%, transparent);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.rb-point {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.rb-point:hover {
+  border-color: color-mix(in srgb, var(--mat-sys-primary) 40%, var(--mat-sys-outline-variant));
+}
+.rb-point.is-selected {
+  border-color: var(--mat-sys-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mat-sys-primary) 18%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-primary-container) 35%, var(--mat-sys-surface-container));
+}
+.rb-point.is-border {
+  border-color: color-mix(in srgb, #16a34a 45%, var(--mat-sys-outline-variant));
+}
+.rb-point.is-border .rb-point-order {
+  background: #16a34a;
+}
+
+.rb-point-order {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: #2563eb;
+  margin-top: 2px;
+}
+
+.rb-point-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rb-point-main strong {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--mat-sys-on-surface);
+}
+.rb-point-addr {
+  font-size: 0.8125rem;
+  color: var(--mat-sys-on-surface-variant);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.rb-coord-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--mat-sys-on-surface-variant);
+  background: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  cursor: pointer;
+}
+.rb-coord-chip .material-symbols-outlined {
+  font-size: 14px;
+}
+.rb-coord-chip:hover {
+  border-color: var(--mat-sys-primary);
+  color: var(--mat-sys-primary);
+}
+
+.rb-ops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.rb-op-chip {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  background: color-mix(in srgb, var(--mat-sys-tertiary-container, var(--mat-sys-secondary-container)) 80%, transparent);
+  color: var(--mat-sys-on-tertiary-container, var(--mat-sys-on-secondary-container));
+}
+.rb-op-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rb-op-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--mat-sys-on-surface);
+  cursor: pointer;
+}
+.rb-op-check input {
+  accent-color: var(--mat-sys-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.rb-point-remove {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.rb-point-remove:hover {
+  background: color-mix(in srgb, var(--mat-sys-error) 12%, transparent);
+  color: var(--mat-sys-error);
+}
+.rb-point-remove .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.rb-segment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 8px 22px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  color: var(--mat-sys-on-surface-variant);
+}
+.rb-segment::before {
+  content: "";
+  width: 2px;
+  height: 14px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--mat-sys-primary) 45%, transparent);
+  margin-left: 12px;
+}
+
+.rb-border-picker {
+  margin: 0 0 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed color-mix(in srgb, #16a34a 50%, var(--mat-sys-outline-variant));
+  background: color-mix(in srgb, #16a34a 6%, var(--mat-sys-surface-container));
+}
+.rb-border-picker__title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--mat-sys-on-surface);
+}
+.rb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.rb-field:last-child {
+  margin-bottom: 0;
+}
+.rb-field label {
+  font-size: 0.6875rem;
+  font-weight: 650;
+  color: var(--mat-sys-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.rb-field select {
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  padding: 0 10px;
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+/* ---------- Map mock ---------- */
+.rb-map-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.rb-map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--mat-sys-outline-variant) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--mat-sys-outline-variant) 35%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.45;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
+}
+.rb-map-land {
+  position: absolute;
+  inset: 8% 6%;
+  border-radius: 40% 48% 42% 38% / 44% 40% 50% 42%;
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--mat-sys-primary-container) 55%, #a7f3d0),
+      color-mix(in srgb, var(--mat-sys-surface-container-high) 70%, #bfdbfe));
+  opacity: 0.85;
+  filter: saturate(0.9);
+}
+.rb-map-route {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.rb-map-hint {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+  background: color-mix(in srgb, var(--mat-sys-surface) 88%, transparent);
+  border: 1px solid var(--mat-sys-outline-variant);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--mat-sys-shadow, #000) 12%, transparent);
+}
+.rb-map-hint .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--mat-sys-primary);
+}
+
+.rb-map-marker {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  color: #fff;
+  background: #2563eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 0 0 3px #fff;
+  z-index: 2;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.rb-map-marker.is-border {
+  background: #16a34a;
+}
+.rb-map-marker.is-selected {
+  transform: scale(1.15);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 0 0 3px #fff, 0 0 0 6px color-mix(in srgb, var(--mat-sys-primary) 55%, transparent);
+}
+
+.rb-map-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rb-map-ctrl {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: color-mix(in srgb, var(--mat-sys-surface) 92%, transparent);
+  color: var(--mat-sys-on-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--mat-sys-shadow, #000) 10%, transparent);
+}
+.rb-map-ctrl .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* Mobile panel toggle FAB */
+.rb-panel-toggle {
+  display: none;
+  position: absolute;
+  right: 16px;
+  bottom: 20px;
+  z-index: 5;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  border: 0;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--mat-sys-primary) 40%, transparent);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  animation: rb-fab-pulse 2.2s ease-in-out infinite;
+}
+.rb-panel-toggle .material-symbols-outlined {
+  font-size: 26px;
+}
+@keyframes rb-fab-pulse {
+  0%, 100% { box-shadow: 0 4px 16px color-mix(in srgb, var(--mat-sys-primary) 40%, transparent); }
+  50% { box-shadow: 0 6px 22px color-mix(in srgb, var(--mat-sys-primary) 55%, transparent); }
+}
+
+/* Demo bar */
+.rb-demo-bar {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--mat-sys-inverse-surface, #1c1b1f) 92%, transparent);
+  color: var(--mat-sys-inverse-on-surface, #fff);
+  font-size: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+  backdrop-filter: blur(10px);
+}
+.rb-demo-bar label {
+  opacity: 0.85;
+  font-weight: 600;
+}
+.rb-demo-bar select {
+  border-radius: 8px;
+  border: 0;
+  min-height: 28px;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 0.75rem;
+  background: color-mix(in srgb, #fff 18%, transparent);
+  color: inherit;
+}
+.rb-demo-bar[hidden] {
+  display: none !important;
+}
+
+.stub-card {
+  max-width: 480px;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container);
+}
+.stub-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+.stub-card p {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+/* ---------- Compact split (≤1099.98) — production compactRouteLayout ---------- */
+@media (max-width: 1099.98px) {
+  .rb-layout--sidebar .rb-panel {
+    width: 100%;
+    flex: 1 1 auto;
+    border-right: 0;
+  }
+  .rb-layout--sidebar .rb-map {
+    display: none;
+  }
+  .rb-layout--map .rb-panel {
+    display: none;
+  }
+  .rb-layout--map .rb-map {
+    flex: 1 1 auto;
+  }
+  .rb-panel-toggle {
+    display: inline-flex;
+  }
+}
+
+/* Narrow phone tweaks */
+@media (max-width: 599.98px) {
+  .rb-actions {
+    margin: 8px 8px 0;
+    padding: 12px;
+    border-radius: 14px;
+  }
+  .rb-actions__title {
+    font-size: 1rem;
+  }
+  .rb-actions__btns--create,
+  .rb-actions__btns--edit {
+    grid-template-columns: 1fr;
+  }
+  .rb-actions__btns--create .rb-btn--primary,
+  .rb-actions__btns--edit .rb-btn--primary {
+    grid-column: auto;
+  }
+  .rb-points {
+    padding: 8px;
+  }
+  .rb-demo-bar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+
+/* When shell drawer layout (<960), content already full width */
+@media (max-width: 959.98px) {
+  .app-content--flush {
+    /* occupy remaining viewport under toolbar */
+    height: calc(100dvh - var(--toolbar-height, 64px));
+  }
+}
+@media (min-width: 960px) {
+  .app-content--flush {
+    height: calc(100dvh - var(--toolbar-height, 64px));
+  }
+}
+
+.rb-map-markers {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.rb-map-markers .rb-map-marker {
+  pointer-events: auto;
+}

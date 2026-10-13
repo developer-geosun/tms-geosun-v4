@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="azure-blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GeoSun TMS — Auth · Material Dev Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet" />
+  <link rel="stylesheet" href="shell.css" />
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="brand-panel" aria-label="GeoSun TMS">
+      <div class="brand-decor" aria-hidden="true">
+        <div class="brand-blob brand-blob--a"></div>
+        <div class="brand-blob brand-blob--b"></div>
+        <div class="brand-blob brand-blob--c"></div>
+      </div>
+
+      <div class="brand-top">
+        <div class="brand-logo-row">
+          <div class="brand-logo-disc">
+            <img src="GeoSun_logo_svg.svg" alt="" width="40" height="40" />
+          </div>
+          <div class="brand-wordmark">
+            <span class="name">GeoSun</span>
+            <span class="product">TMS</span>
+          </div>
+        </div>
+        <div class="chrome-bar" role="toolbar" aria-label="Theme and language">
+          <div class="theme-picker">
+            <button type="button" class="chrome-icon-btn" id="themeMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Select a theme" title="Select a theme">
+              <span class="material-symbols-outlined" aria-hidden="true">format_color_fill</span>
+            </button>
+            <div class="chrome-menu" id="themeMenu" role="menu" aria-label="Themes" hidden>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="rose-red" aria-checked="false">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">Rose &amp; Red</span>
+                <span class="theme-preview" data-preview="rose-red" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="azure-blue" aria-checked="true">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">Azure &amp; Blue</span>
+                <span class="theme-preview" data-preview="azure-blue" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="magenta-violet" aria-checked="false">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">Magenta &amp; Violet</span>
+                <span class="theme-preview" data-preview="magenta-violet" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="cyan-orange" aria-checked="false">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">Cyan &amp; Orange</span>
+                <span class="theme-preview" data-preview="cyan-orange" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+          <div class="lang-picker">
+            <button type="button" class="lang-trigger" id="langMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">
+              <span id="langCodeLabel">UK</span>
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+            </button>
+            <div class="chrome-menu lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="uk" aria-checked="true">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">Українська</span>
+                <span class="menu-code" aria-hidden="true">UK</span>
+              </button>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="en" aria-checked="false">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">English</span>
+                <span class="menu-code" aria-hidden="true">EN</span>
+              </button>
+              <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="ru" aria-checked="false">
+                <span class="menu-radio" aria-hidden="true"></span>
+                <span class="menu-label">Русский</span>
+                <span class="menu-code" aria-hidden="true">RU</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-mid">
+        <p class="brand-tagline" data-i18n="pages.login.brand.tagline">Транспортний менеджмент без зайвого шуму</p>
+        <ul class="value-list">
+          <li class="value-item">
+            <span class="icon-wrap"><span class="material-symbols-outlined">route</span></span>
+            <div>
+              <div class="label" data-i18n="pages.login.brand.routes">Маршрути</div>
+              <div class="hint" data-i18n="pages.login.brand.routesHint">Планування та контроль рейсів</div>
+            </div>
+          </li>
+          <li class="value-item">
+            <span class="icon-wrap"><span class="material-symbols-outlined">payments</span></span>
+            <div>
+              <div class="label" data-i18n="pages.login.brand.freight">Фрахт</div>
+              <div class="hint" data-i18n="pages.login.brand.freightHint">Ставки, розрахунки, документи</div>
+            </div>
+          </li>
+          <li class="value-item">
+            <span class="icon-wrap"><span class="material-symbols-outlined">local_shipping</span></span>
+            <div>
+              <div class="label" data-i18n="pages.login.brand.fleet">Парк</div>
+              <div class="hint" data-i18n="pages.login.brand.fleetHint">Техніка, статуси, завантаження</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <p class="brand-footer">© GeoSun · Material Design 3 prototype</p>
+    </aside>
+
+    <main class="form-panel">
+
+      <div class="form-wrap">
+
+        <!-- ========== LOGIN ========== -->
+        <section class="page-view" id="page-login" data-page="login" hidden>
+          <span class="eyebrow" data-i18n="pages.login.title">Вхід до системи</span>
+          <h1 class="headline" data-i18n="pages.login.title">Вхід до системи</h1>
+          <p class="supporting" data-i18n="pages.login.subtitle">Увійдіть за email та паролем</p>
+
+          <div class="banner banner--error" id="loginErrorBanner" role="alert">
+            <span class="material-symbols-outlined">error</span>
+            <span id="loginErrorText" data-i18n="pages.login.error401">Невірний email або пароль</span>
+          </div>
+          <div class="banner banner--success" id="loginSuccessBanner" role="status">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span data-i18n="pages.login.success">Успішний вхід</span>
+          </div>
+
+          <form class="auth-page-form" id="loginForm" novalidate>
+            <div class="field" id="loginEmailField">
+              <input type="email" id="loginEmail" name="email" autocomplete="username" placeholder=" " required />
+              <label for="loginEmail" data-i18n="pages.login.email">Email</label>
+              <div class="field-hint" data-i18n="pages.login.emailInvalid">Enter a valid email</div>
+            </div>
+            <div class="field field--password" id="loginPasswordField">
+              <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder=" " required minlength="8" />
+              <label for="loginPassword" data-i18n="pages.login.password">Пароль</label>
+              <button type="button" class="field-toggle" id="loginTogglePassword" aria-label="Show password">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
+              <div class="field-hint" data-i18n="pages.login.passwordHint">Minimum 8 characters</div>
+            </div>
+            <div class="form-row">
+              <label class="checkbox">
+                <input type="checkbox" id="loginRemember" name="remember" />
+                <span class="box"><span class="material-symbols-outlined">check</span></span>
+                <span data-i18n="pages.login.rememberMe">Запам'ятати мене</span>
+              </label>
+              <a class="text-btn" href="#forgot-password" data-nav="forgot" data-i18n="pages.login.forgotPassword">Забули пароль?</a>
+            </div>
+            <button type="submit" class="btn-primary" id="loginSubmit">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-label" data-i18n="pages.login.submit" data-i18n-loading="pages.login.loading">Увійти</span>
+            </button>
+          </form>
+          <p class="form-footer">
+            <span data-i18n="pages.login.noAccount">Ще не маєте акаунта?</span>
+            <a href="#register" data-nav="register" data-i18n="auth.register">Реєстрація</a>
+          </p>
+          <div class="demo-hint">
+            <strong>Demo:</strong> <code>wrong@demo.com</code> → error401; other valid → success.
+            <div class="demo-actions">
+              <button type="button" data-demo="login-error401">Show error401</button>
+              <button type="button" data-demo="login-clear">Clear banners</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== REGISTER ========== -->
+        <section class="page-view" id="page-register" data-page="register" hidden>
+          <span class="eyebrow" data-i18n="pages.register.title">Створити акаунт</span>
+          <h1 class="headline" data-i18n="pages.register.title">Створити акаунт</h1>
+          <p class="supporting" data-i18n="pages.register.subtitle">Зареєструйтеся за email та паролем</p>
+
+          <div class="banner banner--error" id="regErrorBanner" role="alert">
+            <span class="material-symbols-outlined">error</span>
+            <span id="regErrorText" data-i18n="pages.register.errorGeneric">Помилка реєстрації, перевірте дані</span>
+          </div>
+          <div class="banner banner--success" id="regSuccessBanner" role="status">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span data-i18n="pages.register.success">Акаунт успішно створено. Перевірте пошту для підтвердження email</span>
+          </div>
+
+          <form class="auth-page-form" id="registerForm" novalidate>
+            <div class="field" id="regEmailField">
+              <input type="email" id="regEmail" name="email" autocomplete="email" placeholder=" " required />
+              <label for="regEmail" data-i18n="pages.register.email">Email</label>
+              <div class="field-hint" data-i18n="pages.register.emailInvalid">Enter a valid email</div>
+            </div>
+            <div class="field field--password" id="regPasswordField">
+              <input type="password" id="regPassword" name="password" autocomplete="new-password" placeholder=" " required minlength="8" />
+              <label for="regPassword" data-i18n="pages.register.password">Пароль</label>
+              <div class="field-hint" id="regPasswordHint" data-i18n="pages.register.passwordMinLength">Мінімум 8 символів</div>
+            </div>
+            <div class="field field--password" id="regConfirmField">
+              <input type="password" id="regConfirm" name="confirmPassword" autocomplete="new-password" placeholder=" " required minlength="8" />
+              <label for="regConfirm" data-i18n="pages.register.confirmPassword">Підтвердіть пароль</label>
+              <div class="field-hint" data-i18n="pages.register.passwordMismatch">Паролі не збігаються</div>
+            </div>
+            <div class="checkbox-row">
+              <label class="checkbox">
+                <input type="checkbox" id="regShowPassword" />
+                <span class="box"><span class="material-symbols-outlined">check</span></span>
+                <span data-i18n="pages.register.showPassword">Показати пароль</span>
+              </label>
+            </div>
+            <button type="submit" class="btn-primary" id="regSubmit">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-label" data-i18n="pages.register.submit" data-i18n-loading="pages.register.loading">Зареєструватися</span>
+            </button>
+          </form>
+          <p class="form-footer">
+            <span data-i18n="pages.register.haveAccount">Вже маєте акаунт?</span>
+            <a href="#login" data-nav="login" data-i18n="auth.login">Увійти</a>
+          </p>
+          <div class="demo-hint">
+            <strong>Demo:</strong> <code>exists@demo.com</code> → 409; <code>rate@demo.com</code> → 429; other valid → success.
+            <div class="demo-actions">
+              <button type="button" data-demo="reg-409">Show 409</button>
+              <button type="button" data-demo="reg-429">Show 429</button>
+              <button type="button" data-demo="reg-success">Show success</button>
+              <button type="button" data-demo="reg-clear">Clear</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== FORGOT PASSWORD ========== -->
+        <section class="page-view" id="page-forgot" data-page="forgot" hidden>
+          <span class="eyebrow" data-i18n="pages.forgotPassword.title">Відновлення пароля</span>
+          <h1 class="headline" data-i18n="pages.forgotPassword.title">Відновлення пароля</h1>
+          <p class="supporting" data-i18n="pages.forgotPassword.subtitle">Вкажіть email — надішлемо посилання для скидання пароля</p>
+
+          <div class="banner banner--error" id="forgotErrorBanner" role="alert">
+            <span class="material-symbols-outlined">error</span>
+            <span id="forgotErrorText" data-i18n="pages.forgotPassword.errorGeneric">Не вдалося надіслати лист. Спробуйте пізніше</span>
+          </div>
+          <div class="banner banner--success" id="forgotSuccessBanner" role="status">
+            <span class="material-symbols-outlined">mark_email_read</span>
+            <span data-i18n="pages.forgotPassword.success">Якщо акаунт існує, ми надіслали лист із посиланням для скидання пароля</span>
+          </div>
+
+          <form class="auth-page-form" id="forgotForm" novalidate>
+            <div class="field" id="forgotEmailField">
+              <input type="email" id="forgotEmail" name="email" autocomplete="email" placeholder=" " required />
+              <label for="forgotEmail" data-i18n="pages.forgotPassword.email">Email</label>
+              <div class="field-hint" data-i18n="pages.forgotPassword.emailInvalid">Enter a valid email</div>
+            </div>
+            <button type="submit" class="btn-primary" id="forgotSubmit">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-label" data-i18n="pages.forgotPassword.submit" data-i18n-loading="pages.forgotPassword.loading">Надіслати посилання</span>
+            </button>
+          </form>
+          <p class="form-footer back-link-row">
+            <a href="#login" data-nav="login" data-i18n="pages.forgotPassword.backToLogin">Повернутися до входу</a>
+          </p>
+          <div class="demo-hint">
+            <strong>Demo:</strong> <code>rate@demo.com</code> → 429; <code>disabled@demo.com</code> → account_disabled;
+            <code>deleted@demo.com</code> → user_deleted; <code>unverified@demo.com</code> → email_not_verified; other → success.
+            <div class="demo-actions">
+              <button type="button" data-demo="forgot-success">Success</button>
+              <button type="button" data-demo="forgot-429">429</button>
+              <button type="button" data-demo="forgot-disabled">Disabled</button>
+              <button type="button" data-demo="forgot-deleted">Deleted</button>
+              <button type="button" data-demo="forgot-unverified">Unverified</button>
+              <button type="button" data-demo="forgot-clear">Clear</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== RESET PASSWORD ========== -->
+        <section class="page-view" id="page-reset" data-page="reset" hidden>
+          <span class="eyebrow" data-i18n="pages.resetPassword.title">Новий пароль</span>
+          <h1 class="headline" data-i18n="pages.resetPassword.title">Новий пароль</h1>
+          <p class="supporting" data-i18n="pages.resetPassword.subtitle">Введіть новий пароль для акаунта</p>
+
+          <div class="reset-state" id="reset-resolving" data-reset-view="resolving">
+            <div class="verify-loading">
+              <div class="verify-icon-wrap" aria-hidden="true">
+                <span class="material-symbols-outlined">password</span>
+              </div>
+              <div class="spinner-lg" aria-hidden="true"></div>
+              <div class="verify-loading-text" data-i18n="pages.resetPassword.resolvingAccount">Перевіряємо посилання...</div>
+            </div>
+          </div>
+
+          <div class="reset-state" id="reset-missing" data-reset-view="missing">
+            <div class="banner banner--error is-visible" role="alert">
+              <span class="material-symbols-outlined">error</span>
+              <span data-i18n="pages.resetPassword.missingToken">Посилання для скидання пароля відсутнє або пошкоджене</span>
+            </div>
+            <p class="form-footer back-link-row">
+              <a href="#forgot-password" data-nav="forgot" data-i18n="pages.resetPassword.requestAgain">Запитати нове посилання</a>
+            </p>
+          </div>
+
+          <div class="reset-state" id="reset-invalid" data-reset-view="invalid">
+            <div class="banner banner--error is-visible" role="alert">
+              <span class="material-symbols-outlined">error</span>
+              <span data-i18n="pages.resetPassword.errorInvalid">Посилання недійсне або застаріле</span>
+            </div>
+            <p class="form-footer back-link-row">
+              <a href="#forgot-password" data-nav="forgot" data-i18n="pages.resetPassword.requestAgain">Запитати нове посилання</a>
+            </p>
+          </div>
+
+          <div class="reset-state" id="reset-generic" data-reset-view="generic">
+            <div class="banner banner--error is-visible" role="alert">
+              <span class="material-symbols-outlined">error</span>
+              <span data-i18n="pages.resetPassword.errorGeneric">Не вдалося оновити пароль. Спробуйте пізніше</span>
+            </div>
+            <p class="form-footer back-link-row">
+              <a href="#login" data-nav="login" data-i18n="pages.resetPassword.backToLogin">Повернутися до входу</a>
+            </p>
+          </div>
+
+          <div class="reset-state is-active" id="reset-form" data-reset-view="form">
+            <div class="banner banner--error" id="resetErrorBanner" role="alert">
+              <span class="material-symbols-outlined">error</span>
+              <span id="resetErrorText" data-i18n="pages.resetPassword.errorGeneric">Не вдалося оновити пароль. Спробуйте пізніше</span>
+            </div>
+            <div class="banner banner--success" id="resetSuccessBanner" role="status">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span data-i18n="pages.resetPassword.success">Пароль оновлено. Увійдіть з новим паролем</span>
+            </div>
+
+            <form class="auth-page-form" id="resetForm" novalidate>
+              <div class="field is-locked" id="resetEmailField">
+                <input type="email" id="resetEmail" name="username" autocomplete="username" placeholder=" " value="dispatcher@geosun.example" readonly aria-readonly="true" />
+                <label for="resetEmail" data-i18n="pages.resetPassword.email">Email</label>
+              </div>
+              <div class="field field--password" id="resetPasswordField">
+                <input type="password" id="resetPassword" name="new-password" autocomplete="new-password" placeholder=" " required minlength="8" />
+                <label for="resetPassword" data-i18n="pages.resetPassword.password">Новий пароль</label>
+                <div class="field-hint" id="resetPasswordHint" data-i18n="pages.resetPassword.passwordMinLength">Мінімум 8 символів</div>
+              </div>
+              <div class="field field--password" id="resetConfirmField">
+                <input type="password" id="resetConfirm" name="confirm-new-password" autocomplete="new-password" placeholder=" " required minlength="8" />
+                <label for="resetConfirm" data-i18n="pages.resetPassword.confirmPassword">Підтвердіть пароль</label>
+                <div class="field-hint" data-i18n="pages.resetPassword.passwordMismatch">Паролі не збігаються</div>
+              </div>
+              <div class="checkbox-row">
+                <label class="checkbox">
+                  <input type="checkbox" id="resetShowPassword" />
+                  <span class="box"><span class="material-symbols-outlined">check</span></span>
+                  <span data-i18n="pages.resetPassword.showPassword">Показати пароль</span>
+                </label>
+              </div>
+              <button type="submit" class="btn-primary" id="resetSubmit">
+                <span class="spinner" aria-hidden="true"></span>
+                <span class="btn-label" data-i18n="pages.resetPassword.submit" data-i18n-loading="pages.resetPassword.loading">Зберегти пароль</span>
+              </button>
+            </form>
+            <p class="form-footer back-link-row">
+              <a href="#login" data-nav="login" data-i18n="pages.resetPassword.backToLogin">Повернутися до входу</a>
+            </p>
+          </div>
+
+          <div class="demo-hint">
+            <strong>Demo:</strong> token resolved as <code>dispatcher@geosun.example</code> (locked, like Angular).
+            Password <code>rate1234a</code> → 429; <code>badlink1a</code> → invalid token still on form; other valid → success.
+            Angular navigates to <code>/login</code> right after success — prototype keeps the banner.
+            <div class="status-tabs" id="resetStatusTabs" aria-label="Prototype reset status">
+              <button type="button" data-reset-status="form" class="is-active">form</button>
+              <button type="button" data-reset-status="resolving">resolving</button>
+              <button type="button" data-reset-status="missing">missing token</button>
+              <button type="button" data-reset-status="invalid">invalid token</button>
+              <button type="button" data-reset-status="generic">generic (no email)</button>
+              <button type="button" data-reset-status="success">success</button>
+            </div>
+            <div class="demo-actions">
+              <button type="button" data-demo="reset-429">429 on form</button>
+              <button type="button" data-demo="reset-invalid-form">invalid on form</button>
+              <button type="button" data-demo="reset-generic-form">generic on form</button>
+              <button type="button" data-demo="reset-clear">Clear banners</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== VERIFY EMAIL ========== -->
+        <section class="page-view" id="page-verify" data-page="verify" hidden>
+          <span class="eyebrow" data-i18n="pages.verifyEmail.title">Підтвердження email</span>
+          <h1 class="headline" data-i18n="pages.verifyEmail.title">Підтвердження email</h1>
+          <p class="supporting" data-i18n="pages.verifyEmail.subtitle">Зачекайте, перевіряємо посилання підтвердження</p>
+
+          <div class="status-tabs" id="verifyStatusTabs" aria-label="Prototype status">
+            <button type="button" data-verify-status="loading" class="is-active">loading</button>
+            <button type="button" data-verify-status="success">success</button>
+            <button type="button" data-verify-status="invalid">invalid</button>
+            <button type="button" data-verify-status="error">error</button>
+          </div>
+
+          <div class="verify-status is-active" id="verify-loading" data-verify-view="loading">
+            <div class="verify-loading">
+              <div class="verify-icon-wrap" aria-hidden="true">
+                <span class="material-symbols-outlined">mail</span>
+              </div>
+              <div class="spinner-lg" aria-hidden="true"></div>
+              <div class="verify-loading-text" data-i18n="pages.verifyEmail.loading">Виконуємо підтвердження...</div>
+              <div class="verify-loading-sub" data-i18n="pages.verifyEmail.subtitle">Зачекайте, перевіряємо посилання підтвердження</div>
+            </div>
+          </div>
+
+          <div class="verify-status" id="verify-success" data-verify-view="success">
+            <div class="banner banner--success is-visible" role="status">
+              <span class="material-symbols-outlined">mark_email_read</span>
+              <span data-i18n="pages.verifyEmail.success">Email успішно підтверджено. Тепер можна увійти до системи</span>
+            </div>
+          </div>
+
+          <div class="verify-status" id="verify-invalid" data-verify-view="invalid">
+            <div class="banner banner--error is-visible" role="alert">
+              <span class="material-symbols-outlined">error</span>
+              <span data-i18n="pages.verifyEmail.invalid">Посилання підтвердження недійсне або застаріле</span>
+            </div>
+          </div>
+
+          <div class="verify-status" id="verify-error" data-verify-view="error">
+            <div class="banner banner--error is-visible" role="alert">
+              <span class="material-symbols-outlined">error</span>
+              <span data-i18n="pages.verifyEmail.error">Не вдалося підтвердити email. Спробуйте пізніше</span>
+            </div>
+          </div>
+
+          <a href="#login" class="btn-primary" data-nav="login" style="text-decoration:none;margin-top:8px;" id="verifyToLogin">
+            <span class="btn-label" data-i18n="pages.verifyEmail.toLogin">Перейти до входу</span>
+          </a>
+
+          <div class="demo-hint">
+            <strong>Demo:</strong> use status tabs above or <code>?page=verify&amp;status=success</code>.
+            Icons: <code>mail</code> / <code>mark_email_read</code> as in Angular.
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="shell.js"></script>
+</body>
+</html>

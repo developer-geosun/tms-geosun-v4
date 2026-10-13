@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="azure-blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GeoSun TMS — Route builder · Material Dev Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet" />
+  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="route-builder.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidenav" aria-label="GeoSun TMS">
+      <div class="sidenav-header">
+        <div class="sidenav-logo-disc">
+          <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+        </div>
+        <div class="sidenav-wordmark">
+          <span class="name">GeoSun</span>
+          <span class="product" data-i18n="shell.brandProduct">TMS</span>
+        </div>
+      </div>
+      <nav class="sidenav-nav" id="desktopNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+      <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+    </aside>
+
+    <header class="app-toolbar" role="banner">
+      <button type="button" class="menu-btn" id="menuBtn" aria-controls="mobileDrawer" aria-expanded="false" data-i18n-aria="shell.openMenu" aria-label="Відкрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+      <h1 class="toolbar-title" id="pageTitle" data-i18n="pages.routeBuilder.newRoute">Новий маршрут</h1>
+      <div class="toolbar-actions" role="toolbar" aria-label="Theme, language, account">
+        <div class="theme-picker">
+          <button type="button" class="chrome-icon-btn" id="themeMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Select a theme" title="Select a theme">
+            <span class="material-symbols-outlined" aria-hidden="true">format_color_fill</span>
+          </button>
+          <div class="chrome-menu" id="themeMenu" role="menu" aria-label="Themes" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="rose-red" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Rose &amp; Red</span>
+              <span class="theme-preview" data-preview="rose-red" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="azure-blue" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Azure &amp; Blue</span>
+              <span class="theme-preview" data-preview="azure-blue" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="magenta-violet" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Magenta &amp; Violet</span>
+              <span class="theme-preview" data-preview="magenta-violet" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="cyan-orange" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Cyan &amp; Orange</span>
+              <span class="theme-preview" data-preview="cyan-orange" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div class="lang-picker">
+          <button type="button" class="lang-trigger" id="langMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">
+            <span id="langCodeLabel">UK</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="uk" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Українська</span>
+              <span class="menu-code" aria-hidden="true">UK</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="en" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">English</span>
+              <span class="menu-code" aria-hidden="true">EN</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="ru" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Русский</span>
+              <span class="menu-code" aria-hidden="true">RU</span>
+            </button>
+          </div>
+        </div>
+        <div class="user-picker">
+          <button type="button" class="user-trigger" id="userMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu" data-i18n-aria="shell.userMenu" aria-label="Меню користувача">
+            <span class="user-avatar" id="userAvatar" aria-hidden="true">КР</span>
+            <span class="user-name" id="userName">user@geosun.demo</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu" id="userMenu" role="menu" aria-label="User" hidden>
+            <div class="user-menu-header">
+              <div class="email" id="userMenuEmail">user@geosun.demo</div>
+              <div class="role" id="userMenuRole">user</div>
+            </div>
+            <button type="button" class="chrome-menu-item" role="menuitem" data-nav="profile">
+              <span class="material-symbols-outlined" aria-hidden="true">person</span>
+              <span class="menu-label" data-i18n="navigation.profile">Профіль</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitem" id="logoutBtn">
+              <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span class="menu-label" data-i18n="auth.logout">Вийти</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content app-content--flush" id="mainContent" role="main">
+      <!-- ========== /route-builder redesign ========== -->
+      <section class="page-view is-active" data-page="route-builder" id="page-route-builder">
+        <div class="rb-layout rb-layout--sidebar" id="rbLayout">
+          <aside class="rb-panel" aria-label="Route panel">
+            <div class="rb-actions" id="rbActions"></div>
+            <div class="rb-points" id="rbPoints"></div>
+          </aside>
+
+          <div class="rb-map" id="rbMap" aria-label="Map">
+            <div class="rb-map-grid" aria-hidden="true"></div>
+            <div class="rb-map-land" aria-hidden="true"></div>
+            <svg class="rb-map-route" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
+              <polyline id="rbRouteLine" fill="none" stroke="var(--mat-sys-primary)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10" opacity="0.9" points=""></polyline>
+            </svg>
+            <div class="rb-map-markers" id="rbMapMarkers"></div>
+            <div class="rb-map-controls" aria-hidden="true">
+              <button type="button" class="rb-map-ctrl" tabindex="-1"><span class="material-symbols-outlined">add</span></button>
+              <button type="button" class="rb-map-ctrl" tabindex="-1"><span class="material-symbols-outlined">remove</span></button>
+              <button type="button" class="rb-map-ctrl" tabindex="-1"><span class="material-symbols-outlined">my_location</span></button>
+            </div>
+            <div class="rb-map-hint">
+              <span class="material-symbols-outlined" aria-hidden="true">touch_app</span>
+              <span id="rbMapHintText">Tap map</span>
+            </div>
+          </div>
+
+          <button type="button" class="rb-panel-toggle" id="rbPanelToggle" aria-label="Map">
+            <span class="material-symbols-outlined" aria-hidden="true">map</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="page-view" data-page="stub" id="page-stub" hidden>
+        <div class="stub-card">
+          <h2 id="stubTitle">…</h2>
+          <p data-i18n="pages.routeBuilder.stubBody">Ця сторінка не входить у пак route-builder — лише оболонка.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="GeoSun TMS">
+    <div class="sidenav-header">
+      <div class="sidenav-logo-disc">
+        <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+      </div>
+      <div class="sidenav-wordmark">
+        <span class="name">GeoSun</span>
+        <span class="product" data-i18n="shell.brandProduct">TMS</span>
+      </div>
+      <button type="button" class="drawer-close" id="drawerCloseBtn" data-i18n-aria="shell.closeMenu" aria-label="Закрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <nav class="sidenav-nav" id="mobileNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+    <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+  </aside>
+
+  <div class="rb-demo-bar" id="demoBar">
+    <span data-i18n="shell.demoChrome">Демо</span>
+    <label for="roleSelect" data-i18n="shell.roleLabel">Роль (прототип)</label>
+    <select id="roleSelect">
+      <option value="admin">admin</option>
+      <option value="manager">manager</option>
+      <option value="driver">driver</option>
+      <option value="user" selected>user</option>
+    </select>
+    <label for="rbModeSelect" data-i18n="pages.routeBuilder.demoMode">Режим</label>
+    <select id="rbModeSelect">
+      <option value="create" selected>create</option>
+      <option value="edit">edit</option>
+      <option value="view">view</option>
+    </select>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="shell.js"></script>
+  <script src="route-builder.js"></script>
+</body>
+</html>

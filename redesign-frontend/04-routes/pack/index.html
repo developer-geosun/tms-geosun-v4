@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="azure-blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GeoSun TMS — Routes · Material Dev Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet" />
+  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="routes.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidenav" aria-label="GeoSun TMS">
+      <div class="sidenav-header">
+        <div class="sidenav-logo-disc">
+          <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+        </div>
+        <div class="sidenav-wordmark">
+          <span class="name">GeoSun</span>
+          <span class="product" data-i18n="shell.brandProduct">TMS</span>
+        </div>
+      </div>
+      <nav class="sidenav-nav" id="desktopNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+      <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+    </aside>
+
+    <header class="app-toolbar" role="banner">
+      <button type="button" class="menu-btn" id="menuBtn" aria-controls="mobileDrawer" aria-expanded="false" data-i18n-aria="shell.openMenu" aria-label="Відкрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+      <h1 class="toolbar-title" id="pageTitle" data-i18n="navigation.routes">Мої маршрути</h1>
+      <div class="toolbar-actions" role="toolbar" aria-label="Theme, language, account">
+        <div class="theme-picker">
+          <button type="button" class="chrome-icon-btn" id="themeMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Select a theme" title="Select a theme">
+            <span class="material-symbols-outlined" aria-hidden="true">format_color_fill</span>
+          </button>
+          <div class="chrome-menu" id="themeMenu" role="menu" aria-label="Themes" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="rose-red" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Rose &amp; Red</span>
+              <span class="theme-preview" data-preview="rose-red" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="azure-blue" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Azure &amp; Blue</span>
+              <span class="theme-preview" data-preview="azure-blue" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="magenta-violet" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Magenta &amp; Violet</span>
+              <span class="theme-preview" data-preview="magenta-violet" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="cyan-orange" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Cyan &amp; Orange</span>
+              <span class="theme-preview" data-preview="cyan-orange" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div class="lang-picker">
+          <button type="button" class="lang-trigger" id="langMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">
+            <span id="langCodeLabel">UK</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="uk" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Українська</span>
+              <span class="menu-code" aria-hidden="true">UK</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="en" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">English</span>
+              <span class="menu-code" aria-hidden="true">EN</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="ru" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Русский</span>
+              <span class="menu-code" aria-hidden="true">RU</span>
+            </button>
+          </div>
+        </div>
+        <div class="user-picker">
+          <button type="button" class="user-trigger" id="userMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu" data-i18n-aria="shell.userMenu" aria-label="Меню користувача">
+            <span class="user-avatar" id="userAvatar" aria-hidden="true">КР</span>
+            <span class="user-name" id="userName">user@geosun.demo</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu" id="userMenu" role="menu" aria-label="User" hidden>
+            <div class="user-menu-header">
+              <div class="email" id="userMenuEmail">user@geosun.demo</div>
+              <div class="role" id="userMenuRole">user</div>
+            </div>
+            <button type="button" class="chrome-menu-item" role="menuitem" data-nav="profile">
+              <span class="material-symbols-outlined" aria-hidden="true">person</span>
+              <span class="menu-label" data-i18n="navigation.profile">Профіль</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitem" id="logoutBtn">
+              <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span class="menu-label" data-i18n="auth.logout">Вийти</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content" id="mainContent" role="main">
+      <!-- ========== /routes list redesign ========== -->
+      <section class="page-view is-active" data-page="routes" id="page-routes">
+
+        <header class="routes-hero">
+          <div class="routes-hero-text">
+            <p class="routes-eyebrow" data-i18n="navigation.routes">Мої маршрути</p>
+            <h1 class="routes-hero-title" id="routesHeading" data-i18n="pages.routes.listViewHeadingActive">Активні маршрути</h1>
+            <p class="routes-hero-sub" data-i18n="pages.routes.filterHint">Фільтр списку та сортування</p>
+          </div>
+          <div class="routes-hero-actions">
+            <button type="button" class="routes-fab routes-fab--tonal" id="routesFilterBtn" data-i18n-aria="pages.routes.openFilters" aria-label="Фільтр і сортування" title="Фільтр і сортування">
+              <span class="material-symbols-outlined" aria-hidden="true">tune</span>
+            </button>
+            <button type="button" class="routes-fab routes-fab--primary" id="routesAddBtn" data-i18n-aria="pages.routes.addNewRoute" aria-label="Новий маршрут" title="Новий маршрут">
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Desktop inline filter/sort bar -->
+        <div class="routes-toolbar" id="routesToolbar" role="group" aria-label="Filter and sort">
+          <div class="routes-filter-chips" role="radiogroup" aria-labelledby="routesViewLabel">
+            <span class="routes-toolbar-label" id="routesViewLabel" data-i18n="pages.routes.listViewLabel">Показувати маршрути</span>
+            <button type="button" class="chip chip--selected" data-list-view="active" role="radio" aria-checked="true">
+              <span data-i18n="pages.routes.listViewActive">Активні</span>
+            </button>
+            <button type="button" class="chip" data-list-view="all" role="radio" aria-checked="false">
+              <span data-i18n="pages.routes.listViewAll">Усі</span>
+            </button>
+            <button type="button" class="chip" data-list-view="deleted" role="radio" aria-checked="false">
+              <span data-i18n="pages.routes.listViewDeleted">Видалені</span>
+            </button>
+          </div>
+          <div class="routes-sort-controls">
+            <label class="routes-toolbar-label" for="sortBySelect" data-i18n="pages.routes.sortCardTitle">Сортування маршруту</label>
+            <select id="sortBySelect" class="routes-select">
+              <option value="updatedAt" data-i18n="pages.routes.sortByUpdated">Остання зміна</option>
+              <option value="createdAt" data-i18n="pages.routes.sortByCreated">Створено</option>
+              <option value="id" data-i18n="pages.routes.sortById">ID маршруту</option>
+              <option value="distanceKm" data-i18n="pages.routes.sortByDistance">Довжина маршруту</option>
+            </select>
+            <div class="routes-sort-dir" role="group" data-i18n-aria="pages.routes.sortDirectionGroup" aria-label="Напрямок сортування">
+              <button type="button" class="sort-dir-btn" data-dir="asc" data-i18n-aria="pages.routes.sortAsc" aria-label="За зростанням" title="За зростанням">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+              </button>
+              <button type="button" class="sort-dir-btn is-active" data-dir="desc" data-i18n-aria="pages.routes.sortDesc" aria-label="За спаданням" title="За спаданням">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_downward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="routes-state" id="routesLoading" hidden>
+          <div class="routes-state-card">
+            <div class="routes-spinner" aria-hidden="true"></div>
+            <p class="routes-state-title" data-i18n="pages.routes.loading">Завантаження маршрутів...</p>
+            <p class="routes-state-body" data-i18n="pages.routes.loadingHint">Тягнемо збережені маршрути…</p>
+          </div>
+        </div>
+
+        <!-- Load failed -->
+        <div class="routes-state" id="routesFailed" hidden>
+          <div class="routes-state-card routes-state-card--error">
+            <span class="material-symbols-outlined routes-state-icon" aria-hidden="true">error</span>
+            <p class="routes-state-title" data-i18n="pages.routes.loadFailed">Не вдалося завантажити маршрути</p>
+          </div>
+        </div>
+
+        <!-- Empty -->
+        <div class="routes-state" id="routesEmpty" hidden>
+          <div class="routes-state-card">
+            <div class="routes-state-icon-disc">
+              <span class="material-symbols-outlined" aria-hidden="true">route</span>
+            </div>
+            <p class="routes-state-title" id="routesEmptyTitle" data-i18n="pages.routes.empty">Поки немає збережених маршрутів</p>
+            <p class="routes-state-body" data-i18n="pages.routes.emptyBody">Створіть перший маршрут у конструкторі, щоб він з’явився тут.</p>
+            <button type="button" class="routes-cta" id="routesEmptyCta">
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
+              <span data-i18n="pages.routes.addNewRoute">Новий маршрут</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop M3 table -->
+        <div class="routes-table-wrap" id="routesTableWrap" hidden>
+          <table class="routes-table" aria-labelledby="routesHeading">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="pages.routes.colId">ID</th>
+                <th scope="col" data-i18n="pages.routes.colPoints">Точки</th>
+                <th scope="col" data-i18n="pages.routes.colDistance">Довжина</th>
+                <th scope="col" data-i18n="pages.routes.colCreated">Створено</th>
+                <th scope="col" data-i18n="pages.routes.colUpdated">Остання зміна</th>
+                <th scope="col" data-i18n="pages.routes.colOpened">Останнє відкриття</th>
+                <th scope="col" data-i18n="pages.routes.colStatus">Статус</th>
+                <th scope="col" data-i18n="pages.routes.colActions">Дії</th>
+              </tr>
+            </thead>
+            <tbody id="routesTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Mobile card list -->
+        <div class="routes-cards" id="routesCards" hidden aria-labelledby="routesHeading"></div>
+
+        <p class="routes-proto-note">
+          <span class="material-symbols-outlined" aria-hidden="true">info</span>
+          <span data-i18n="pages.routes.redesignNote">Редизайн /routes поверх затвердженої App shell.</span>
+        </p>
+      </section>
+
+      <section class="page-view" data-page="stub" id="page-stub" hidden>
+        <div class="page-stub">
+          <strong id="stubTitle">…</strong>
+          <p style="margin-top:8px">Outlet placeholder — this pack redesigns <code>/routes</code> only.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="GeoSun TMS">
+    <div class="sidenav-header">
+      <div class="sidenav-logo-disc">
+        <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+      </div>
+      <div class="sidenav-wordmark">
+        <span class="name">GeoSun</span>
+        <span class="product" data-i18n="shell.brandProduct">TMS</span>
+      </div>
+      <button type="button" class="drawer-close" id="drawerCloseBtn" data-i18n-aria="shell.closeMenu" aria-label="Закрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <nav class="sidenav-nav" id="mobileNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+    <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+  </aside>
+
+  <!-- Mobile / compact filter-sort sheet -->
+  <div class="sheet-scrim" id="sheetScrim" hidden></div>
+  <div class="routes-sheet" id="routesSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+    <div class="routes-sheet-handle" aria-hidden="true"></div>
+    <h2 class="routes-sheet-title" id="sheetTitle" data-i18n="pages.routes.openFilters">Фільтр і сортування</h2>
+    <div class="routes-sheet-section">
+      <h3 data-i18n="pages.routes.listViewLabel">Показувати маршрути</h3>
+      <div class="routes-sheet-radios" id="sheetListView">
+        <label class="sheet-radio"><input type="radio" name="sheetView" value="active" checked /> <span data-i18n="pages.routes.listViewActive">Активні</span></label>
+        <label class="sheet-radio"><input type="radio" name="sheetView" value="all" /> <span data-i18n="pages.routes.listViewAll">Усі</span></label>
+        <label class="sheet-radio"><input type="radio" name="sheetView" value="deleted" /> <span data-i18n="pages.routes.listViewDeleted">Видалені</span></label>
+      </div>
+    </div>
+    <div class="routes-sheet-section">
+      <h3 data-i18n="pages.routes.sortCardTitle">Сортування маршруту</h3>
+      <div class="routes-sheet-radios" id="sheetSortBy">
+        <label class="sheet-radio"><input type="radio" name="sheetSort" value="updatedAt" checked /> <span data-i18n="pages.routes.sortByUpdated">Остання зміна</span></label>
+        <label class="sheet-radio"><input type="radio" name="sheetSort" value="createdAt" /> <span data-i18n="pages.routes.sortByCreated">Створено</span></label>
+        <label class="sheet-radio"><input type="radio" name="sheetSort" value="id" /> <span data-i18n="pages.routes.sortById">ID маршруту</span></label>
+        <label class="sheet-radio"><input type="radio" name="sheetSort" value="distanceKm" /> <span data-i18n="pages.routes.sortByDistance">Довжина маршруту</span></label>
+      </div>
+      <div class="routes-sort-dir sheet-sort-dir" role="group">
+        <button type="button" class="sort-dir-btn" data-sheet-dir="asc"><span class="material-symbols-outlined">arrow_upward</span></button>
+        <button type="button" class="sort-dir-btn is-active" data-sheet-dir="desc"><span class="material-symbols-outlined">arrow_downward</span></button>
+      </div>
+    </div>
+    <button type="button" class="routes-sheet-done" id="sheetDoneBtn">OK</button>
+  </div>
+
+  <div class="demo-bar" id="demoBar">
+    <span data-i18n="shell.demoChrome">Демо</span>
+    <label for="roleSelect" data-i18n="shell.roleLabel">Роль (прототип)</label>
+    <select id="roleSelect" aria-label="Role">
+      <option value="admin">admin</option>
+      <option value="manager">manager</option>
+      <option value="driver">driver</option>
+      <option value="user" selected>user</option>
+    </select>
+    <label for="stateSelect" data-i18n="pages.routes.demoState">Стан списку (прототип)</label>
+    <select id="stateSelect" aria-label="List state">
+      <option value="list" selected>list</option>
+      <option value="empty">empty</option>
+      <option value="loading">loading</option>
+      <option value="failed">failed</option>
+    </select>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="shell.js"></script>
+  <script src="routes.js"></script>
+</body>
+</html>

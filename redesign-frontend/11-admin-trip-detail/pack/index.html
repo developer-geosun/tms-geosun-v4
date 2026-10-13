@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="azure-blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GeoSun TMS — Рейс · Material Dev Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet" />
+  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="page-kit.css" />
+  <link rel="stylesheet" href="page.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidenav" aria-label="GeoSun TMS">
+      <div class="sidenav-header">
+        <div class="sidenav-logo-disc">
+          <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+        </div>
+        <div class="sidenav-wordmark">
+          <span class="name">GeoSun</span>
+          <span class="product" data-i18n="shell.brandProduct">TMS</span>
+        </div>
+      </div>
+      <nav class="sidenav-nav" id="desktopNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+      <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+    </aside>
+
+    <header class="app-toolbar" role="banner">
+      <button type="button" class="menu-btn" id="menuBtn" aria-controls="mobileDrawer" aria-expanded="false" data-i18n-aria="shell.openMenu" aria-label="Відкрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+      <h1 class="toolbar-title" id="pageTitle" data-i18n="navigation.adminTrips">Рейс</h1>
+      <div class="toolbar-actions" role="toolbar" aria-label="Theme, language, account">
+        <div class="theme-picker">
+          <button type="button" class="chrome-icon-btn" id="themeMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Select a theme" title="Select a theme">
+            <span class="material-symbols-outlined" aria-hidden="true">format_color_fill</span>
+          </button>
+          <div class="chrome-menu" id="themeMenu" role="menu" aria-label="Themes" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="rose-red" aria-checked="false"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">Rose &amp; Red</span><span class="theme-preview" data-preview="rose-red" aria-hidden="true"></span></button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="azure-blue" aria-checked="true"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">Azure &amp; Blue</span><span class="theme-preview" data-preview="azure-blue" aria-hidden="true"></span></button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="magenta-violet" aria-checked="false"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">Magenta &amp; Violet</span><span class="theme-preview" data-preview="magenta-violet" aria-hidden="true"></span></button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="cyan-orange" aria-checked="false"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">Cyan &amp; Orange</span><span class="theme-preview" data-preview="cyan-orange" aria-hidden="true"></span></button>
+          </div>
+        </div>
+        <div class="lang-picker">
+          <button type="button" class="lang-trigger" id="langMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">
+            <span id="langCodeLabel">UK</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="uk" aria-checked="true"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">Українська</span><span class="menu-code" aria-hidden="true">UK</span></button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="en" aria-checked="false"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">English</span><span class="menu-code" aria-hidden="true">EN</span></button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="ru" aria-checked="false"><span class="menu-radio" aria-hidden="true"></span><span class="menu-label">Русский</span><span class="menu-code" aria-hidden="true">RU</span></button>
+          </div>
+        </div>
+        <div class="user-picker">
+          <button type="button" class="user-trigger" id="userMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu" data-i18n-aria="shell.userMenu" aria-label="Меню користувача">
+            <span class="user-avatar" id="userAvatar" aria-hidden="true">АД</span>
+            <span class="user-name" id="userName">admin@geosun.demo</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu" id="userMenu" role="menu" aria-label="User" hidden>
+            <div class="user-menu-header">
+              <div class="email" id="userMenuEmail">admin@geosun.demo</div>
+              <div class="role" id="userMenuRole">admin</div>
+            </div>
+            <button type="button" class="chrome-menu-item" role="menuitem" data-nav="profile">
+              <span class="material-symbols-outlined" aria-hidden="true">person</span>
+              <span class="menu-label" data-i18n="navigation.profile">Профіль</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitem" id="logoutBtn">
+              <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span class="menu-label" data-i18n="auth.logout">Вийти</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content" id="mainContent" role="main">
+
+      <section class="page-view is-active" data-page="admin/trips" id="page-admin-trip-detail">
+        <header class="gs-hero">
+          <div class="gs-hero-text">
+            <p class="gs-eyebrow" data-i18n="navigation.adminTrips">Рейси</p>
+            <h1 class="gs-hero-title"><span id="gsModeTitle" data-i18n="pages.adminTrips.editTitle">Рейс</span> <span class="gs-status is-planned" id="gsTripNo">T-2026-014</span></h1>
+            <p class="gs-hero-sub" data-i18n="pages.adminTrips.plannedRequirementsHint">hint</p>
+          </div>
+          <div class="gs-hero-actions">
+            <button type="button" class="gs-btn gs-btn--stroked" id="gsBack"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span data-i18n="pages.adminTrips.backToList">До списку</span></button>
+            <button type="button" class="gs-btn gs-btn--filled" id="gsSave"><span class="material-symbols-outlined" aria-hidden="true">save</span><span data-i18n="pages.adminTrips.save">Зберегти</span></button>
+          </div>
+        </header>
+        <div class="gs-toolbar">
+          <div class="gs-filter" id="gsStatusActions">
+            <button type="button" class="gs-chip" data-st="PLANNED" data-i18n="pages.adminTrips.setStatusPlanned">Запланувати</button>
+            <button type="button" class="gs-chip is-active" data-st="IN_PROGRESS" data-i18n="pages.adminTrips.setStatusInProgress">Почати</button>
+            <button type="button" class="gs-chip" data-st="COMPLETED" data-i18n="pages.adminTrips.setStatusCompleted">Завершити</button>
+            <button type="button" class="gs-chip" data-st="CANCELLED" data-i18n="pages.adminTrips.setStatusCancelled">Скасувати</button>
+          </div>
+          <span class="gs-status is-progress" id="gsStatusChip">IN_PROGRESS</span>
+        </div>
+        <div class="gs-panel">
+          <form class="gs-form-grid" id="gsForm" onsubmit="return false;">
+            <div class="gs-field"><label data-i18n="pages.adminTrips.tripTitle">Назва</label><input value="Київ → Варшава" /></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.routeRequestId">ID заявки</label><input type="number" value="4821" /></div>
+            <div class="gs-field full"><label data-i18n="pages.adminTrips.comment">Коментар</label><textarea rows="2">Терміновий рейс</textarea></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.originText">Звідки</label><input value="Київ" /></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.destinationText">Куди</label><input value="Варшава" /></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.plannedStartAt">Початок</label><input type="date" value="2026-09-28" /></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.plannedEndAt">Кінець</label><input type="date" value="2026-09-30" /></div>
+            <div class="gs-field full"><label data-i18n="pages.adminTrips.driver">Водій</label><select><option>Іван Петренко · +380501112233</option><option>Олег Коваль</option></select></div>
+            <div class="gs-field full"><label data-i18n="pages.adminTrips.combination">Автопоїзд</label><select><option>АТ-01 Київ · AA1234BB + KA9012AB</option><option>АТ-02 Львів</option></select></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.tractor">Тягач</label><select><option>AA1234BB · Volvo</option></select></div>
+            <div class="gs-field"><label data-i18n="pages.adminTrips.trailer">Причіп</label><select><option>KA9012AB · Schmitz</option></select></div>
+          </form>
+        </div>
+        <div class="gs-panel">
+          <h2 data-i18n="pages.adminTrips.expenseReport">Звіт</h2>
+          <div class="gs-hero-actions" style="margin-bottom:.6rem">
+            <button type="button" class="gs-btn gs-btn--stroked gs-btn--sm" data-i18n="pages.adminTrips.addExpenseLine">Додати</button>
+            <button type="button" class="gs-btn gs-btn--filled gs-btn--sm" data-i18n="pages.adminTrips.saveExpenseLines">Зберегти рядки</button>
+            <button type="button" class="gs-btn gs-btn--stroked gs-btn--sm" data-i18n="pages.adminTrips.approve">Затвердити</button>
+            <button type="button" class="gs-btn gs-btn--stroked gs-btn--sm" data-i18n="pages.adminTrips.reject">Відхилити</button>
+          </div>
+          <div class="gs-table-wrap" style="display:block">
+            <table class="gs-table">
+              <thead><tr>
+                <th data-i18n="pages.adminTrips.expenseCategoryLabel">Кат.</th>
+                <th data-i18n="pages.adminTrips.amount">Сума</th>
+                <th data-i18n="pages.adminTrips.currency">Вал.</th>
+                <th data-i18n="pages.adminTrips.expenseDate">Дата</th>
+                <th data-i18n="pages.adminTrips.description">Опис</th>
+                <th data-i18n="pages.adminTrips.receipt">Чек</th>
+              </tr></thead>
+              <tbody>
+                <tr><td>FUEL</td><td>4200</td><td>UAH</td><td>2026-09-28</td><td>OKKO</td><td>✓</td></tr>
+                <tr><td>TOLL</td><td>85</td><td>EUR</td><td>2026-09-29</td><td>A2</td><td>—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="gs-toast" id="gsToast" hidden role="status"></p>
+      </section>
+
+      <section class="page-view" data-page="stub" id="page-stub" hidden>
+        <div class="page-stub">
+          <strong id="stubTitle">…</strong>
+          <p style="margin-top:8px" data-i18n="shell.stubNote">Outlet placeholder.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="GeoSun TMS">
+    <div class="sidenav-header">
+      <div class="sidenav-logo-disc"><img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" /></div>
+      <div class="sidenav-wordmark"><span class="name">GeoSun</span><span class="product" data-i18n="shell.brandProduct">TMS</span></div>
+      <button type="button" class="drawer-close" id="drawerCloseBtn" data-i18n-aria="shell.closeMenu" aria-label="Закрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <nav class="sidenav-nav" id="mobileNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+    <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+  </aside>
+
+  <div class="demo-bar" id="demoBar">
+    <span data-i18n="shell.demoChrome">Демо</span>
+    <label for="roleSelect" data-i18n="shell.roleLabel">Роль (прототип)</label>
+    <select id="roleSelect" aria-label="Role">
+      <option value="admin" selected>admin</option>
+      <option value="manager">manager</option>
+      <option value="driver">driver</option>
+      <option value="user">user</option>
+    </select>
+    <label for="stateSelect" data-i18n="proto.demoState">Стан</label>
+    <select id="stateSelect" aria-label="List state">
+      <option value="list" selected>list</option>
+      <option value="empty">empty</option>
+      <option value="loading">loading</option>
+      <option value="failed">failed</option>
+    </select>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="shell.js"></script>
+  <script src="page.js"></script>
+</body>
+</html>

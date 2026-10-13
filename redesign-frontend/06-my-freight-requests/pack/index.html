@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="azure-blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GeoSun TMS — Freight requests · Material Dev Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet" />
+  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="freight.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidenav" aria-label="GeoSun TMS">
+      <div class="sidenav-header">
+        <div class="sidenav-logo-disc">
+          <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+        </div>
+        <div class="sidenav-wordmark">
+          <span class="name">GeoSun</span>
+          <span class="product" data-i18n="shell.brandProduct">TMS</span>
+        </div>
+      </div>
+      <nav class="sidenav-nav" id="desktopNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+      <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+    </aside>
+
+    <header class="app-toolbar" role="banner">
+      <button type="button" class="menu-btn" id="menuBtn" aria-controls="mobileDrawer" aria-expanded="false" data-i18n-aria="shell.openMenu" aria-label="Відкрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+      <h1 class="toolbar-title" id="pageTitle" data-i18n="navigation.myFreightRequests">Запити на фрахт</h1>
+      <div class="toolbar-actions" role="toolbar" aria-label="Theme, language, account">
+        <div class="theme-picker">
+          <button type="button" class="chrome-icon-btn" id="themeMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Select a theme" title="Select a theme">
+            <span class="material-symbols-outlined" aria-hidden="true">format_color_fill</span>
+          </button>
+          <div class="chrome-menu" id="themeMenu" role="menu" aria-label="Themes" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="rose-red" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Rose &amp; Red</span>
+              <span class="theme-preview" data-preview="rose-red" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="azure-blue" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Azure &amp; Blue</span>
+              <span class="theme-preview" data-preview="azure-blue" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="magenta-violet" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Magenta &amp; Violet</span>
+              <span class="theme-preview" data-preview="magenta-violet" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="cyan-orange" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Cyan &amp; Orange</span>
+              <span class="theme-preview" data-preview="cyan-orange" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div class="lang-picker">
+          <button type="button" class="lang-trigger" id="langMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">
+            <span id="langCodeLabel">UK</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="uk" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Українська</span>
+              <span class="menu-code" aria-hidden="true">UK</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="en" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">English</span>
+              <span class="menu-code" aria-hidden="true">EN</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="ru" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Русский</span>
+              <span class="menu-code" aria-hidden="true">RU</span>
+            </button>
+          </div>
+        </div>
+        <div class="user-picker">
+          <button type="button" class="user-trigger" id="userMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu" data-i18n-aria="shell.userMenu" aria-label="Меню користувача">
+            <span class="user-avatar" id="userAvatar" aria-hidden="true">КР</span>
+            <span class="user-name" id="userName">user@geosun.demo</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu" id="userMenu" role="menu" aria-label="User" hidden>
+            <div class="user-menu-header">
+              <div class="email" id="userMenuEmail">user@geosun.demo</div>
+              <div class="role" id="userMenuRole">user</div>
+            </div>
+            <button type="button" class="chrome-menu-item" role="menuitem" data-nav="profile">
+              <span class="material-symbols-outlined" aria-hidden="true">person</span>
+              <span class="menu-label" data-i18n="navigation.profile">Профіль</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitem" id="logoutBtn">
+              <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span class="menu-label" data-i18n="auth.logout">Вийти</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content" id="mainContent" role="main">
+      <section class="page-view is-active" data-page="my-freight-requests" id="page-freight">
+        <header class="fr-hero">
+          <div class="fr-hero-text">
+            <p class="fr-eyebrow" data-i18n="navigation.myFreightRequests">Запити на фрахт</p>
+            <h1 class="fr-hero-title" id="frHeading" data-i18n="pages.myFreightRequests.title">Мої запити на розрахунок фрахту</h1>
+            <p class="fr-hero-sub" data-i18n="pages.myFreightRequests.filterHint">Клієнтський фільтр за статусом.</p>
+          </div>
+          <div class="fr-hero-actions">
+            <button type="button" class="fr-refresh" id="frRefresh">
+              <span class="material-symbols-outlined" aria-hidden="true">refresh</span>
+              <span data-i18n="pages.myFreightRequests.refresh">Оновити</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="fr-toolbar">
+          <div class="fr-filter" role="radiogroup" id="frStatusChips" aria-labelledby="frStatusLabel"></div>
+          <p class="fr-count" id="frCount"></p>
+        </div>
+        <span class="visually-hidden" id="frStatusLabel" data-i18n="pages.adminRouteRequests.status">Статус</span>
+
+        <div class="fr-state" id="frLoading" hidden>
+          <div class="fr-state-card">
+            <div class="fr-spinner" aria-hidden="true"></div>
+            <p class="fr-state-title" data-i18n="pages.myFreightRequests.loading">Завантаження запитів...</p>
+            <p class="fr-state-body" data-i18n="pages.myFreightRequests.loadingHint">Тягнемо ваші запити на розрахунок…</p>
+          </div>
+        </div>
+
+        <div class="fr-state" id="frFailed" hidden>
+          <div class="fr-state-card fr-state-card--error">
+            <span class="material-symbols-outlined fr-state-icon" aria-hidden="true">error</span>
+            <p class="fr-state-title" data-i18n="pages.myFreightRequests.loadFailed">Не вдалося завантажити запити. Спробуйте ще раз.</p>
+            <button type="button" class="fr-cta" id="frRetry">
+              <span class="material-symbols-outlined" aria-hidden="true">refresh</span>
+              <span data-i18n="pages.myFreightRequests.refresh">Оновити</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fr-state" id="frEmpty" hidden>
+          <div class="fr-state-card">
+            <div class="fr-state-icon-disc">
+              <span class="material-symbols-outlined" aria-hidden="true">local_shipping</span>
+            </div>
+            <p class="fr-state-title" id="frEmptyTitle" data-i18n="pages.myFreightRequests.empty">Ви ще не надсилали запитів на розрахунок фрахту.</p>
+            <p class="fr-state-body" id="frEmptyBody" data-i18n="pages.myFreightRequests.emptyBody">Надішліть запит із картки збереженого маршруту — він з’явиться тут.</p>
+            <button type="button" class="fr-cta" id="frEmptyCta">
+              <span class="material-symbols-outlined" aria-hidden="true">route</span>
+              <span data-i18n="pages.myFreightRequests.goToRoutes">До моїх маршрутів</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="fr-table-wrap" id="frTableWrap" hidden>
+          <table class="fr-table" aria-labelledby="frHeading">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="pages.myFreightRequests.requestId">ID запиту</th>
+                <th scope="col" data-i18n="pages.adminRouteRequests.status">Статус</th>
+                <th scope="col" data-i18n="pages.myFreightRequests.colRoute">Маршрут</th>
+                <th scope="col" data-i18n="pages.myFreightRequests.colDistance">Довжина</th>
+                <th scope="col" data-i18n="pages.myFreightRequests.preferredStartDate">Бажана дата старту</th>
+                <th scope="col" data-i18n="pages.myFreightRequests.colQuote">Пропозиція</th>
+                <th scope="col" data-i18n="pages.myFreightRequests.createdAt">Надіслано</th>
+                <th scope="col" data-i18n="pages.myFreightRequests.colActions">Дії</th>
+              </tr>
+            </thead>
+            <tbody id="frTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="fr-cards" id="frCards" hidden aria-labelledby="frHeading"></div>
+
+        <p class="fr-proto-note">
+          <span class="material-symbols-outlined" aria-hidden="true">info</span>
+          <span data-i18n="pages.myFreightRequests.redesignNote">Редизайн /my-freight-requests.</span>
+        </p>
+        <p class="fr-toast" id="frToast" hidden role="status"></p>
+      </section>
+
+      <section class="page-view" data-page="stub" id="page-stub" hidden>
+        <div class="page-stub">
+          <strong id="stubTitle">…</strong>
+          <p style="margin-top:8px">Outlet placeholder — this pack redesigns <code>/my-freight-requests</code> only.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="GeoSun TMS">
+    <div class="sidenav-header">
+      <div class="sidenav-logo-disc">
+        <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+      </div>
+      <div class="sidenav-wordmark">
+        <span class="name">GeoSun</span>
+        <span class="product" data-i18n="shell.brandProduct">TMS</span>
+      </div>
+      <button type="button" class="drawer-close" id="drawerCloseBtn" data-i18n-aria="shell.closeMenu" aria-label="Закрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <nav class="sidenav-nav" id="mobileNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+    <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+  </aside>
+
+  <div class="demo-bar" id="demoBar">
+    <span data-i18n="shell.demoChrome">Демо</span>
+    <label for="roleSelect" data-i18n="shell.roleLabel">Роль (прототип)</label>
+    <select id="roleSelect" aria-label="Role">
+      <option value="admin">admin</option>
+      <option value="manager">manager</option>
+      <option value="driver">driver</option>
+      <option value="user" selected>user</option>
+    </select>
+    <label for="stateSelect" data-i18n="pages.myFreightRequests.demoState">Стан списку (прототип)</label>
+    <select id="stateSelect" aria-label="List state">
+      <option value="list" selected>list</option>
+      <option value="empty">empty</option>
+      <option value="loading">loading</option>
+      <option value="failed">failed</option>
+    </select>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="shell.js"></script>
+  <script src="freight.js"></script>
+</body>
+</html>

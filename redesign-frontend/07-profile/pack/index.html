@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="azure-blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GeoSun TMS — Profile · Material Dev Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet" />
+  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidenav" aria-label="GeoSun TMS">
+      <div class="sidenav-header">
+        <div class="sidenav-logo-disc">
+          <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+        </div>
+        <div class="sidenav-wordmark">
+          <span class="name">GeoSun</span>
+          <span class="product" data-i18n="shell.brandProduct">TMS</span>
+        </div>
+      </div>
+      <nav class="sidenav-nav" id="desktopNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+      <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+    </aside>
+
+    <header class="app-toolbar" role="banner">
+      <button type="button" class="menu-btn" id="menuBtn" aria-controls="mobileDrawer" aria-expanded="false" data-i18n-aria="shell.openMenu" aria-label="Відкрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+      <h1 class="toolbar-title" id="pageTitle" data-i18n="navigation.profile">Профіль</h1>
+      <div class="toolbar-actions" role="toolbar" aria-label="Theme, language, account">
+        <div class="theme-picker">
+          <button type="button" class="chrome-icon-btn" id="themeMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="themeMenu" aria-label="Select a theme" title="Select a theme">
+            <span class="material-symbols-outlined" aria-hidden="true">format_color_fill</span>
+          </button>
+          <div class="chrome-menu" id="themeMenu" role="menu" aria-label="Themes" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="rose-red" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Rose &amp; Red</span>
+              <span class="theme-preview" data-preview="rose-red" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="azure-blue" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Azure &amp; Blue</span>
+              <span class="theme-preview" data-preview="azure-blue" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="magenta-violet" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Magenta &amp; Violet</span>
+              <span class="theme-preview" data-preview="magenta-violet" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-theme-id="cyan-orange" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Cyan &amp; Orange</span>
+              <span class="theme-preview" data-preview="cyan-orange" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div class="lang-picker">
+          <button type="button" class="lang-trigger" id="langMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" aria-label="Language">
+            <span id="langCodeLabel">UK</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu lang-menu" id="langMenu" role="menu" aria-label="Language" hidden>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="uk" aria-checked="true">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Українська</span>
+              <span class="menu-code" aria-hidden="true">UK</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="en" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">English</span>
+              <span class="menu-code" aria-hidden="true">EN</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitemradio" data-lang="ru" aria-checked="false">
+              <span class="menu-radio" aria-hidden="true"></span>
+              <span class="menu-label">Русский</span>
+              <span class="menu-code" aria-hidden="true">RU</span>
+            </button>
+          </div>
+        </div>
+        <div class="user-picker">
+          <button type="button" class="user-trigger" id="userMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu" data-i18n-aria="shell.userMenu" aria-label="Меню користувача">
+            <span class="user-avatar" id="userAvatar" aria-hidden="true">АД</span>
+            <span class="user-name" id="userName">admin@geosun.demo</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+          </button>
+          <div class="chrome-menu" id="userMenu" role="menu" aria-label="User" hidden>
+            <div class="user-menu-header">
+              <div class="email" id="userMenuEmail">admin@geosun.demo</div>
+              <div class="role" id="userMenuRole">admin</div>
+            </div>
+            <button type="button" class="chrome-menu-item" role="menuitem" data-nav="profile">
+              <span class="material-symbols-outlined" aria-hidden="true">person</span>
+              <span class="menu-label" data-i18n="navigation.profile">Профіль</span>
+            </button>
+            <button type="button" class="chrome-menu-item" role="menuitem" id="logoutBtn">
+              <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+              <span class="menu-label" data-i18n="auth.logout">Вийти</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content" id="mainContent" role="main">
+      <section class="page-view is-active" data-page="profile" id="page-profile">
+
+        <!-- Loading / error states -->
+        <div class="profile-state" id="profileLoading" hidden>
+          <div class="profile-state-card">
+            <span class="material-symbols-outlined profile-spin" aria-hidden="true">progress_activity</span>
+            <p data-i18n="pages.profile.loading">Завантаження...</p>
+          </div>
+        </div>
+
+        <div class="profile-state" id="profileFailed" hidden>
+          <div class="profile-state-card profile-state-card--error">
+            <span class="material-symbols-outlined" aria-hidden="true">error</span>
+            <p data-i18n="pages.profile.loadFailed">Не вдалося завантажити профіль</p>
+            <button type="button" class="btn-stroked" id="retryBtn" data-i18n="pages.profile.retry">Повторити</button>
+          </div>
+        </div>
+
+        <div id="profileReady">
+          <!-- Hero -->
+          <article class="profile-hero">
+            <div class="profile-hero-main">
+              <div class="profile-avatar" id="profileAvatar" aria-hidden="true">АД</div>
+              <div class="profile-hero-text">
+                <p class="profile-eyebrow" data-i18n="pages.profile.heroEyebrow">Обліковий запис</p>
+                <h1 class="profile-hero-title" data-i18n="pages.profile.title">Профіль користувача</h1>
+                <p class="profile-hero-sub" data-i18n="pages.profile.subtitle">Контактна картка облікового запису</p>
+                <div class="profile-hero-meta">
+                  <span class="profile-email" id="profileEmail">admin@geosun.demo</span>
+                  <span class="profile-role-chip" id="profileRoleChip">admin</span>
+                  <span class="profile-dirty" id="dirtyBadge" hidden data-i18n="pages.profile.dirtyBadge">Незбережені зміни</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-hero-actions">
+              <button type="button" class="btn-icon" id="closeProfileBtn" data-i18n-aria="pages.profile.close" aria-label="Закрити" title="Close">
+                <span class="material-symbols-outlined" aria-hidden="true">close</span>
+              </button>
+            </div>
+          </article>
+
+          <div class="profile-banner" id="incompleteBanner" hidden>
+            <span class="material-symbols-outlined" aria-hidden="true">info</span>
+            <span data-i18n="pages.profile.incompleteBanner">Заповніть профіль, щоб з вами можна було зв'язатися по заявці</span>
+          </div>
+
+          <form class="profile-form" id="profileForm" novalidate>
+            <div class="profile-grid">
+              <!-- Left column -->
+              <div class="profile-col">
+                <section class="profile-card">
+                  <header class="profile-card-head">
+                    <div>
+                      <h2 data-i18n="pages.profile.sectionIdentity">ПІБ</h2>
+                      <p data-i18n="pages.profile.sectionIdentityHint">Прізвище, імʼя та по батькові</p>
+                    </div>
+                    <span class="material-symbols-outlined profile-card-icon" aria-hidden="true">badge</span>
+                  </header>
+                  <div class="profile-fields profile-fields--3">
+                    <label class="field">
+                      <span class="field-label" data-i18n="pages.profile.lastName">Прізвище</span>
+                      <input class="field-input" type="text" name="lastName" id="lastName" maxlength="128" autocomplete="family-name" />
+                    </label>
+                    <label class="field">
+                      <span class="field-label" data-i18n="pages.profile.firstName">Ім'я</span>
+                      <input class="field-input" type="text" name="firstName" id="firstName" maxlength="128" autocomplete="given-name" />
+                    </label>
+                    <label class="field">
+                      <span class="field-label" data-i18n="pages.profile.patronymic">По батькові</span>
+                      <input class="field-input" type="text" name="patronymic" id="patronymic" maxlength="128" autocomplete="additional-name" />
+                    </label>
+                  </div>
+                </section>
+
+                <section class="profile-card">
+                  <header class="profile-card-head">
+                    <div>
+                      <h2 data-i18n="pages.profile.sectionPersonType">Тип особи</h2>
+                      <p data-i18n="pages.profile.sectionPersonTypeHint">Фізична особа або представник юрособи</p>
+                    </div>
+                    <span class="material-symbols-outlined profile-card-icon" aria-hidden="true">corporate_fare</span>
+                  </header>
+                  <div class="radio-row" role="radiogroup" aria-label="Person type">
+                    <label class="radio-pill">
+                      <input type="radio" name="personType" value="INDIVIDUAL" checked />
+                      <span data-i18n="pages.profile.personTypeIndividual">Фізична особа</span>
+                    </label>
+                    <label class="radio-pill">
+                      <input type="radio" name="personType" value="LEGAL_ENTITY_REPRESENTATIVE" />
+                      <span data-i18n="pages.profile.personTypeLegal">Представник юридичної особи</span>
+                    </label>
+                  </div>
+                  <label class="field" id="edrpouField">
+                    <span class="field-label" data-i18n="pages.profile.edrpou">ЄДРПОУ / код у ЄДР</span>
+                    <input class="field-input" type="text" name="legalEntityEdrpou" id="legalEntityEdrpou" maxlength="10" inputmode="numeric" disabled />
+                    <span class="field-hint" id="edrpouHint" data-i18n="pages.profile.edrpouDisabledHint">Доступно для представника юридичної особи</span>
+                  </label>
+                </section>
+
+                <section class="profile-card">
+                  <header class="profile-card-head">
+                    <div>
+                      <h2 data-i18n="pages.profile.sectionChannels">Канали зв'язку</h2>
+                      <p data-i18n="pages.profile.sectionChannelsHint">Куди надсилати повідомлення про заявки</p>
+                    </div>
+                    <span class="material-symbols-outlined profile-card-icon" aria-hidden="true">forum</span>
+                  </header>
+                  <div class="check-stack">
+                    <label class="check-row">
+                      <input type="checkbox" name="channelEmail" id="channelEmail" checked />
+                      <span id="channelEmailLabel">Email (admin@geosun.demo)</span>
+                    </label>
+                    <label class="check-row">
+                      <input type="checkbox" name="channelPhone" id="channelPhone" />
+                      <span data-i18n="pages.profile.channelPhone">Телефон</span>
+                    </label>
+                    <label class="check-row">
+                      <input type="checkbox" name="channelMessengers" id="channelMessengers" />
+                      <span data-i18n="pages.profile.channelMessengers">Месенджери</span>
+                    </label>
+                  </div>
+                  <p class="channels-admin-hint" id="adminChannelsHint" hidden data-i18n="pages.profile.adminNotifyChannelsHint">
+                    Обрані канали також використовуються для системних сповіщень.
+                  </p>
+                </section>
+              </div>
+
+              <!-- Right column: phones -->
+              <div class="profile-col">
+                <section class="profile-card profile-card--phones">
+                  <header class="profile-card-head">
+                    <div>
+                      <h2 data-i18n="pages.profile.sectionPhones">Телефони</h2>
+                      <p data-i18n="pages.profile.sectionPhonesHint">До 5 номерів · месенджери та підтвердження</p>
+                    </div>
+                    <button type="button" class="btn-fab" id="addPhoneBtn" data-i18n-aria="pages.profile.addPhone" aria-label="Додати телефон" title="Add">
+                      <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                    </button>
+                  </header>
+                  <div class="phones-empty" id="phonesEmpty" hidden>
+                    <span class="material-symbols-outlined" aria-hidden="true">phone_disabled</span>
+                    <p data-i18n="pages.profile.phonesEmpty">Телефонів ще немає. Натисніть «+», щоб додати.</p>
+                  </div>
+                  <div class="phones-list" id="phonesList"></div>
+                </section>
+              </div>
+            </div>
+
+            <footer class="profile-footer">
+              <p class="profile-footer-hint" data-i18n="pages.profile.footerHint">Зміни зберігаються лише після «Зберегти»</p>
+              <div class="profile-footer-actions">
+                <button type="button" class="btn-stroked" id="cancelBtn" data-i18n="pages.profile.cancel" disabled>Скасувати зміни</button>
+                <button type="submit" class="btn-filled" id="saveBtn" data-i18n="pages.profile.save" disabled>Зберегти</button>
+              </div>
+            </footer>
+          </form>
+
+          <p class="profile-proto-note">
+            <span class="material-symbols-outlined" aria-hidden="true">info</span>
+            <span data-i18n="pages.profile.redesignNote">Редизайн /profile поверх затвердженої App shell.</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="page-view" data-page="stub" id="page-stub" hidden>
+        <div class="page-stub">
+          <strong id="stubTitle">…</strong>
+          <p style="margin-top:8px">Outlet placeholder — route framing only (this pack redesigns <code>/profile</code> only).</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-label="GeoSun TMS">
+    <div class="sidenav-header">
+      <div class="sidenav-logo-disc">
+        <img src="GeoSun_logo_svg.svg" alt="" width="32" height="32" />
+      </div>
+      <div class="sidenav-wordmark">
+        <span class="name">GeoSun</span>
+        <span class="product" data-i18n="shell.brandProduct">TMS</span>
+      </div>
+      <button type="button" class="drawer-close" id="drawerCloseBtn" data-i18n-aria="shell.closeMenu" aria-label="Закрити меню">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <nav class="sidenav-nav" id="mobileNav" data-i18n-aria="shell.navAria" aria-label="Основна навігація"></nav>
+    <div class="sidenav-footer">© GeoSun · Material Design 3</div>
+  </aside>
+
+  <!-- Telegram link dialog (prototype) -->
+  <div class="dialog-scrim" id="tgDialogScrim" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="tgDialogTitle" id="tgDialog">
+      <h2 id="tgDialogTitle" data-i18n="pages.profile.telegram.linkTitle">Код для Telegram</h2>
+      <p class="dialog-hint" data-i18n="pages.profile.telegram.linkHint">Відкрийте бота або надішліть цей код у чат з ботом.</p>
+      <p class="dialog-code" id="tgCode">GS-7K2M9P</p>
+      <p class="dialog-ttl" id="tgExpires"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn-stroked" id="tgCopyBtn">
+          <span class="material-symbols-outlined" aria-hidden="true">content_copy</span>
+          <span data-i18n="pages.profile.telegram.copyCode">Копіювати код</span>
+        </button>
+        <button type="button" class="btn-filled" id="tgOpenBtn" data-i18n="pages.profile.telegram.openBot">Відкрити Telegram</button>
+        <button type="button" class="btn-text" id="tgCloseBtn" data-i18n="pages.profile.telegram.close">Закрити</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-bar" id="demoBar">
+    <span data-i18n="shell.demoChrome">Демо</span>
+    <label for="roleSelect" data-i18n="shell.roleLabel">Роль (прототип)</label>
+    <select id="roleSelect" aria-label="Role">
+      <option value="admin" selected>admin</option>
+      <option value="manager">manager</option>
+      <option value="driver">driver</option>
+      <option value="user">user</option>
+    </select>
+    <label for="stateSelect" data-i18n="pages.profile.demoState">Стан (прототип)</label>
+    <select id="stateSelect" aria-label="State">
+      <option value="filled" selected data-i18n="pages.profile.stateFilled">Заповнений</option>
+      <option value="emptyPhones" data-i18n="pages.profile.stateEmptyPhones">Без телефонів</option>
+      <option value="legal" data-i18n="pages.profile.stateLegal">Юрособа</option>
+      <option value="loading" data-i18n="pages.profile.stateLoading">Завантаження</option>
+      <option value="failed" data-i18n="pages.profile.stateFailed">Помилка</option>
+    </select>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="shell.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>
