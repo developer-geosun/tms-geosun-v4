@@ -1,7 +1,7 @@
 # Поэтапный план редизайна (Grok handoff → Angular) v2
 
 **Дата создания:** 13 октября 2026, 20:19 (UTC+3)  
-**Дата изменения:** 13 октября 2026, 22:20 (UTC+3)  
+**Дата изменения:** 21 октября 2026, 15:26 (UTC+3)  
 **Handoff:** `[redesign-frontend/](../../redesign-frontend/)` (`STAGES.md`, `ALL-PROMPTS.md`)
 
 **Источник:** `[redesign-frontend/](../../redesign-frontend/)` (24 этапа).  
@@ -12,7 +12,7 @@
 ## Todos (Phase 0 + 24 этапа)
 
 - [x] Phase 0: канон handoff, чеклист приёмки (роли × темы × viewport), сверка navigationItems, инвентарь footer
-- [ ] 01 App Shell (sidenav+toolbar) — блокер; сдача этапа _(gap-close готов к UI-приёмке — см. [redesign-stage-01-gap.ru.md](redesign-stage-01-gap.ru.md))_
+- [ ] 01 App Shell (sidenav+toolbar) — блокер; сдача этапа _(gap-close готов; UI-приёмка на паузе — см. [redesign-stage-01-gap.ru.md](redesign-stage-01-gap.ru.md))_
 - [ ] 02 AuthShell + login/register/forgot/verify/reset (+ theme/lang на brand); сдача этапа
 - [ ] 03 `/main` (KPI = иконка+название+ссылка, без цифр); сдача этапа
 - [ ] 04 `/routes`; сдача этапа
