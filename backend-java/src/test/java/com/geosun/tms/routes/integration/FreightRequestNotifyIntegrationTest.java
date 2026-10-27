@@ -139,8 +139,7 @@ class FreightRequestNotifyIntegrationTest {
     verify(telegramApiClient, times(1))
         .sendMessage(eqChatId("900001"), containsText("новий запит"), anyBoolean());
     verify(telegramApiClient, times(1))
-        .sendMessage(
-            eqChatId("900001"), containsText("requestId=" + requestId), anyBoolean());
+        .sendMessage(eqChatId("900001"), containsText("requestId=" + requestId), anyBoolean());
 
     assertThat(countFreightLogs()).isEqualTo(1);
     List<BotMessageLog> logs =
