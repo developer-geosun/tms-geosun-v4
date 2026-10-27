@@ -1,7 +1,12 @@
+# Альтернатива кореневому стеку: лише MySQL + backend.
+# Імена й хостові порти ті самі, що в кореневому compose, тож цей файл
+# не конфліктує з v1 і не стартує паралельно з уже запущеним кореневим v4.
+name: tms-geosun-v4-backend
+
 services:
   mysql:
     image: mysql:8.0
-    container_name: tms-mysql
+    container_name: tms-v4-mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-tms_auth}
       MYSQL_USER: ${MYSQL_USER:-tms_user}
@@ -9,7 +14,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     # Зовнішній порт (ліворуч) — щоб не конфліктувати з локальним MySQL на 3306
     ports:
-      - "${MYSQL_HOST_PORT:-3307}:3306"
+      - "${MYSQL_HOST_PORT:-3308}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -22,13 +27,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tms-backend
+    container_name: tms-v4-backend
     depends_on:
       mysql:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
-      SERVER_PORT: ${SERVER_PORT:-8080}
+      # Усередині контейнера завжди 8080. На хост — SERVER_HOST_PORT (v1 тримає 8080).
+      SERVER_PORT: "8080"
       DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-tms_auth}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       DB_USER: ${MYSQL_USER:-tms_user}
       DB_PASSWORD: ${MYSQL_PASSWORD:-tms_password}
@@ -41,7 +47,7 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       EMAIL_VERIFICATION_EXPIRES_SECONDS: ${EMAIL_VERIFICATION_EXPIRES_SECONDS:-86400}
-      ANGULAR_APP_BASE_URL: ${ANGULAR_APP_BASE_URL:-http://localhost:4200}
+      ANGULAR_APP_BASE_URL: ${ANGULAR_APP_BASE_URL:-http://localhost:4210}
       FLUTTER_APP_BASE_URL: ${FLUTTER_APP_BASE_URL:-http://localhost:4300}
       SMTP_HOST: ${SMTP_HOST:-localhost}
       SMTP_PORT: ${SMTP_PORT:-1025}
@@ -65,7 +71,8 @@ services:
       HERE_API_KEY: ${HERE_API_KEY:-}
       COUNTRY_BREAKDOWN_PROVIDER: ${COUNTRY_BREAKDOWN_PROVIDER:-here}
     ports:
-      - "${SERVER_PORT:-8080}:8080"
+      - "${SERVER_HOST_PORT:-8090}:8080"
 
 volumes:
   mysql_data:
+    name: tms-geosun-v4_mysql_data

@@ -1,7 +1,7 @@
 # tms-geosun-backend-java
 
 **Created:** 15 September 2026, 00:00 (UTC+3)  
-**Last updated:** 30 September 2026, 16:16 (UTC+3)
+**Last updated:** 27 October 2026, 13:10 (UTC+3)
 
 MVP backend for authentication and authorization based on Java 21 + Spring Boot 3.
 
@@ -35,10 +35,10 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Available URLs:
-- Frontend: `http://localhost:4200`
-- Backend health: `http://localhost:8080/actuator/health`
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
+Available URLs (host ports; v1 keeps 4200 and 8080):
+- Frontend: `http://localhost:4210`
+- Backend health: `http://localhost:8090/actuator/health`
+- Swagger UI: `http://localhost:8090/swagger-ui.html`
 
 ## Useful endpoints
 

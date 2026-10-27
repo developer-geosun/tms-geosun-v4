@@ -1,7 +1,7 @@
 # tms-geosun
 
 **Дата створення:** 15 вересня 2026, 00:00 (UTC+3)  
-**Дата зміни:** 30 вересня 2026, 16:16 (UTC+3)
+**Дата зміни:** 27 жовтня 2026, 13:10 (UTC+3)
 
 Angular 21 застосунок для сценаріїв управління транспортом GeoSun.
 
@@ -43,7 +43,7 @@ docker compose stop frontend
 docker compose --profile dev up -d frontend-dev
 ```
 
-Відкрийте `http://localhost:4200`.
+Відкрийте `http://localhost:4210`.
 
 Примітки:
 - `frontend-dev` оптимізовано для швидкої ітерації UI (Angular `ng serve` з hot reload).

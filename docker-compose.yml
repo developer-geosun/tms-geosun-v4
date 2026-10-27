@@ -1,16 +1,21 @@
-## Базовий стек для стандартного запуску застосунку
+## Базовий стек для стандартного запуску застосунку.
+## Хостові порти й імена контейнерів не перетинаються з tms-geosun-v1,
+## тож обидва стеки можна тримати запущеними разом. Усередині мережі Compose
+## порти колишні (backend 8080, MySQL 3306). База v4 — окремий volume mysql_data.
+name: tms-geosun-v4
+
 services:
   # База даних для backend-сервісу авторизації
   mysql:
     image: mysql:8.0
-    container_name: tms-mysql
+    container_name: tms-v4-mysql
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-tms_auth}
       MYSQL_USER: ${MYSQL_USER:-tms_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-tms_password}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     ports:
-      - "${MYSQL_HOST_PORT:-3307}:3306"
+      - "${MYSQL_HOST_PORT:-3308}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -22,7 +27,7 @@ services:
   # MinIO (S3-сумісне сховище) — опційно для APP_STORAGE_TYPE=s3
   minio:
     image: minio/minio:RELEASE.2024-12-18T13-15-44Z
-    container_name: tms-minio
+    container_name: tms-v4-minio
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
@@ -42,7 +47,7 @@ services:
   # Створення bucket для MinIO (одноразово при старті)
   minio-init:
     image: minio/mc:RELEASE.2025-08-13T08-35-41Z
-    container_name: tms-minio-init
+    container_name: tms-v4-minio-init
     depends_on:
       minio:
         condition: service_started
@@ -63,13 +68,15 @@ services:
     build:
       context: ./backend-java
       dockerfile: Dockerfile
-    container_name: tms-backend
+    container_name: tms-v4-backend
     depends_on:
       mysql:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
-      SERVER_PORT: ${SERVER_PORT:-8080}
+      # Усередині мережі Compose завжди 8080 (nginx, ngrok, proxy.docker).
+      # На хост цей порт публікує SERVER_HOST_PORT, щоб не займати 8080 разом із v1.
+      SERVER_PORT: "8080"
       DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-tms_auth}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       DB_USER: ${MYSQL_USER:-tms_user}
       DB_PASSWORD: ${MYSQL_PASSWORD:-tms_password}
@@ -82,7 +89,7 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       EMAIL_VERIFICATION_EXPIRES_SECONDS: ${EMAIL_VERIFICATION_EXPIRES_SECONDS:-86400}
-      ANGULAR_APP_BASE_URL: ${ANGULAR_APP_BASE_URL:-http://localhost:4200}
+      ANGULAR_APP_BASE_URL: ${ANGULAR_APP_BASE_URL:-http://localhost:4210}
       FLUTTER_APP_BASE_URL: ${FLUTTER_APP_BASE_URL:-http://localhost:4300}
       PASSWORD_RESET_EXPIRES_SECONDS: ${PASSWORD_RESET_EXPIRES_SECONDS:-3600}
       CORS_ALLOWED_ORIGIN_PATTERNS: ${CORS_ALLOWED_ORIGIN_PATTERNS:-}
@@ -128,7 +135,7 @@ services:
     volumes:
       - backend_uploads:/data/uploads
     ports:
-      - "${SERVER_PORT:-8080}:8080"
+      - "${SERVER_HOST_PORT:-8090}:8080"
 
   # Production-збірка frontend, що віддається через nginx у контейнері
   frontend:
@@ -137,25 +144,25 @@ services:
       dockerfile: Dockerfile
       args:
         FRONTEND_BUILD_CONFIGURATION: ${FRONTEND_BUILD_CONFIGURATION:-production}
-    container_name: tms-frontend-app
+    container_name: tms-v4-frontend
     depends_on:
       - backend
     environment:
       CARTO_API_KEY: ${CARTO_API_KEY:-}
     ports:
-      - "${FRONTEND_PORT:-4200}:80"
+      - "${FRONTEND_PORT:-4210}:80"
 
   # Єдина точка входу (reverse proxy) для backend і frontend
   gateway:
     image: nginx:1.27-alpine
-    container_name: tms-gateway
+    container_name: tms-v4-gateway
     depends_on:
       - backend
       - frontend
     volumes:
       - ./nginx.gateway.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - "${GATEWAY_PORT:-8081}:80"
+      - "${GATEWAY_PORT:-8091}:80"
 
   # Публічний тунель лише для backend API (режим PUBLIC_ACCESS_MODE=ngrok).
   # Увімкнення: COMPOSE_PROFILES=ngrok у .env або --profile ngrok.
@@ -164,17 +171,18 @@ services:
     profiles:
       - ngrok
     image: ngrok/ngrok:latest
-    container_name: tms-ngrok
+    container_name: tms-v4-ngrok
     depends_on:
       - backend
     environment:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN:-}
     command: http --url=${NGROK_DOMAIN} backend:8080
     ports:
-      - "${NGROK_INSPECT_PORT:-4040}:4040"
+      - "${NGROK_INSPECT_PORT:-4042}:4040"
 
 volumes:
-  # Персистентне сховище даних MySQL
+  # Персистентне сховище даних MySQL. Фіксоване ім'я — окремо від volume v1.
   mysql_data:
+    name: tms-geosun-v4_mysql_data
   backend_uploads:
   minio_data:

@@ -1,7 +1,7 @@
 # Запуск проекта
 
 **Дата создания:** 15 сентября 2026, 00:00 (UTC+3)  
-**Дата изменения:** 1 октября 2026, 21:30 (UTC+3)
+**Дата изменения:** 27 октября 2026, 13:10 (UTC+3)
 
 Этот файл описывает основные варианты запуска `tms-geosun-v4`.
 
@@ -71,7 +71,7 @@ docker compose up --build mysql minio minio-init backend
 
 > Смена `APP_STORAGE_TYPE` на уже заполненной БД **не** переносит файлы автоматически — нужны те же `storage_key` в новом хранилище.
 
-Тестовая ADMIN-страница: `http://localhost:4200/admin/file-storage-test`  
+Тестовая ADMIN-страница: `http://localhost:4210/admin/file-storage-test`  
 Спека: [`docs/specs/file-storage.ru.md`](docs/specs/file-storage.ru.md)
 
 ## Публикация: frontend на GitHub Pages, API через ngrok или статический IP
@@ -192,7 +192,7 @@ mvn spring-boot:run
 
 Перед запуском убедитесь, что:
 
-- MySQL доступен (из Docker порт хоста обычно `3307` → см. `MYSQL_HOST_PORT` и `DB_URL` в `backend-java/.env.example` / `application.yml`);
+- MySQL доступен (контейнер v4 публикует хост-порт `3308`, v1 занимает `3307` → см. `MYSQL_HOST_PORT` и `DB_URL` в `backend-java/.env.example` / `application.yml`);
 - переменные из `backend-java/.env.example` и при необходимости корневого `.env` настроены;
 - для **первого** ADMIN на пустой БД (опционально): `ADMIN_EMAIL` и `ADMIN_PASSWORD` в `.env` — при старте backend создаст учётку, если ещё нет пользователя с ролью ADMIN в available roles (см. [`docs/specs/default-admin-bootstrap.ru.en.md`](docs/specs/default-admin-bootstrap.ru.en.md)); не путать с `SUPER_ADMIN_PASSWORD` (step-up);
 - для файлов: `APP_STORAGE_TYPE=local`, каталог `./data/uploads` (относительно cwd backend-java).
@@ -211,7 +211,7 @@ npm start
 
 - `CARTO_API_KEY=<ваш_ключ_carto>` — подложка Leaflet без водяного знака CARTO
 
-Frontend: `http://localhost:4200`.
+Frontend: `http://localhost:4200` (`npm start` на хосте). Контейнер v1 тоже публикует `4200`; для параллельного запуска открывайте Docker-frontend v4 на `http://localhost:4210`.
 
 ### 2b) Flutter Web (experimental client)
 
@@ -228,6 +228,19 @@ flutter run -d chrome --web-port=4300 --dart-define=API_URL=http://localhost:808
 Flutter Web: `http://localhost:4300`. Подробнее: [`frontend-flutter/README.md`](frontend-flutter/README.md).
 
 ## Вариант 2: запуск всего стека через Docker Compose
+
+Стек v4 рассчитан на одновременную работу с уже запущенным `tms-geosun-v1`. У каждого проекта свой volume MySQL (`tms-geosun-v4_mysql_data` и `tms-geosun-v1_mysql_data`). Внутри сети Compose backend по-прежнему слушает `8080`, на хост публикуются другие порты:
+
+| Сервис | v1 | v4 |
+| --- | --- | --- |
+| Backend API | `8080` | `8090` (`SERVER_HOST_PORT`) |
+| Frontend | `4200` | `4210` (`FRONTEND_PORT`) |
+| Gateway | `8081` | `8091` |
+| Gateway dev | `8082` | `8092` |
+| MySQL | `3307` | `3308` |
+| ngrok inspector | `4040` / `4041` | `4042` / `4043` |
+
+Один и тот же `NGROK_DOMAIN` нельзя занять двумя туннелями сразу. Локальные порты при этом не пересекаются. MinIO v4 (`9000` / `9001`) у v1 нет.
 
 1. Создайте `.env` на основе шаблона `.env.example`.
 
@@ -287,7 +300,7 @@ docker compose --profile dev up -d frontend-dev
 
 3. Откройте приложение:
 
-`http://localhost:4200`
+`http://localhost:4210`
 
 Изменения в `frontend-angular/src/*` будут применяться автоматически без пересборки Docker-образа.
 
@@ -336,7 +349,7 @@ docker compose --profile dev --profile ngrok-dev up -d --build mysql backend fro
 docker compose --profile dev --profile ngrok-dev down --remove-orphans
 ```
 
-Локальный вход через gateway (опционально): `http://localhost:8082` (или `GATEWAY_DEV_PORT`).
+Локальный вход через gateway (опционально): `http://localhost:8092` (или `GATEWAY_DEV_PORT`).
 
 ### Быстрые команды
 
@@ -391,15 +404,15 @@ docker compose up --build mysql backend frontend gateway
 
 ## Полезные URL после запуска
 
-- Frontend (локально): `http://localhost:4200`
+- Frontend (Docker): `http://localhost:4210`
 - Frontend (GitHub Pages): `https://developer-geosun.github.io/tms-geosun-v4/`
-- Backend health: `http://localhost:8080/actuator/health`
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
-- Gateway (единый локальный вход): `http://localhost:8081`
+- Backend health: `http://localhost:8090/actuator/health`
+- Swagger UI: `http://localhost:8090/swagger-ui.html`
+- Gateway (единый локальный вход): `http://localhost:8091`
 - MinIO API: `http://localhost:9000`
 - MinIO Console: `http://localhost:9001` (логин/пароль из `MINIO_ROOT_*`)
-- Тест хранилища файлов (ADMIN): `http://localhost:4200/admin/file-storage-test`
-- ngrok Inspector: `http://localhost:4040` (только при профиле `ngrok`)
+- Тест хранилища файлов (ADMIN): `http://localhost:4210/admin/file-storage-test`
+- ngrok Inspector: `http://localhost:4042` (только при профиле `ngrok`)
 - Public API health (static-ip): `http://178.136.237.7:8080/actuator/health`
 - Public API health (ngrok): `https://<NGROK_DOMAIN>/actuator/health`
 
