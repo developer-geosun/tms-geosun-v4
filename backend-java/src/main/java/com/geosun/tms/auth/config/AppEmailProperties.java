@@ -27,6 +27,7 @@ public class AppEmailProperties {
   private static final String VERIFY_EMAIL_PATH = "/verify-email";
   private static final String RESET_PASSWORD_PATH = "/reset-password";
   private static final String ADMIN_USERS_PATH = "/admin/users/";
+  private static final String ADMIN_ROUTE_REQUESTS_PATH = "/admin/route-requests";
 
   private String from = "no-reply@example.com";
 
@@ -219,6 +220,13 @@ public class AppEmailProperties {
   public String buildAdminUserCardLink(@NonNull String userId) {
     String id = Objects.requireNonNull(userId).trim();
     return resolveAppBaseUrl(AppClient.ANGULAR) + ADMIN_USERS_PATH + id;
+  }
+
+  /** Черга заявок на фрахт з відкритою карткою (лише Angular base URL). */
+  @NonNull
+  public String buildAdminFreightRequestLink(@NonNull Long requestId) {
+    Long id = Objects.requireNonNull(requestId);
+    return resolveAppBaseUrl(AppClient.ANGULAR) + ADMIN_ROUTE_REQUESTS_PATH + "?requestId=" + id;
   }
 
   @NonNull

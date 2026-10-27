@@ -1,7 +1,7 @@
 # Baseline канона (зафиксированное)
 
 **Дата создания:** 17 сентября 2026, 13:58 (UTC+3)  
-**Дата изменения:** 1 октября 2026, 21:25 (UTC+3)  
+**Дата изменения:** 27 октября 2026, 11:25 (UTC+3)  
 **Дата фиксации:** 17 сентября 2026  
 **Назначение:** согласованный список того, что уже в продукте (Angular + Java) и где единственный источник истины.  
 **Процесс после freeze:** [`docs/dev-workflow.ru.md`](../dev-workflow.ru.md) — новое через алгоритм **A**, изменение канона через **B**.  
@@ -43,6 +43,7 @@
 | B15 | Document types catalog | [document-types-reference.ru.md](document-types-reference.ru.md) + [document-types-ua-default-catalog.ua.md](document-types-ua-default-catalog.ua.md) | источник истины | CRUD видов + UA-seed V39 UUID `c2000000-…` (**не** `c1000000-…`); без интеграции с карточками ТС/водителей |
 | B16 | Chatbot v1 (Telegram verify) | [chatbots-telegram-whatsapp-viber.ru.en.md](chatbots-telegram-whatsapp-viber.ru.en.md) | источник истины (срез v1) | link-code, webhook, phone_verified, admin status/identities, USER_REGISTERED; остальное спеки — бэклог |
 | B17 | Country reference | код + куски B05/B08 | карточка-дыра | отдельной спеки нет; справочник стран для breakdown живёт в коде — при доработке завести спеку (A) или дописать канон (B) |
+| B20 | Notify: new freight request | [admin-notify-new-freight-request.ru.en.md](admin-notify-new-freight-request.ru.en.md) | источник истины | after create RouteRequest → ADMIN з MESSENGERS; WhatsApp template SKIP |
 
 **Исторический MVP (не канон):** [`docs/archive/TECHNICAL_SPECIFICATION_API_SERVER_v1.0.ru.md`](../archive/TECHNICAL_SPECIFICATION_API_SERVER_v1.0.ru.md); актуальный auth — только B01.
 

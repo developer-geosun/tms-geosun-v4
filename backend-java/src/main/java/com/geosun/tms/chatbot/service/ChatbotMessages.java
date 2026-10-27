@@ -1,5 +1,6 @@
 package com.geosun.tms.chatbot.service;
 
+import java.util.Objects;
 import org.springframework.lang.NonNull;
 
 /**
@@ -73,5 +74,41 @@ public final class ChatbotMessages {
         + newUserId
         + "\nКартка: "
         + adminCardLink;
+  }
+
+  /** Текст сповіщення ADMIN про новий запит на розрахунок фрахту. */
+  @NonNull
+  public static String freightRequestCreated(
+      @NonNull String locale,
+      @NonNull Long requestId,
+      @NonNull String authorEmail,
+      @NonNull String queueLink) {
+    String lang = Objects.requireNonNull(locale);
+    Long id = Objects.requireNonNull(requestId);
+    String email = Objects.requireNonNull(authorEmail);
+    String link = Objects.requireNonNull(queueLink);
+    return switch (lang) {
+      case "en" ->
+          "GeoSun TMS: new freight calculation request.\nId: "
+              + id
+              + "\nEmail: "
+              + email
+              + "\nQueue: "
+              + link;
+      case "ru" ->
+          "GeoSun TMS: новый запрос на расчёт фрахта.\nId: "
+              + id
+              + "\nEmail: "
+              + email
+              + "\nОчередь: "
+              + link;
+      default ->
+          "GeoSun TMS: новий запит на розрахунок фрахту.\nId: "
+              + id
+              + "\nEmail: "
+              + email
+              + "\nЧерга: "
+              + link;
+    };
   }
 }

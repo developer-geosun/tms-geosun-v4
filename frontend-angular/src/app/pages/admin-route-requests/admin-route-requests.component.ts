@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -104,12 +104,15 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
   private readonly configService = inject(ConfigService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly translate = inject(TranslateService);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   private static readonly DESKTOP_DEFAULT_PAGE_SIZE = 20;
   private static readonly HANDSET_DEFAULT_PAGE_SIZE = 5;
 
   /** Попередній handset-стан — effect лише при зміні breakpoint, не при виборі pageSize користувачем. */
   private lastHandsetViewport: boolean | null = null;
+  /** requestId з query — застосовується один раз після першого завантаження списку. */
+  private pendingDeepLinkRequestId: number | null = null;
 
   private map: L.Map | null = null;
   private mapRouteLayer: L.Polyline | null = null;
@@ -126,6 +129,8 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
   readonly pageIndex = signal(0);
   readonly pageSize = signal(AdminRouteRequestsComponent.DESKTOP_DEFAULT_PAGE_SIZE);
   readonly selectedRequestId = signal<number | null>(null);
+  /** Картка з deep-link, якщо заявки немає на поточній сторінці списку. */
+  readonly pinnedDetail = signal<RouteRequestContractDto | null>(null);
   readonly quoteHistory = signal<QuoteContractDto[]>([]);
   readonly quoteLoadError = signal('');
   /** Спливаюча панель редактора + історії пропозицій. */
@@ -144,9 +149,18 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
 
   readonly numericScenarios = signal<FreightNumericScenarioContractDto[]>([]);
 
-  readonly selectedRequest = computed(() =>
-    this.requests().find((request) => request.id === this.selectedRequestId()) ?? null
-  );
+  readonly selectedRequest = computed(() => {
+    const id = this.selectedRequestId();
+    if (id == null) {
+      return null;
+    }
+    const fromList = this.requests().find((request) => request.id === id);
+    if (fromList) {
+      return fromList;
+    }
+    const pinned = this.pinnedDetail();
+    return pinned?.id === id ? pinned : null;
+  });
   readonly displayedRoutePoints = computed<DisplayRoutePoint[]>(() => {
     const request = this.selectedRequest();
     const routePoints = request?.route?.points ?? [];
@@ -221,6 +235,7 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     syncPageLoadingToToolbar(this.isLoading);
+    this.readDeepLinkRequestId();
     void this.loadNumericScenarios();
     // LayoutService вже має актуальний viewport (root service).
     this.pageSize.set(
@@ -299,9 +314,20 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
       const page = await this.routeRequestsApi.getAdminRouteRequests(params);
       this.requests.set(page.content);
       this.totalElements.set(page.totalElements);
+      const deepLinkId = this.pendingDeepLinkRequestId;
       const stillSelected = page.content.some((item) => item.id === this.selectedRequestId());
       if (!stillSelected) {
-        this.selectedRequestId.set(page.content[0]?.id ?? null);
+        if (deepLinkId != null && this.selectedRequestId() === deepLinkId) {
+          // Залишаємо deep-link id — картку підвантажимо окремо.
+        } else {
+          this.selectedRequestId.set(page.content[0]?.id ?? null);
+          this.pinnedDetail.set(null);
+        }
+      } else {
+        this.pinnedDetail.set(null);
+      }
+      if (deepLinkId != null) {
+        await this.applyDeepLinkRequest(deepLinkId);
       }
       const activeId = this.selectedRequestId();
       if (activeId != null) {
@@ -310,6 +336,7 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
     } catch {
       this.requests.set([]);
       this.selectedRequestId.set(null);
+      this.pinnedDetail.set(null);
       this.totalElements.set(0);
       this.loadError.set('pages.adminRouteRequests.loadFailed');
     } finally {
@@ -396,6 +423,7 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
   }
 
   selectRequest(requestId: number): void {
+    this.pinnedDetail.set(null);
     this.selectedRequestId.set(requestId);
     this.closeQuotePanel();
     this.nbuActionError.set('');
@@ -489,12 +517,73 @@ export class AdminRouteRequestsComponent implements AfterViewInit, OnDestroy {
     return `${amount} ${quote.currency.trim().toUpperCase()}`;
   }
 
+  /** Читає ?requestId= з адреси; нечисло — snack, черга лишається робочою. */
+  private readDeepLinkRequestId(): void {
+    const raw = this.activatedRoute.snapshot.queryParamMap.get('requestId');
+    if (raw == null || raw.trim() === '') {
+      return;
+    }
+    const parsed = Number(raw);
+    if (!Number.isInteger(parsed) || parsed <= 0) {
+      showAppSnack(this.snackBar, this.translate, 'pages.adminRouteRequests.deepLinkInvalid', 'error');
+      void this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: { requestId: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true
+      });
+      return;
+    }
+    this.pendingDeepLinkRequestId = parsed;
+    this.selectedRequestId.set(parsed);
+  }
+
+  /** Відкриває картку з query; якщо рядка немає на сторінці — pin окремої деталі. */
+  private async applyDeepLinkRequest(requestId: number): Promise<void> {
+    this.pendingDeepLinkRequestId = null;
+    const inList = this.requests().some((item) => item.id === requestId);
+    if (inList) {
+      this.selectedRequestId.set(requestId);
+      this.pinnedDetail.set(null);
+      await this.clearDeepLinkQuery();
+      return;
+    }
+    try {
+      const detail = await this.routeRequestsApi.getAdminRouteRequestById(requestId);
+      this.pinnedDetail.set(detail);
+      this.selectedRequestId.set(detail.id);
+    } catch {
+      showAppSnack(this.snackBar, this.translate, 'pages.adminRouteRequests.deepLinkNotFound', 'error');
+      this.pinnedDetail.set(null);
+      this.selectedRequestId.set(this.requests()[0]?.id ?? null);
+    }
+    await this.clearDeepLinkQuery();
+  }
+
+  private async clearDeepLinkQuery(): Promise<void> {
+    await this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { requestId: null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
+  }
+
   // Список повертає запити без точок маршруту (includeRoutePoints=false),
   // тому підвантажуємо повну деталь по id, щоб показати точки та карту.
   private async loadRequestDetails(requestId: number): Promise<void> {
     try {
       const detail = await this.routeRequestsApi.getAdminRouteRequestById(requestId);
-      this.requests.update((list) => list.map((item) => (item.id === detail.id ? detail : item)));
+      this.requests.update((list) => {
+        const exists = list.some((item) => item.id === detail.id);
+        if (exists) {
+          return list.map((item) => (item.id === detail.id ? detail : item));
+        }
+        return list;
+      });
+      if (this.pinnedDetail()?.id === detail.id) {
+        this.pinnedDetail.set(detail);
+      }
     } catch {
       // no-op: залишаємо дані зі списку, точки просто не відобразяться
     }

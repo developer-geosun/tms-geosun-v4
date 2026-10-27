@@ -18,6 +18,7 @@ import com.geosun.tms.routes.dto.response.QuoteDto;
 import com.geosun.tms.routes.dto.response.RoutePointDto;
 import com.geosun.tms.routes.dto.response.RouteRequestDto;
 import com.geosun.tms.routes.dto.response.RouteSnapshotDto;
+import com.geosun.tms.routes.port.FreightRequestCreatedNotifyPort;
 import com.geosun.tms.routes.repository.RouteCountryDistanceRepository;
 import com.geosun.tms.routes.repository.RouteRepository;
 import com.geosun.tms.routes.repository.RouteRequestRepository;
@@ -37,6 +38,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.StringUtils;
 
 @Service
@@ -48,6 +51,7 @@ public class RouteRequestService {
   private final FreightQuoteService freightQuoteService;
   private final RouteCountryDistanceRepository routeCountryDistanceRepository;
   private final FreightNumericScenarioService freightNumericScenarioService;
+  private final FreightRequestCreatedNotifyPort freightRequestCreatedNotifyPort;
 
   public RouteRequestService(
       RouteRepository routeRepository,
@@ -56,7 +60,8 @@ public class RouteRequestService {
       CountryBreakdownService countryBreakdownService,
       FreightQuoteService freightQuoteService,
       RouteCountryDistanceRepository routeCountryDistanceRepository,
-      FreightNumericScenarioService freightNumericScenarioService) {
+      FreightNumericScenarioService freightNumericScenarioService,
+      FreightRequestCreatedNotifyPort freightRequestCreatedNotifyPort) {
     this.routeRepository = routeRepository;
     this.routeRequestRepository = routeRequestRepository;
     this.historyRepository = historyRepository;
@@ -64,6 +69,7 @@ public class RouteRequestService {
     this.freightQuoteService = freightQuoteService;
     this.routeCountryDistanceRepository = routeCountryDistanceRepository;
     this.freightNumericScenarioService = freightNumericScenarioService;
+    this.freightRequestCreatedNotifyPort = freightRequestCreatedNotifyPort;
   }
 
   @Transactional
@@ -91,7 +97,31 @@ public class RouteRequestService {
     history.setNote("Created by user");
     historyRepository.save(history);
 
+    scheduleFreightRequestNotifyAfterCommit(saved);
+
     return toDto(saved, true);
+  }
+
+  /** Сповіщення ADMIN лише після успішного commit створення заявки. */
+  private void scheduleFreightRequestNotifyAfterCommit(@NonNull RouteRequest saved) {
+    Long requestId = Objects.requireNonNull(saved.getId());
+    var author = Objects.requireNonNull(saved.getUser());
+    String authorUserId = Objects.requireNonNull(author.getId());
+    String authorEmail =
+        StringUtils.hasText(author.getEmail())
+            ? Objects.requireNonNull(author.getEmail().trim())
+            : "";
+    if (!TransactionSynchronizationManager.isSynchronizationActive()) {
+      freightRequestCreatedNotifyPort.notifyCreated(requestId, authorUserId, authorEmail);
+      return;
+    }
+    TransactionSynchronizationManager.registerSynchronization(
+        new TransactionSynchronization() {
+          @Override
+          public void afterCommit() {
+            freightRequestCreatedNotifyPort.notifyCreated(requestId, authorUserId, authorEmail);
+          }
+        });
   }
 
   @Transactional(readOnly = true)

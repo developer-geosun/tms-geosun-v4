@@ -112,6 +112,8 @@ app:
   notifications:
     user-registered:
       enabled: ${APP_NOTIFY_USER_REGISTERED_ENABLED:true}
+    freight-request-created:
+      enabled: ${APP_NOTIFY_FREIGHT_REQUEST_CREATED_ENABLED:true}
   sms:
     enabled: ${APP_SMS_ENABLED:false}
     provider: ${APP_SMS_PROVIDER:none}

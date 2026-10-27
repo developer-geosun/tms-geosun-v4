@@ -15,8 +15,9 @@
 - Backend модуль `routes`: сохранение, чтение списка/деталей (в т.ч. `view=active|all|deleted`), soft delete, блокировка `PUT` после заявки, `duplicate`/`restore`.
 - Backend модуль `route-requests`: создание заявок, список заявок пользователя, admin очередь; пробіг по країнах у відповіді заявки — з БД до явного admin `POST .../country-breakdown` (провайдер расчёта выбирается feature flag: `here` или `geojson`).
 - Backend модуль `quotes`: создание draft, отправка оффера, история офферов и idempotency.
-- Backend модуль `chatbot` (`com.geosun.tms.chatbot`): Telegram verify (link-code + share contact → `phone_verified`); webhook `POST /api/v1/webhooks/telegram`; self `/users/me/bot-*`; admin `/admin/chatbots`; исходящее `USER_REGISTERED` для ADMIN с каналом MESSENGERS. Выключен по умолчанию (`app.chatbot.enabled=false`).
+- Backend модуль `chatbot` (`com.geosun.tms.chatbot`): Telegram verify (link-code + share contact → `phone_verified`); webhook `POST /api/v1/webhooks/telegram`; self `/users/me/bot-*`; admin `/admin/chatbots`; исходящие `USER_REGISTERED` и `FREIGHT_REQUEST_CREATED` для ADMIN с каналом MESSENGERS. Выключен по умолчанию (`app.chatbot.enabled=false`).
 - После `POST /api/v1/auth/register` (afterCommit): активные ADMIN получают служебное уведомление по каналам своего профиля (`app.notifications.user-registered.enabled`, default true; SMS — `app.sms.provider=none` → SKIP).
+- После создания заявки на фрахт (`POST /api/v1/route-requests`, afterCommit): активные ADMIN с каналом MESSENGERS получают сообщение в привязанный месенджер (`app.notifications.freight-request-created.enabled`, default true; ссылка `/admin/route-requests?requestId=`).
 - Деплой frontend на GitHub Pages через GitHub Actions (`main`/`master`, source **GitHub Actions**); публичный API — по выбору через ngrok или статический IP провайдера (только backend, см. `PUBLIC_ACCESS_MODE` в `.env` / `RUN.ru.md`).
 
 ## Как работает (высокоуровнево)

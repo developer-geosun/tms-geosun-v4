@@ -15,7 +15,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  */
 @Configuration
 @EnableAsync
-@EnableConfigurationProperties({UserRegisteredNotifyProperties.class, SmsProperties.class})
+@EnableConfigurationProperties({
+  UserRegisteredNotifyProperties.class,
+  FreightRequestCreatedNotifyProperties.class,
+  SmsProperties.class
+})
 public class AsyncConfig {
 
   public static final String ADMIN_NOTIFY_EXECUTOR = "adminNotifyExecutor";

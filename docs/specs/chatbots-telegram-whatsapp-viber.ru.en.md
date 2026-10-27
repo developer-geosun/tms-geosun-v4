@@ -1,5 +1,8 @@
 # Technical Specification / Техническое задание: Chatbots Telegram, WhatsApp, Viber / Чат-боти месенджерів
 
+**Дата создания:** 9 сентября 2026, 16:12 (UTC+3)  
+**Дата изменения:** 27 октября 2026, 11:12 (UTC+3)
+
 ## Статус
 - **Реализация:** частично
 - **Роль:** источник истины по чат-ботам Telegram / WhatsApp / Viber
@@ -44,6 +47,7 @@
   - [`trips-and-driver-expense-reports.ru.en.md`](trips-and-driver-expense-reports.ru.en.md) — рейс и expense report.
   - [`file-storage.ru.md`](file-storage.ru.md) — **не** используется в v1 (вложения из чата не принимаем).
   - [`admin-notify-new-user-registration.ru.en.md`](admin-notify-new-user-registration.ru.en.md) — исходящее `USER_REGISTERED` всем ADMIN с каналом `MESSENGERS` (транспорт — этот модуль; правила получателей — та спека).
+  - [`admin-notify-new-freight-request.ru.en.md`](admin-notify-new-freight-request.ru.en.md) — исходящее `FREIGHT_REQUEST_CREATED` админам. Правила события — тот файл; этот модуль только транспорт.
 - **Environment constraints / Ограничения окружения:** Java 21 / Spring Boot 3, Flyway (следующая миграция после `V41` → **`V42`**), MySQL, Angular 21 + Material, i18n ua/en/ru (файлы `uk.json` / `en.json` / `ru.json` не переименовывать). Публичный HTTPS URL backend обязателен для webhook (локально — как у API: ngrok / статический IP, см. `RUN.ru.md`).
 
 ## 3) Scope (In) / Scope (входит в задачу)
@@ -158,6 +162,8 @@ public interface ChatbotChannelAdapter {
 | заявка `ACCEPTED` / `REJECTED` / `CANCELLED` / `EXPIRED` | владелец заявки | то же |
 | рейс `PLANNED` / `IN_PROGRESS` / `COMPLETED` / `CANCELLED` | `driver.user_id`, если учётка есть | то же |
 | expense report `APPROVED` / `REJECTED` | тот же водитель | то же |
+
+Событие «новый запрос на расчёт фрахта → ADMIN в месенджер» этой таблицей **не** задаётся. Источник истины — [`admin-notify-new-freight-request.ru.en.md`](admin-notify-new-freight-request.ru.en.md). Общими остаются привязка, адаптер и `bot_message_log`.
 
 19. Не слать: нет привязки; `status != ACTIVE`; `users.active = false` или soft-deleted; канал адаптера `enabled=false`.
 20. Идемпотентность: ключ `(eventType, aggregateId, aggregateVersionOrStatus, channel, identityId)`. Повтор того же перехода не создаёт второе сообщение.
